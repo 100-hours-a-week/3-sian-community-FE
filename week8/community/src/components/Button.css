@@ -1,0 +1,17 @@
+.btn {
+  width: 355px;
+  height: 33px;
+  border-radius: 4px;
+  background: #7f6aee;
+  border: none;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  background: #aca0eb;
+  cursor: default;
+}

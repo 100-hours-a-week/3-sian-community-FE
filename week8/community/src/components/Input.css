@@ -1,0 +1,44 @@
+.Input__wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.Input__label {
+  font-family: "Pretendard", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #000;
+  text-align: left;
+}
+
+.Input__field {
+  width: 355px;
+  height: 33px;
+  border-radius: 4px;
+  border: 1px solid #000;
+  padding: 0 10px;
+  font-family: "Pretendard", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #000;
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+
+.Input__field::placeholder {
+  color: #000;
+  opacity: 0.6;
+}
+
+.Input__error {
+  display: none;
+  width: 355px;
+  color: #ed4956;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.Input__error.show {
+  display: block;
+}
