@@ -4,6 +4,7 @@ import Login from "./pages/Login.js";
 import Signup from "./pages/Signup.js";
 import MyPage from "./pages/Mypage.js";
 import Header from "./components/Header.js";
+import WritePost from "./pages/WritePost.js";
 import { initRouter } from "./router/Router.js";
 
 export default class App extends Component {
@@ -27,11 +28,6 @@ export default class App extends Component {
     const renderPage = () => {
       const currentPath = window.location.pathname;
 
-      if (currentPath.endsWith("index.html")) {
-        currentPath = "/";
-        window.history.replaceState(null, null, "/");
-      }
-
       if (this.$state.path !== currentPath) {
         this.setState({ path: currentPath }); // path 바뀔 때만 상태 업데이트
       }
@@ -48,6 +44,9 @@ export default class App extends Component {
           break;
         case "/mypage":
           new MyPage($page);
+          break;
+        case "/writePost":
+          new WritePost($page);
           break;
         default:
           new Login($page);

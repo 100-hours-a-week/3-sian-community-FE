@@ -5,7 +5,6 @@
   background: #7f6aee;
   border: none;
   color: #fff;
-  font-family: "Pretendard", sans-serif;
   font-weight: 700;
   font-size: 14px;
   cursor: pointer;
@@ -14,4 +13,21 @@
 .btn:disabled {
   background: #aca0eb;
   cursor: default;
+}
+
+.btn.mini {
+  width: 138px;
+  height: 39px;
+  padding: 0 14px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 16px;
+  background: #aca0eb;
+  color: #fff;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn.mini:hover {
+  background-color: #7f6aee;
 }

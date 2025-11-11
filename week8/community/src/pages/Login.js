@@ -5,7 +5,7 @@ import Button from "../components/Button.js";
 export default class Login extends Component {
   template() {
     return `
-          <div class="page posts-page">
+          <div class="page login-page">
               <div class="title">로그인</div>
               <div id="email-input"></div>
               <div id="password-input"></div>
@@ -27,6 +27,7 @@ export default class Login extends Component {
     const submitButton = new Button($submitButton, {
       text: "로그인",
       disabled: true,
+      variant: "primary",
     });
 
     const updateButtonState = () => {
@@ -85,11 +86,13 @@ export default class Login extends Component {
 
     $submitButton.addEventListener("click", () => {
       alert("로그인 요청");
+      window.history.pushState(null, null, "/posts");
+      window.dispatchEvent(new CustomEvent("navigate"));
     });
 
     $signupLink.addEventListener("click", () => {
       window.history.pushState(null, null, "/signup");
-      window.dispatchEvent(new Event("popstate"));
+      window.dispatchEvent(new CustomEvent("navigate"));
     });
 
     updateButtonState();

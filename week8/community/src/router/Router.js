@@ -3,7 +3,7 @@ export function navigate(path) {
   window.dispatchEvent(new CustomEvent("urlchange"));
 }
 
-export function initRouter(callback) {
-  window.addEventListener("popstate", callback);
-  window.addEventListener("urlchange", callback);
+export function initRouter(renderPage) {
+  window.addEventListener("popstate", renderPage);
+  window.addEventListener("navigate", renderPage);
 }

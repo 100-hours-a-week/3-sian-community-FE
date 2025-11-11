@@ -2,10 +2,11 @@ import Component from "../core/Component.js";
 
 export default class Button extends Component {
   template() {
+    const { text, disabled, variant = "primary" } = this.$props;
     return `
-        <button class="btn" ${this.$props.disabled ? "disabled" : ""}>
-            ${this.$props.text}
-        </button>
+        <button class="btn ${variant}" ${disabled ? "disabled" : ""}>
+        ${text}
+      </button>
     `;
   }
 

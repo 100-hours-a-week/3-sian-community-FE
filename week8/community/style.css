@@ -1,22 +1,25 @@
 @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
 @import "./reset.css";
-@font-face {
-  font-family: "KccHanbit";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/KCC-Hanbit.woff2")
-    format("woff2");
-  font-weight: normal;
-  font-display: swap;
-}
+@import "./src/components/Header.css";
+@import "./src/components/PostCard.css";
+@import "./src/pages/Posts.css";
 
 body {
   margin: 0;
-  font-family: "KccHanbit", "WantedSans";
   background-color: #f4f5f7;
 }
 
 main {
   max-width: 1200px;
   margin: auto;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
 }
 
 .title {
@@ -28,12 +31,35 @@ main {
 }
 
 .link {
-  font-family: "Pretendard", sans-serif;
   font-weight: 400;
   font-size: 14px;
   margin-top: 10px;
 }
 
 .link:hover {
+  cursor: pointer;
+}
+
+.error {
+  display: none;
+  width: 355px;
+  color: #ed4956;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.error.show {
+  display: block;
+}
+
+.profile-image {
+  width: 36px;
+  height: 36px;
+  font-weight: 100;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }

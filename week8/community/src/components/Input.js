@@ -19,14 +19,14 @@ export default class Input extends Component {
                     name="${name}"    
                     placeholder="${placeholder}"
                 />
-                <p class="Input__error"></p>
+                <p class="error"></p>
             </div>
     `;
   }
 
   mounted() {
     const inputEl = this.$target.querySelector(".Input__field");
-    const errorEl = this.$target.querySelector(".Input__error");
+    const errorEl = this.$target.querySelector(".error");
 
     inputEl.addEventListener("input", (e) => {
       const value = e.target.value;
