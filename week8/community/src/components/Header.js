@@ -10,6 +10,13 @@ export default class Header extends Component {
           </div>
           <div class="header-title">아무 말 대잔치</div>
           <div class="header__profile-image" id="profile-image"></div>
+          <div class="header__dropdown" id="dropdown-menu">
+              <ul>
+                <li data-action="edit-profile">회원정보수정</li>
+                <li data-action="edit-password">비밀번호수정</li>
+                <li data-action="logout">로그아웃</li>
+              </ul>
+            </div>
         </div>
       </header>
     `;
@@ -42,30 +49,40 @@ export default class Header extends Component {
     window.addEventListener("popstate", toggleBackButton);
     window.addEventListener("navigate", toggleBackButton);
 
-    // 프로필 이미지
-    const $profileImage = this.$target.querySelector("#profile-image");
+    // 프로필 -> 드롭다운 메뉴
+    const $profile = this.$target.querySelector("#profile-image");
+    const $dropdown = this.$target.querySelector("#dropdown-menu");
 
-    $profileImage.addEventListener("click", () => {
-      window.history.pushState(null, null, "/mypage");
-      window.dispatchEvent(new CustomEvent("navigate"));
+    $profile.addEventListener("click", (e) => {
+      e.stopPropagation();
+      $dropdown.classList.toggle("show");
     });
 
-    const toggleProfileImage = () => {
-      const currentPath = window.location.pathname;
-      if (
-        currentPath === "/" ||
-        currentPath === "/login" ||
-        currentPath === "/index.html" ||
-        currentPath === "/signup"
-      ) {
-        $profileImage.style.display = "none";
-      } else {
-        $profileImage.style.display = "flex";
+    document.addEventListener("click", (e) => {
+      if (!$dropdown.contains(e.target) && e.target !== $profile) {
+        $dropdown.classList.remove("show");
       }
-    };
+    });
 
-    toggleProfileImage();
-    window.addEventListener("popstate", toggleProfileImage);
-    window.addEventListener("navigate", toggleProfileImage);
+    $dropdown.addEventListener("click", (e) => {
+      const action = e.target.dataset.action;
+      if (!action) return;
+
+      switch (action) {
+        case "edit-profile":
+          window.history.pushState(null, null, "/edit-profile");
+          window.dispatchEvent(new CustomEvent("navigate"));
+          break;
+        case "edit-password":
+          window.history.pushState(null, null, "/edit-password");
+          window.dispatchEvent(new CustomEvent("navigate"));
+          break;
+        case "logout":
+          alert("로그아웃 되었습니다!");
+          window.history.pushState(null, null, "/login");
+          window.dispatchEvent(new CustomEvent("navigate"));
+          break;
+      }
+    });
   }
 }

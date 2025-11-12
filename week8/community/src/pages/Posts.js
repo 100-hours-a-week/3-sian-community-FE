@@ -31,7 +31,7 @@ export default class Posts extends Component {
     });
 
     $writeButton.addEventListener("click", () => {
-      window.history.pushState(null, null, "/writePost");
+      window.history.pushState(null, null, "/write-post");
       window.dispatchEvent(new CustomEvent("navigate"));
     });
 

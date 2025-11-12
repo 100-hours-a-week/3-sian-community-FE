@@ -1,6 +1,7 @@
 import Component from "../core/Component.js";
 import CommentForm from "../components/CommentForm.js";
 import CommentItem from "../components/Comment.js";
+import ConfirmModal from "../components/ConfirmModal.js";
 
 export default class PostDetail extends Component {
   template() {
@@ -40,6 +41,7 @@ export default class PostDetail extends Component {
 
         <div id="comment-form"></div>
         <div id="comment-list"></div>
+        <div id="modal-root"></div>
         </div>
 
     `;
@@ -50,6 +52,7 @@ export default class PostDetail extends Component {
     const postId = window.location.pathname.split("/").pop();
     const $editBtn = this.$target.querySelector(".edit-btn");
     const $deleteBtn = this.$target.querySelector(".delete-btn");
+    const $modalRoot = this.$target.querySelector("#modal-root");
 
     $editBtn.addEventListener("click", () => {
       window.history.pushState(null, null, `/editPost/${postId}`);
@@ -57,11 +60,17 @@ export default class PostDetail extends Component {
     });
 
     $deleteBtn.addEventListener("click", () => {
-      if (confirm("정말 삭제하시겠습니까?")) {
-        alert("삭제 완료!");
-        window.history.pushState(null, null, "/posts");
-        window.dispatchEvent(new CustomEvent("navigate"));
-      }
+      new ConfirmModal($modalRoot, {
+        title: "게시글을 삭제하시겠습니까?",
+        message: "삭제한 내용은 복구 할 수 없습니다.",
+        onCancel: () => console.log("취소됨"),
+        onConfirm: () => {
+          console.log("삭제 확인됨");
+          alert("삭제되었습니다!");
+          window.history.pushState(null, null, "/posts");
+          window.dispatchEvent(new CustomEvent("navigate"));
+        },
+      });
     });
 
     // 댓글 작성

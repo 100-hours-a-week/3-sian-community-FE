@@ -8,6 +8,8 @@
 @import "./src/pages/PostDetail.css";
 @import "./src/components/Comment.css";
 @import "./src/components/CommentForm.css";
+@import "./src/pages/EditProfile.css";
+@import "./src/pages/EditPassword.css";
 
 body {
   margin: 0;

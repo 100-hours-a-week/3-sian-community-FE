@@ -1,0 +1,112 @@
+.edit-profile-page {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-family: "Pretendard", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.profile-section {
+  width: 100%;
+  max-width: 360px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.helper-text {
+  font-size: 12px;
+  color: #ed4956;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.profile-label {
+  font-family: "Pretendard", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.profile-upload {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.profile-preview {
+  width: 149px;
+  height: 149px;
+  border-radius: 50%;
+  background-color: #848484;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.profile-preview:hover {
+  background-color: #cfcfcf;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.readonly-email {
+  width: 355px;
+  height: 33px;
+  background: #f6f6f6;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 14px;
+  color: #555;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.complete-section {
+  margin-top: 8px;
+}
+
+#complete-btn .btn {
+  width: 120px;
+  height: 40px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 12px;
+}
+
+.toast-message {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #7b6ef6;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 2000;
+  pointer-events: none;
+}
+
+.toast-message.show {
+  opacity: 1;
+  bottom: 60px;
+}
+
+.toast-message.success {
+  background-color: #7b6ef6;
+}

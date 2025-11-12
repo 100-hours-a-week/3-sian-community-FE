@@ -52,9 +52,6 @@
   font-size: 14px;
   border-radius: 16px;
   padding: 0;
-}
-
-.btn.primary {
   background-color: #7f6aee;
   color: #fff;
   border: none;
@@ -66,7 +63,7 @@
   transition: background-color 0.2s ease;
 }
 
-.btn.primary:disabled {
+.comment-button .btn:disabled {
   background-color: #aca0eb;
   cursor: not-allowed;
 }

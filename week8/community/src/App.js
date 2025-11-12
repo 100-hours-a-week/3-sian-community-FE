@@ -2,12 +2,14 @@ import Component from "./core/Component.js";
 import Posts from "./pages/Posts.js";
 import Login from "./pages/Login.js";
 import Signup from "./pages/Signup.js";
-import MyPage from "./pages/Mypage.js";
+import EditProfile from "./pages/EditProfile.js";
 import Header from "./components/Header.js";
 import WritePost from "./pages/WritePost.js";
-import { initRouter } from "./router/Router.js";
 import PostDetail from "./pages/PostDetail.js";
 import EditPost from "./pages/EditPost.js";
+import EditPassword from "./pages/EditPassword.js";
+
+import { initRouter } from "./router/Router.js";
 
 export default class App extends Component {
   setup() {
@@ -44,11 +46,17 @@ export default class App extends Component {
         case currentPath === "/signup":
           new Signup($page);
           break;
-        case currentPath === "/mypage":
-          new MyPage($page);
+        case currentPath === "/edit-profile":
+          new EditProfile($page);
           break;
-        case currentPath === "/writePost":
+        case currentPath === "/write-post":
           new WritePost($page);
+          break;
+        case currentPath === "/login":
+          new Login($page);
+          break;
+        case currentPath === "/edit-password":
+          new EditPassword($page);
           break;
         case /^\/post\/\d+$/.test(currentPath):
           new PostDetail($page);

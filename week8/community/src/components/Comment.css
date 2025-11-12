@@ -1,31 +1,30 @@
 .comment-item {
+  width: 544px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  padding: 16px 0;
+  align-items: center;
   border-bottom: 1px solid #ddd;
+  padding: 15px 0;
 }
 
-/* 왼쪽 영역 */
 .comment-left {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
-/* 작성자 + 프로필 + 날짜 */
 .comment-author-info {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .comment-author-image {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background-color: #d9d9d9;
-  flex-shrink: 0;
 }
 
 .comment-author {
@@ -35,41 +34,70 @@
 }
 
 .comment-date {
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 400;
   color: #888;
 }
 
-/* 댓글 내용 */
-.comment-content {
+.comment-content,
+.comment-edit-wrapper {
+  margin-left: 44px;
   font-size: 15px;
-  color: #333;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  margin-left: 50px; /* 프로필 공간 맞추기 */
+  font-weight: 400;
 }
 
-/* 수정/삭제 버튼 영역 (👉 가로 정렬) */
-.comment-actions {
+.comment-right {
   display: flex;
-  align-items: center;
-  gap: 8px; /* 버튼 간 간격 */
-  flex-shrink: 0;
+  gap: 8px;
+  margin-left: auto;
 }
 
-/* 버튼 공통 스타일 */
 .comment-btn {
-  border: 1.5px solid #a79dfc;
-  color: #000;
-  background: transparent;
-  border-radius: 10px;
-  padding: 4px 12px;
+  background: none;
+  border: 1px solid #7b6ef6;
   font-size: 14px;
-  font-weight: 500;
+  border-radius: 6px;
+  padding: 4px 10px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: 0.2s;
 }
 
 .comment-btn:hover {
-  background-color: #a79dfc;
+  background: #7b6ef6;
   color: #fff;
+}
+
+.comment-edit-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comment-edit-input {
+  width: 470px;
+  border: none;
+  min-height: 60px;
+  border-radius: 8px;
+  padding: 8px;
+  resize: none;
+}
+
+.comment-edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.comment-save-btn,
+.comment-cancel-btn {
+  background: #7b6ef6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.comment-cancel-btn {
+  background: #999;
 }

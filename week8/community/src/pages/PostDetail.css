@@ -76,9 +76,12 @@
 }
 
 .post-divider {
+  display: block;
+  height: 1px;
+  width: 600px;
+  background-color: #ccc;
   border: none;
-  border-top: 1px solid #ccc;
-  margin-top: 10px;
+  margin: 10px auto;
 }
 
 .post-image {
