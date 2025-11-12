@@ -38,7 +38,7 @@ export default class App extends Component {
 
       switch (true) {
         case currentPath === "/":
-          new Posts($page);
+          new Login($page);
           break;
         case currentPath === "/posts":
           new Posts($page);
@@ -65,7 +65,7 @@ export default class App extends Component {
           new EditPost($page);
           break;
         default:
-          new Posts($page);
+          new Login($page);
       }
     };
 
