@@ -2,26 +2,41 @@ import Component from "../core/Component.js";
 
 export default class PostCard extends Component {
   template() {
+    const { id, title, likes, comments, views, date, author, authorImage } =
+      this.$props;
     return `
-      <div class="post-item">
-        <div class="post-top">
-          <div class="post-title">제목 1</div>
-          <div class="post-date">2021-01-01 00:00:00</div>
-        </div>
-
-        <div class="post-info">
-          <span>좋아요 0</span>
-          <span>댓글 0</span>
-          <span>조회수 0</span>
-        </div>
-
-        <hr class="post-divider" />
-
-        <div class="post-author">
-          <div class="author-image"></div>
-          <div class="author-name">더미 작성자 1</div>
+    <div class="postcard-item" data-id="${id}">
+      <div class="postcard-top">
+        <div class="postcard-title">${title}</div>
+        <div class="postcard-info-section">
+          <div class="postcard-info">
+            <span>좋아요 ${likes}</span>
+            <span>댓글 ${comments}</span>
+            <span>조회수 ${views}</span>
+          </div>
+          <div class="postcard-date">${date}</div>
         </div>
       </div>
+
+      <hr class="postcard-divider" />
+
+      <div class="postcard-author">
+        <div class="author-image" style="background-image: url('${
+          authorImage || ""
+        }')"></div>
+        <div class="author-name">${author}</div>
+      </div>
+    </div>
     `;
+  }
+
+  mounted() {
+    const postId = this.$props.id;
+    const $postItem = this.$target.querySelector(".postcard-item");
+
+    $postItem.addEventListener("click", () => {
+      window.history.pushState(null, null, `/post/${postId}`);
+      window.dispatchEvent(new CustomEvent("navigate"));
+    });
   }
 }

@@ -1,0 +1,75 @@
+.comment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 왼쪽 영역 */
+.comment-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 작성자 + 프로필 + 날짜 */
+.comment-author-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.comment-author-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  flex-shrink: 0;
+}
+
+.comment-author {
+  font-weight: 700;
+  color: #000;
+  font-size: 15px;
+}
+
+.comment-date {
+  font-size: 13px;
+  color: #888;
+}
+
+/* 댓글 내용 */
+.comment-content {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  margin-left: 50px; /* 프로필 공간 맞추기 */
+}
+
+/* 수정/삭제 버튼 영역 (👉 가로 정렬) */
+.comment-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 버튼 간 간격 */
+  flex-shrink: 0;
+}
+
+/* 버튼 공통 스타일 */
+.comment-btn {
+  border: 1.5px solid #a79dfc;
+  color: #000;
+  background: transparent;
+  border-radius: 10px;
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.comment-btn:hover {
+  background-color: #a79dfc;
+  color: #fff;
+}

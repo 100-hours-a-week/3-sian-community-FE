@@ -1,11 +1,11 @@
 import Component from "../core/Component.js";
 import Button from "../components/Button.js";
 
-export default class WritePost extends Component {
+export default class EditPost extends Component {
   template() {
     return `
       <div class="page write-post-page">
-        <h1 class="write-post-title">게시글 작성</h1>
+        <h1 class="write-post-title">게시글 수정</h1>
 
         <form class="write-post-form" id="write-form">
           <div class="form-group">
@@ -54,17 +54,23 @@ export default class WritePost extends Component {
     const $submit = this.$target.querySelector("#submit-button");
     const $error = this.$target.querySelector(".error");
 
+    const postData = {
+      title: "기존 제목입니다.",
+      content: "기존 내용이 여기에 표시됩니다.",
+    };
+
+    $title.value = postData.title;
+    $content.value = postData.content;
+
     const submitButton = new Button($submit, {
-      text: "완료",
-      disabled: true,
+      text: "수정하기",
+      disabled: false,
       variant: "primary",
     });
 
-    // 유효성 검사 -> 버튼 활성화
     const validate = () => {
       const title = $title.value.trim();
       const content = $content.value.trim();
-
       const isValid =
         title.length > 0 && title.length <= 26 && content.length > 0;
 
@@ -87,17 +93,16 @@ export default class WritePost extends Component {
     $title.addEventListener("input", validate);
     $content.addEventListener("input", validate);
 
-    // 게시물 등록
     $form.addEventListener("submit", (e) => {
       e.preventDefault();
+      if (!validate()) return;
+
       const title = $title.value.trim();
       const content = $content.value.trim();
       const image = $form.image.files[0];
 
-      if (!validate()) return;
-
       console.log({ title, content, image });
-      alert("게시글이 등록되었습니다!");
+      alert("게시글이 수정되었습니다!");
 
       window.history.pushState(null, null, "/posts");
       window.dispatchEvent(new CustomEvent("navigate"));

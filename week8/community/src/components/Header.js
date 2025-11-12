@@ -4,11 +4,13 @@ export default class Header extends Component {
   template() {
     return `
       <header class="layout-header">
-        <div class="back-button" id="back-button">
-          <img src="/src/assets/free-icon-arrow-left-6423874.png" alt="뒤로가기" />
+        <div class="header__items-container">
+          <div class="back-button" id="back-button">
+            <img src="/src/assets/free-icon-arrow-left-6423874.png" alt="뒤로가기" />
+          </div>
+          <div class="header-title">아무 말 대잔치</div>
+          <div class="header__profile-image" id="profile-image"></div>
         </div>
-        <div class="header-title">아무 말 대잔치</div>
-        <div class="header__profile-image" id="profile-image"></div>
       </header>
     `;
   }
@@ -27,7 +29,8 @@ export default class Header extends Component {
       if (
         currentPath === "/" ||
         currentPath === "/login" ||
-        currentPath === "/index.html"
+        currentPath === "/index.html" ||
+        currentPath === "/posts"
       ) {
         $backButton.style.display = "none";
       } else {

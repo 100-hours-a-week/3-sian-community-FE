@@ -3,6 +3,11 @@
 @import "./src/components/Header.css";
 @import "./src/components/PostCard.css";
 @import "./src/pages/Posts.css";
+@import "./src/pages/Login.css";
+@import "./src/pages/WritePost.css";
+@import "./src/pages/PostDetail.css";
+@import "./src/components/Comment.css";
+@import "./src/components/CommentForm.css";
 
 body {
   margin: 0;
@@ -10,7 +15,7 @@ body {
 }
 
 main {
-  max-width: 1200px;
+  max-width: 600px;
   margin: auto;
 }
 
@@ -18,7 +23,6 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
   justify-content: center;
 }
 

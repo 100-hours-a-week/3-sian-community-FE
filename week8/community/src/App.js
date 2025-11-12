@@ -6,6 +6,8 @@ import MyPage from "./pages/Mypage.js";
 import Header from "./components/Header.js";
 import WritePost from "./pages/WritePost.js";
 import { initRouter } from "./router/Router.js";
+import PostDetail from "./pages/PostDetail.js";
+import EditPost from "./pages/EditPost.js";
 
 export default class App extends Component {
   setup() {
@@ -29,27 +31,33 @@ export default class App extends Component {
       const currentPath = window.location.pathname;
 
       if (this.$state.path !== currentPath) {
-        this.setState({ path: currentPath }); // path 바뀔 때만 상태 업데이트
+        this.setState({ path: currentPath });
       }
 
-      switch (currentPath) {
-        case "/":
-          new Login($page);
-          break;
-        case "/posts":
+      switch (true) {
+        case currentPath === "/":
           new Posts($page);
           break;
-        case "/signup":
+        case currentPath === "/posts":
+          new Posts($page);
+          break;
+        case currentPath === "/signup":
           new Signup($page);
           break;
-        case "/mypage":
+        case currentPath === "/mypage":
           new MyPage($page);
           break;
-        case "/writePost":
+        case currentPath === "/writePost":
           new WritePost($page);
           break;
+        case /^\/post\/\d+$/.test(currentPath):
+          new PostDetail($page);
+          break;
+        case /^\/editPost\/\d+$/.test(currentPath):
+          new EditPost($page);
+          break;
         default:
-          new Login($page);
+          new Posts($page);
       }
     };
 
