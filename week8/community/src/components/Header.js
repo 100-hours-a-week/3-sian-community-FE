@@ -53,8 +53,8 @@ export default class Header extends Component {
     const $profile = this.$target.querySelector("#profile-image");
     const user = JSON.parse(localStorage.getItem("user"));
 
-    if (user && user.profileImage) {
-      $profile.style.backgroundImage = `url(${user.profileImage})`;
+    if (user && user.profileImageUrl) {
+      $profile.style.backgroundImage = `url(${user.profileImageUrl})`;
     }
 
     const toggleProfileImage = () => {

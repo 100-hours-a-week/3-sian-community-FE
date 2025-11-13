@@ -103,7 +103,7 @@ export default class Login extends Component {
             id: res.data.id,
             email: res.data.email,
             nickname: res.data.nickname,
-            profileImage: res.data.profileImage,
+            profileImageUrl: res.data.profileImageUrl,
           })
         );
 
