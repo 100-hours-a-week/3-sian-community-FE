@@ -1,5 +1,6 @@
 import Component from "../core/Component.js";
 import Button from "../components/Button.js";
+import { apiFetch } from "../core/apiFetch.js";
 
 export default class WritePost extends Component {
   template() {
@@ -51,6 +52,7 @@ export default class WritePost extends Component {
     const $form = this.$target.querySelector("#write-form");
     const $title = $form.querySelector("#title");
     const $content = $form.querySelector("#content");
+    const $imageInput = $form.querySelector("#image");
     const $submit = this.$target.querySelector("#submit-button");
     const $error = this.$target.querySelector(".error");
 
@@ -60,7 +62,16 @@ export default class WritePost extends Component {
       variant: "primary",
     });
 
-    // 유효성 검사 -> 버튼 활성화
+    // 이미지 파일 base64로 변환
+    const toBase64 = (file) =>
+      new Promise((resolve, reject) => {
+        if (!file) return resolve(null);
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
     const validate = () => {
       const title = $title.value.trim();
       const content = $content.value.trim();
@@ -87,20 +98,39 @@ export default class WritePost extends Component {
     $title.addEventListener("input", validate);
     $content.addEventListener("input", validate);
 
-    // 게시물 등록
-    $form.addEventListener("submit", (e) => {
+    // 게시글 등록
+    $form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const title = $title.value.trim();
-      const content = $content.value.trim();
-      const image = $form.image.files[0];
 
       if (!validate()) return;
 
-      console.log({ title, content, image });
-      alert("게시글이 등록되었습니다!");
+      const title = $title.value.trim();
+      const content = $content.value.trim();
+      const file = $imageInput.files[0];
 
-      window.history.pushState(null, null, "/posts");
-      window.dispatchEvent(new CustomEvent("navigate"));
+      try {
+        const imageBase64 = await toBase64(file);
+
+        const payload = {
+          title,
+          content,
+          postImage: imageBase64,
+        };
+
+        const res = await apiFetch("/posts", {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
+
+        alert("게시글이 등록되었습니다!");
+
+        window.history.pushState(null, null, "/posts");
+        window.dispatchEvent(new CustomEvent("navigate"));
+      } catch (err) {
+        console.error("게시글 등록 중 오류:", err);
+        $error.innerHTML = "* 게시글 등록 중 오류가 발생했습니다.";
+        $error.classList.add("show");
+      }
     });
   }
 }
