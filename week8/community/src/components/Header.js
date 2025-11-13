@@ -49,6 +49,20 @@ export default class Header extends Component {
     window.addEventListener("popstate", toggleBackButton);
     window.addEventListener("navigate", toggleBackButton);
 
+    // 타이틀 -> 게시글 페이지로 이동
+    const $title = this.$target.querySelector(".header-title");
+
+    $title.addEventListener("click", () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (user) {
+        window.history.pushState(null, null, "/posts");
+      } else {
+        window.history.pushState(null, null, "/login");
+      }
+      window.dispatchEvent(new CustomEvent("navigate"));
+    });
+
     // 프로필
     const $profile = this.$target.querySelector("#profile-image");
     const user = JSON.parse(localStorage.getItem("user"));
