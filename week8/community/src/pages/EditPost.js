@@ -1,111 +1,115 @@
 import Component from "../core/Component.js";
 import Button from "../components/Button.js";
+import { apiFetch } from "../core/apiFetch.js";
 
 export default class EditPost extends Component {
   template() {
     return `
-      <div class="page write-post-page">
-        <h1 class="write-post-title">게시글 수정</h1>
+      <div class="page edit-post-page">
+        <h1 class="edit-post-title">게시글 수정</h1>
 
-        <form class="write-post-form" id="write-form">
+        <form class="edit-post-form" id="edit-form">
           <div class="form-group">
-            <label for="title" class="form-label">제목<span class="required">*</span></label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              maxlength="26"
-              placeholder="제목을 입력해주세요. (최대 26글자)"
-              class="form-input"
-              required
-            />
+            <label for="title" class="form-label">제목</label>
+            <input type="text" id="title" class="form-input" maxlength="26" />
           </div>
 
           <div class="form-group">
-            <label for="content" class="form-label">내용<span class="required">*</span></label>
-            <textarea
-              id="content"
-              name="content"
-              rows="8"
-              placeholder="내용을 입력해주세요."
-              class="form-textarea"
-              required
-            ></textarea>
-            <p class="error"></p>
+            <label for="content" class="form-label">내용</label>
+            <textarea id="content" rows="8" class="form-textarea"></textarea>
           </div>
 
           <div class="form-group">
-            <label for="image" class="form-label">이미지</label>
+            <label class="form-label">이미지</label>
             <div class="file-input">
-              <input type="file" id="image" name="image" />
+              <input type="file" id="image" accept="image/*" />
+              <div class="image-preview" id="image-preview"></div>
             </div>
           </div>
 
-          <div class="form-submit" id="submit-button"></div>
+          <div id="submit-button"></div>
         </form>
       </div>
     `;
   }
 
-  mounted() {
-    const $form = this.$target.querySelector("#write-form");
-    const $title = $form.querySelector("#title");
-    const $content = $form.querySelector("#content");
+  async mounted() {
+    const $form = this.$target.querySelector("#edit-form");
+    const $title = this.$target.querySelector("#title");
+    const $content = this.$target.querySelector("#content");
+    const $imageInput = this.$target.querySelector("#image");
+    const $preview = this.$target.querySelector("#image-preview");
     const $submit = this.$target.querySelector("#submit-button");
-    const $error = this.$target.querySelector(".error");
 
-    const postData = {
-      title: "기존 제목입니다.",
-      content: "기존 내용이 여기에 표시됩니다.",
-    };
+    const postId = window.location.pathname.split("/").pop();
+    let selectedFile = null;
+    let existingImageUrl = null;
 
-    $title.value = postData.title;
-    $content.value = postData.content;
+    try {
+      const res = await apiFetch(`/posts/${postId}`, { method: "GET" });
+      const post = res.data;
+
+      $title.value = post.title;
+      $content.value = post.content;
+
+      if (post.postImageUrl) {
+        existingImageUrl = post.postImageUrl;
+        $preview.style.backgroundImage = `url(${existingImageUrl})`;
+        $preview.style.backgroundSize = "cover";
+        $preview.style.backgroundPosition = "center";
+      }
+    } catch (err) {
+      console.error("게시글 불러오기 실패:", err);
+      alert("게시글 데이터를 불러올 수 없습니다.");
+      return;
+    }
+
+    $imageInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      selectedFile = file;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        $preview.style.backgroundImage = `url(${reader.result})`;
+        $preview.style.backgroundSize = "cover";
+        $preview.style.backgroundPosition = "center";
+      };
+      reader.readAsDataURL(file);
+    });
 
     const submitButton = new Button($submit, {
-      text: "수정하기",
+      text: "수정 완료",
       disabled: false,
       variant: "primary",
     });
 
-    const validate = () => {
-      const title = $title.value.trim();
-      const content = $content.value.trim();
-      const isValid =
-        title.length > 0 && title.length <= 26 && content.length > 0;
+    $form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-      submitButton.setDisabled(!isValid);
+      const formData = new FormData();
+      formData.append("title", $title.value.trim());
+      formData.append("content", $content.value.trim());
 
-      if (!title || !content) {
-        $error.innerHTML = "* 제목과 내용을 모두 입력해주세요.";
-        $error.classList.add("show");
-      } else if (title.length > 26) {
-        $error.innerHTML = "* 제목은 최대 26자까지 입력 가능합니다.";
-        $error.classList.add("show");
-      } else {
-        $error.innerHTML = "";
-        $error.classList.remove("show");
+      if (selectedFile) {
+        formData.append("image", selectedFile);
       }
 
-      return isValid;
-    };
+      try {
+        const res = await apiFetch(`/posts/${postId}`, {
+          method: "PATCH",
+          body: formData,
+          useFormData: true,
+        });
 
-    $title.addEventListener("input", validate);
-    $content.addEventListener("input", validate);
-
-    $form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      if (!validate()) return;
-
-      const title = $title.value.trim();
-      const content = $content.value.trim();
-      const image = $form.image.files[0];
-
-      console.log({ title, content, image });
-      alert("게시글이 수정되었습니다!");
-
-      window.history.pushState(null, null, "/posts");
-      window.dispatchEvent(new CustomEvent("navigate"));
+        alert("수정 완료!");
+        window.history.pushState(null, null, `/post/${postId}`);
+        window.dispatchEvent(new CustomEvent("navigate"));
+      } catch (err) {
+        console.error(err);
+        alert("수정 실패");
+      }
     });
   }
 }

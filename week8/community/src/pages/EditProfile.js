@@ -12,8 +12,9 @@ export default class EditProfile extends Component {
 
         <!-- 프로필 -->
         <div class="profile-section">
-          <label for="profile-image" class="profile-label">프로필 사진<span class="required">*</span></label>
+          <label for="profile-image" class="profile-label">프로필 사진</label>
           <p class="helper-text"></p>
+
           <div class="profile-upload">
             <input type="file" id="profile-image" accept="image/*" hidden />
             <div class="profile-preview" id="profile-preview"></div>
@@ -32,12 +33,8 @@ export default class EditProfile extends Component {
         <div id="update-btn"></div>
         <div class="link" id="withdraw-link">회원 탈퇴</div>
 
-        <!-- 토스트 메시지 -->
         <div id="toast-message" class="toast-message"></div>
-
         <div id="modal-root"></div>
-
-        
       </div>
     `;
   }
@@ -49,26 +46,20 @@ export default class EditProfile extends Component {
     const $profileInput = this.$target.querySelector("#profile-image");
     const $profilePreview = this.$target.querySelector("#profile-preview");
     const $emailField = this.$target.querySelector(".readonly-email");
-
     const $updateBtn = this.$target.querySelector("#update-btn");
-    const $withdrawLink = this.$target.querySelector("#withdraw-link");
-
     const $toast = this.$target.querySelector("#toast-message");
-    const $modalRoot = this.$target.querySelector("#modal-root");
 
     let nicknameValid = true;
     let nicknameValue = user.nickname;
+    let selectedFile = null;
 
-    const existingNicknames = ["sian", "testuser", "hello"];
-
-    if (user && user.profileImage) {
-      $profilePreview.style.backgroundImage = `url(${user.profileImage})`;
+    if (user.profileImageUrl) {
+      $profilePreview.style.backgroundImage = `url(${user.profileImageUrl})`;
       $profilePreview.style.backgroundSize = "cover";
       $profilePreview.style.backgroundPosition = "center";
     }
-    if ($emailField) {
-      $emailField.textContent = user.email;
-    }
+
+    $emailField.textContent = user.email;
 
     new Input($nicknameInput, {
       label: "닉네임",
@@ -94,15 +85,18 @@ export default class EditProfile extends Component {
     });
 
     $profilePreview.addEventListener("click", () => $profileInput.click());
+
     $profileInput.addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (!file) return;
+
+      selectedFile = file;
+
       const reader = new FileReader();
       reader.onload = () => {
         $profilePreview.style.backgroundImage = `url(${reader.result})`;
         $profilePreview.style.backgroundSize = "cover";
         $profilePreview.style.backgroundPosition = "center";
-        $profilePreview.textContent = "";
       };
       reader.readAsDataURL(file);
     });
@@ -116,55 +110,35 @@ export default class EditProfile extends Component {
     $updateBtn.addEventListener("click", async () => {
       if (!nicknameValid) return;
 
-      const updatedData = {
-        nickname: nicknameValue,
-        profileImage: $profilePreview.style.backgroundImage.replace(
-          /^url\("(.*)"\)$/,
-          "$1"
-        ),
-      };
+      const formData = new FormData();
+      formData.append("nickname", nicknameValue);
+
+      if (selectedFile) {
+        formData.append("image", selectedFile);
+      }
 
       try {
         const res = await apiFetch(`/users/me`, {
           method: "PATCH",
-          body: JSON.stringify(updatedData),
+          body: formData,
+          useFormData: true,
         });
 
-        const updatedUser = {
-          nickname: res.data.nickname,
-          profileImage: res.data.profileImage,
-        };
-
+        const updatedUser = res.data;
         localStorage.setItem("user", JSON.stringify(updatedUser));
 
         window.dispatchEvent(new CustomEvent("user-updated"));
-        window.history.pushState(null, null, "/edit-profile");
         this.showToast($toast, "수정 완료되었습니다!");
       } catch (err) {
         console.error(err);
         this.showToast($toast, "수정 실패");
       }
     });
-
-    $withdrawLink.addEventListener("click", () => {
-      new ConfirmModal($modalRoot, {
-        title: "회원 탈퇴하시겠습니까?",
-        message: "삭제한 계정은 복구할 수 없습니다.",
-        onConfirm: () => {
-          alert("회원 탈퇴가 완료되었습니다.");
-          window.history.pushState(null, null, "/");
-          window.dispatchEvent(new CustomEvent("navigate"));
-        },
-      });
-    });
   }
 
   showToast($toast, message, type = "success") {
     $toast.textContent = message;
     $toast.className = `toast-message show ${type}`;
-
-    setTimeout(() => {
-      $toast.classList.remove("show");
-    }, 2500);
+    setTimeout(() => $toast.classList.remove("show"), 2500);
   }
 }
