@@ -75,7 +75,6 @@ export default class Comment extends Component {
           message: "삭제한 내용은 복구할 수 없습니다.",
           onConfirm: () => {
             onDelete?.();
-            this.$target.remove();
           },
         });
       });

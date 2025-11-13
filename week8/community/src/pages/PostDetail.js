@@ -41,12 +41,10 @@ export default class PostDetail extends Component {
         <div id="comment-list"></div>
         <div id="modal-root"></div>
         </div>
-
     `;
   }
 
   async mounted() {
-    // 게시글 수정, 삭제
     const postId = window.location.pathname.split("/").pop();
 
     const $title = this.$target.querySelector(".post-title");
@@ -55,16 +53,15 @@ export default class PostDetail extends Component {
     const $date = this.$target.querySelector(".post-date");
     const $postImage = this.$target.querySelector(".post-image");
     const $content = this.$target.querySelector(".post-content");
-
     const $likeCount = this.$target.querySelector(".like-count");
     const $viewCount = this.$target.querySelector(".view-count");
     const $commentCount = this.$target.querySelector(".comment-count");
-
     const $editBtn = this.$target.querySelector(".edit-btn");
     const $deleteBtn = this.$target.querySelector(".delete-btn");
     const $modalRoot = this.$target.querySelector("#modal-root");
+    const $commentList = this.$target.querySelector("#comment-list");
+    const $commentForm = this.$target.querySelector("#comment-form");
 
-    // 게시글 상세 조회
     let post;
     try {
       const res = await apiFetch(`/posts/${postId}`, { method: "GET" });
@@ -74,7 +71,6 @@ export default class PostDetail extends Component {
       return;
     }
 
-    // 게시글 상세 출력
     $title.textContent = post.title;
     $authorName.textContent = post.authorNickname;
     $date.textContent = post.createdAt;
@@ -90,57 +86,89 @@ export default class PostDetail extends Component {
     }
 
     $content.textContent = post.content;
-
     $likeCount.textContent = post.likeCount;
     $viewCount.textContent = post.viewCount;
     $commentCount.textContent = post.commentCount;
 
-    // 게시글 수정 버튼
     $editBtn.addEventListener("click", () => {
       window.history.pushState(null, null, `/editPost/${postId}`);
       window.dispatchEvent(new CustomEvent("navigate"));
     });
 
-    // 게시글 삭제 버튼
     $deleteBtn.addEventListener("click", () => {
       new ConfirmModal($modalRoot, {
         title: "게시글을 삭제하시겠습니까?",
         message: "삭제한 내용은 복구 할 수 없습니다.",
-        onCancel: () => console.log("취소됨"),
-        onConfirm: () => {
-          console.log("삭제 확인됨");
-          alert("삭제되었습니다!");
-          window.history.pushState(null, null, "/posts");
-          window.dispatchEvent(new CustomEvent("navigate"));
+        onCancel: () => {},
+        onConfirm: async () => {
+          try {
+            await apiFetch(`/posts/${postId}`, { method: "DELETE" });
+
+            alert("삭제되었습니다!");
+            window.history.pushState(null, null, "/posts");
+            window.dispatchEvent(new CustomEvent("navigate"));
+          } catch (err) {
+            console.error("삭제 실패:", err);
+            alert("게시글 삭제에 실패했습니다.");
+          }
         },
       });
     });
 
-    // 댓글 작성
-    const $commentForm = this.$target.querySelector("#comment-form");
-    const $commentList = this.$target.querySelector("#comment-list");
+    // 댓글
+    const loadComments = async () => {
+      $commentList.innerHTML = "";
+
+      try {
+        const res = await apiFetch(`/posts/${postId}/comments`, {
+          method: "GET",
+        });
+
+        const comments = res.data.content ?? [];
+
+        comments.forEach((comment) => renderCommentItem(comment));
+      } catch (err) {
+        console.error("댓글 불러오기 실패:", err);
+      }
+    };
+
+    const renderCommentItem = (comment) => {
+      const $div = document.createElement("div");
+      new CommentItem($div, {
+        id: comment.id,
+        author: comment.authorNickname,
+        date: comment.createdAt,
+        content: comment.content,
+        onDelete: async () => {
+          try {
+            await apiFetch(`/posts/${postId}/comments/${comment.id}`, {
+              method: "DELETE",
+            });
+            loadComments();
+          } catch (err) {
+            console.error("댓글 삭제 실패:", err);
+            alert("댓글 삭제 실패");
+          }
+        },
+      });
+      $commentList.appendChild($div);
+    };
 
     new CommentForm($commentForm, {
-      onSubmit: (text) => {
-        console.log("새 댓글:", text);
-        // 댓글 추가 로직 구현 가능
+      onSubmit: async (text) => {
+        try {
+          await apiFetch(`/posts/${postId}/comments`, {
+            method: "POST",
+            body: JSON.stringify({ content: text }),
+          });
+
+          loadComments();
+        } catch (err) {
+          console.error("댓글 작성 실패:", err);
+        }
       },
     });
 
-    // 댓글 리스트
-    const comments = Array(3)
-      .fill(0)
-      .map((_, i) => ({
-        id: i + 1,
-        author: `더미 작성자 ${i + 1}`,
-        date: "2021-01-01 00:00:00",
-        content: "댓글 내용",
-      }));
-
-    comments.forEach((c) => {
-      const $comment = document.createElement("div");
-      $commentList.appendChild($comment);
-      new CommentItem($comment, c);
-    });
+    loadComments();
   }
 }
