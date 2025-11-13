@@ -62,16 +62,6 @@ export default class WritePost extends Component {
       variant: "primary",
     });
 
-    // 이미지 파일 base64로 변환
-    const toBase64 = (file) =>
-      new Promise((resolve, reject) => {
-        if (!file) return resolve(null);
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-
     const validate = () => {
       const title = $title.value.trim();
       const content = $content.value.trim();
@@ -109,17 +99,14 @@ export default class WritePost extends Component {
       const file = $imageInput.files[0];
 
       try {
-        const imageBase64 = await toBase64(file);
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("content", content);
+        if (file) formData.append("image", file);
 
-        const payload = {
-          title,
-          content,
-          postImage: imageBase64,
-        };
-
-        const res = await apiFetch("/posts", {
+        await apiFetch("/posts", {
           method: "POST",
-          body: JSON.stringify(payload),
+          body: formData,
         });
 
         alert("게시글이 등록되었습니다!");

@@ -37,6 +37,7 @@ export default class Posts extends Component {
     });
 
     // 게시글 목록
+    // TODO: 무한 스크롤 기능 추가 예정
     const $postList = this.$target.querySelector(".post-list");
 
     try {
