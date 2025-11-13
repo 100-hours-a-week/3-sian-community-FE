@@ -1,6 +1,7 @@
 import Component from "../core/Component.js";
 import Button from "../components/Button.js";
 import PostCard from "../components/PostCard.js";
+import { apiFetch } from "../core/apiFetch.js";
 
 export default class Posts extends Component {
   template() {
@@ -20,7 +21,7 @@ export default class Posts extends Component {
     `;
   }
 
-  mounted() {
+  async mounted() {
     // 게시글 작성 버튼
     const $writeButton = this.$target.querySelector("#write-button");
 
@@ -38,24 +39,32 @@ export default class Posts extends Component {
     // 게시글 목록
     const $postList = this.$target.querySelector(".post-list");
 
-    Array(5)
-      .fill(0)
-      .forEach((_, i) => {
-        const post = {
-          id: i + 1,
-          title: `제목 ${i + 1}`,
-          likes: 0,
-          comments: 0,
-          views: 0,
-          date: "2021-01-01 00:00:00",
-          author: `더미 작성자 ${i + 1}`,
-          authorImage: "",
+    try {
+      const res = await apiFetch("/posts?page=0&size=10", {
+        method: "GET",
+      });
+
+      const posts = res.data.content;
+
+      posts.forEach((post) => {
+        const postData = {
+          id: post.id,
+          title: post.title,
+          likes: post.likeCount,
+          comments: post.commentCount,
+          views: post.viewCount,
+          date: post.createdAt,
+          author: post.authorNickname,
+          authorImage: post.authorProfileImage,
         };
 
         const $card = document.createElement("div");
         $postList.appendChild($card);
 
-        new PostCard($card, post);
+        new PostCard($card, postData);
       });
+    } catch (error) {
+      $postList.innerHTML = `<p class="error-message">게시글을 불러오지 못했습니다.</p>`;
+    }
   }
 }
