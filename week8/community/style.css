@@ -1,13 +1,17 @@
 @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
 @import "./reset.css";
+@import "./src/components/Button.css";
+@import "./src/components/Input.css";
 @import "./src/components/Header.css";
 @import "./src/components/PostCard.css";
+@import "./src/components/Comment.css";
+@import "./src/components/CommentForm.css";
+@import "./src/components/ConfirmModal.css";
+@import "./src/pages/SIgnup.css";
 @import "./src/pages/Posts.css";
 @import "./src/pages/Login.css";
 @import "./src/pages/WritePost.css";
 @import "./src/pages/PostDetail.css";
-@import "./src/components/Comment.css";
-@import "./src/components/CommentForm.css";
 @import "./src/pages/EditProfile.css";
 @import "./src/pages/EditPassword.css";
 

@@ -2,6 +2,7 @@ import Component from "../core/Component.js";
 import Input from "../components/Input.js";
 import Button from "../components/Button.js";
 import ConfirmModal from "../components/ConfirmModal.js";
+import { apiFetch } from "../core/apiFetch.js";
 
 export default class EditProfile extends Component {
   template() {
@@ -22,7 +23,7 @@ export default class EditProfile extends Component {
         <!-- 이메일 -->
         <div class="form-group">
           <label class="form-label">이메일</label>
-          <p class="readonly-email">startupcode@gmail.com</p>
+          <p class="readonly-email"></p>
         </div>
 
         <!-- 닉네임 -->
@@ -42,25 +43,39 @@ export default class EditProfile extends Component {
   }
 
   mounted() {
+    const user = JSON.parse(localStorage.getItem("user"));
+
     const $nicknameInput = this.$target.querySelector("#nickname-input");
     const $profileInput = this.$target.querySelector("#profile-image");
     const $profilePreview = this.$target.querySelector("#profile-preview");
+    const $emailField = this.$target.querySelector(".readonly-email");
+
     const $updateBtn = this.$target.querySelector("#update-btn");
     const $withdrawLink = this.$target.querySelector("#withdraw-link");
+
     const $toast = this.$target.querySelector("#toast-message");
     const $modalRoot = this.$target.querySelector("#modal-root");
 
-    let nicknameValid = false;
-    let nicknameValue = "";
+    let nicknameValid = true;
+    let nicknameValue = user.nickname;
 
     const existingNicknames = ["sian", "testuser", "hello"];
 
-    // ✅ 닉네임 입력 필드
+    if (user && user.profileImage) {
+      $profilePreview.style.backgroundImage = `url(${user.profileImage})`;
+      $profilePreview.style.backgroundSize = "cover";
+      $profilePreview.style.backgroundPosition = "center";
+    }
+    if ($emailField) {
+      $emailField.textContent = user.email;
+    }
+
     new Input($nicknameInput, {
       label: "닉네임",
       name: "nickname",
       type: "text",
-      placeholder: "닉네임을 입력해주세요",
+      value: user.nickname,
+      placeholder: user.nickname,
       onInput: (value, comp) => {
         const v = value.trim();
         nicknameValue = v;
@@ -98,15 +113,37 @@ export default class EditProfile extends Component {
       variant: "primary",
     });
 
-    $updateBtn.addEventListener("click", () => {
-      if (!nicknameValid) {
-        return;
-      }
-      if (existingNicknames.includes(nicknameValue.toLowerCase())) {
-        return;
-      }
+    $updateBtn.addEventListener("click", async () => {
+      if (!nicknameValid) return;
 
-      this.showToast($toast, "수정 완료", "success");
+      const updatedData = {
+        nickname: nicknameValue,
+        profileImage: $profilePreview.style.backgroundImage.replace(
+          /^url\("(.*)"\)$/,
+          "$1"
+        ),
+      };
+
+      try {
+        const res = await apiFetch(`/users/me`, {
+          method: "PATCH",
+          body: JSON.stringify(updatedData),
+        });
+
+        const updatedUser = {
+          nickname: res.data.nickname,
+          profileImage: res.data.profileImage,
+        };
+
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+
+        window.dispatchEvent(new CustomEvent("user-updated"));
+        window.history.pushState(null, null, "/edit-profile");
+        this.showToast($toast, "수정 완료되었습니다!");
+      } catch (err) {
+        console.error(err);
+        this.showToast($toast, "수정 실패");
+      }
     });
 
     $withdrawLink.addEventListener("click", () => {

@@ -49,8 +49,34 @@ export default class Header extends Component {
     window.addEventListener("popstate", toggleBackButton);
     window.addEventListener("navigate", toggleBackButton);
 
-    // 프로필 -> 드롭다운 메뉴
+    // 프로필
     const $profile = this.$target.querySelector("#profile-image");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user && user.profileImage) {
+      $profile.style.backgroundImage = `url(${user.profileImage})`;
+    }
+
+    const toggleProfileImage = () => {
+      const currentPath = window.location.pathname;
+
+      if (
+        currentPath === "/" ||
+        currentPath === "/login" ||
+        currentPath === "/index.html" ||
+        currentPath === "/signup"
+      ) {
+        $profile.style.display = "none";
+      } else {
+        $profile.style.display = "flex";
+      }
+    };
+
+    toggleProfileImage();
+    window.addEventListener("popstate", toggleProfileImage);
+    window.addEventListener("navigate", toggleProfileImage);
+
+    // 드롭다운
     const $dropdown = this.$target.querySelector("#dropdown-menu");
 
     $profile.addEventListener("click", (e) => {

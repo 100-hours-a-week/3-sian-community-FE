@@ -1,6 +1,7 @@
 import Component from "../core/Component.js";
 import Input from "../components/Input.js";
 import Button from "../components/Button.js";
+import { apiFetch } from "../core/apiFetch.js";
 
 export default class Signup extends Component {
   template() {
@@ -44,6 +45,11 @@ export default class Signup extends Component {
     const $profileInput = this.$target.querySelector("#profile-image");
     const $profilePreview = this.$target.querySelector("#profile-preview");
 
+    let email = "";
+    let password = "";
+    let nickname = "";
+    let profileImage = "";
+
     let emailValid = false;
     let passwordValid = false;
     let passwordConfirmValid = false;
@@ -67,10 +73,10 @@ export default class Signup extends Component {
       type: "email",
       placeholder: "이메일을 입력해주세요",
       onInput: (value, comp) => {
-        const v = value.trim();
+        email = value.trim();
         const ok =
-          /^[A-Za-z0-9._%+-]{2,}@[A-Za-z0-9.-]{2,}\.[A-Za-z]{2,}$/.test(v);
-        if (!v) {
+          /^[A-Za-z0-9._%+-]{2,}@[A-Za-z0-9.-]{2,}\.[A-Za-z]{2,}$/.test(email);
+        if (!email) {
           comp.setError("이메일을 입력해주세요");
           emailValid = false;
         } else if (!ok) {
@@ -90,12 +96,12 @@ export default class Signup extends Component {
       type: "password",
       placeholder: "비밀번호를 입력해주세요",
       onInput: (value, comp) => {
-        const v = value ?? "";
+        password = value ?? "";
         const ok =
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$%^&*()_\-+=`{}[\]|\\:;"'<>,.?/]).{8,16}$/.test(
-            v
+            password
           );
-        if (!v.trim()) {
+        if (!password.trim()) {
           comp.setError("비밀번호를 입력해주세요");
           passwordValid = false;
         } else if (!ok) {
@@ -138,11 +144,11 @@ export default class Signup extends Component {
       type: "text",
       placeholder: "닉네임을 입력해주세요",
       onInput: (value, comp) => {
-        const v = value.trim();
-        if (!v) {
+        nickname = value.trim();
+        if (!nickname) {
           comp.setError("닉네임을 입력해주세요");
           nicknameValid = false;
-        } else if (v.length < 2 || v.length > 10) {
+        } else if (nickname.length < 2 || nickname.length > 10) {
           comp.setError("닉네임은 2~10자 이내여야 합니다.");
           nicknameValid = false;
         } else {
@@ -155,20 +161,32 @@ export default class Signup extends Component {
 
     $profilePreview.addEventListener("click", () => $profileInput.click());
     $profileInput.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
+      profileImage = e.target.files[0];
+      if (!profileImage) return;
       const reader = new FileReader();
       reader.onload = () => {
         $profilePreview.style.backgroundImage = `url(${reader.result})`;
         $profilePreview.style.backgroundSize = "cover";
         $profilePreview.style.backgroundPosition = "center";
         $profilePreview.textContent = "";
+        profileImage = reader.result;
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(profileImage);
     });
 
-    $submitButton.addEventListener("click", () => {
-      alert("회원가입 요청");
+    // 회원가입 요청
+    $submitButton.addEventListener("click", async () => {
+      try {
+        const res = await apiFetch("/users", {
+          method: "POST",
+          body: JSON.stringify({ email, password, nickname, profileImage }),
+        });
+
+        window.history.pushState(null, null, "/login");
+        window.dispatchEvent(new CustomEvent("navigate"));
+      } catch (err) {
+        alert(err.message || "회원가입에 실패했습니다.");
+      }
     });
 
     $LoginLink.addEventListener("click", () => {

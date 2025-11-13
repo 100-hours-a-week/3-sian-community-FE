@@ -1,6 +1,7 @@
 import Component from "../core/Component.js";
 import Input from "../components/Input.js";
 import Button from "../components/Button.js";
+import { apiFetch } from "../core/apiFetch.js";
 
 export default class Login extends Component {
   template() {
@@ -21,6 +22,9 @@ export default class Login extends Component {
     const $submitButton = this.$target.querySelector("#submit-button");
     const $signupLink = this.$target.querySelector("#signup-link");
 
+    let email = "";
+    let password = "";
+
     let emailValid = false;
     let passwordValid = false;
 
@@ -40,10 +44,10 @@ export default class Login extends Component {
       type: "email",
       placeholder: "이메일을 입력해주세요",
       onInput: (value, comp) => {
-        const v = value.trim();
+        email = value.trim();
         const ok =
-          /^[A-Za-z0-9._%+-]{2,}@[A-Za-z0-9.-]{2,}\.[A-Za-z]{2,}$/.test(v);
-        if (!v) {
+          /^[A-Za-z0-9._%+-]{2,}@[A-Za-z0-9.-]{2,}\.[A-Za-z]{2,}$/.test(email);
+        if (!email) {
           comp.setError("이메일을 입력해주세요");
           emailValid = false;
         } else if (!ok) {
@@ -63,12 +67,12 @@ export default class Login extends Component {
       type: "password",
       placeholder: "비밀번호를 입력해주세요",
       onInput: (value, comp) => {
-        const v = value ?? "";
+        password = value ?? "";
         const ok =
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$%^&*()_\-+=`{}[\]|\\:;"'<>,.?/]).{8,16}$/.test(
-            v
+            password
           );
-        if (!v.trim()) {
+        if (!password.trim()) {
           comp.setError("비밀번호를 입력해주세요");
           passwordValid = false;
         } else if (!ok) {
@@ -84,10 +88,30 @@ export default class Login extends Component {
       },
     });
 
-    $submitButton.addEventListener("click", () => {
-      alert("로그인 요청");
-      window.history.pushState(null, null, "/posts");
-      window.dispatchEvent(new CustomEvent("navigate"));
+    // 로그인 요청
+    $submitButton.addEventListener("click", async () => {
+      try {
+        const res = await apiFetch("/auth/login", {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+        });
+
+        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            id: res.data.id,
+            email: res.data.email,
+            nickname: res.data.nickname,
+            profileImage: res.data.profileImage,
+          })
+        );
+
+        window.history.pushState(null, null, "/posts");
+        window.dispatchEvent(new CustomEvent("navigate"));
+      } catch (err) {
+        alert(err.message || "로그인에 실패했습니다.");
+      }
     });
 
     $signupLink.addEventListener("click", () => {

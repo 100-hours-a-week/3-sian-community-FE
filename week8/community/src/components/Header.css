@@ -47,7 +47,10 @@
   height: 36px;
   font-weight: 100;
   border-radius: 50%;
+  background-size: cover;
   background-color: #d9d9d9;
+  background-repeat: no-repeat;
+  overflow: hidden;
   cursor: pointer;
 }
 
