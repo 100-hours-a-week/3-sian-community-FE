@@ -1,5 +1,5 @@
-import Component from "../core/Component.js";
-import Button from "./Button.js";
+import Component from "../../core/Component.js";
+import Button from "../Button/Button.js";
 
 export default class ConfirmModal extends Component {
   template() {

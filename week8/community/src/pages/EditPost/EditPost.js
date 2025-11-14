@@ -1,6 +1,6 @@
-import Component from "../core/Component.js";
-import Button from "../components/Button.js";
-import { apiFetch } from "../core/apiFetch.js";
+import Component from "../../core/Component.js";
+import Button from "../../components/Button/Button.js";
+import { apiFetch } from "../../core/apiFetch.js";
 
 export default class EditPost extends Component {
   template() {

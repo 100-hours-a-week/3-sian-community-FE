@@ -1,8 +1,8 @@
-import Component from "../core/Component.js";
-import CommentForm from "../components/CommentForm.js";
-import CommentItem from "../components/Comment.js";
-import ConfirmModal from "../components/ConfirmModal.js";
-import { apiFetch } from "../core/apiFetch.js";
+import Component from "../../core/Component.js";
+import CommentForm from "../../components/Comment/CommentForm.js";
+import CommentItem from "../../components/Comment/Comment.js";
+import ConfirmModal from "../../components/Modal/ConfirmModal.js";
+import { apiFetch } from "../../core/apiFetch.js";
 
 export default class PostDetail extends Component {
   template() {

@@ -1,8 +1,8 @@
-import Component from "../core/Component.js";
-import Input from "../components/Input.js";
-import Button from "../components/Button.js";
-import ConfirmModal from "../components/ConfirmModal.js";
-import { apiFetch } from "../core/apiFetch.js";
+import Component from "../../core/Component.js";
+import Input from "../../components/Input/Input.js";
+import Button from "../../components/Button/Button.js";
+import ConfirmModal from "../../components/Modal/ConfirmModal.js";
+import { apiFetch } from "../../core/apiFetch.js";
 
 export default class EditProfile extends Component {
   template() {

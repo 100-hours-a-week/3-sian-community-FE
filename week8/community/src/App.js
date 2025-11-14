@@ -1,13 +1,13 @@
 import Component from "./core/Component.js";
-import Posts from "./pages/Posts.js";
-import Login from "./pages/Login.js";
-import Signup from "./pages/Signup.js";
-import EditProfile from "./pages/EditProfile.js";
-import Header from "./components/Header.js";
-import WritePost from "./pages/WritePost.js";
-import PostDetail from "./pages/PostDetail.js";
-import EditPost from "./pages/EditPost.js";
-import EditPassword from "./pages/EditPassword.js";
+import Posts from "./pages/Posts/Posts.js";
+import Login from "./pages/Login/Login.js";
+import Signup from "./pages/Signup/Signup.js";
+import EditProfile from "./pages/EditProfile/EditProfile.js";
+import Header from "./components/Header/Header.js";
+import WritePost from "./pages/EditPost/WritePost.js";
+import PostDetail from "./pages/PostDetail/PostDetail.js";
+import EditPost from "./pages/EditPost/EditPost.js";
+import EditPassword from "./pages/EditPassword/EditPassword.js";
 
 import { initRouter } from "./router/Router.js";
 

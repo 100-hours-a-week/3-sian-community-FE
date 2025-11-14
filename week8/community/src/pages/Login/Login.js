@@ -1,7 +1,7 @@
-import Component from "../core/Component.js";
-import Input from "../components/Input.js";
-import Button from "../components/Button.js";
-import { apiFetch } from "../core/apiFetch.js";
+import Component from "../../core/Component.js";
+import Input from "../../components/Input/Input.js";
+import Button from "../../components/Button/Button.js";
+import { apiFetch } from "../../core/apiFetch.js";
 
 export default class Login extends Component {
   template() {

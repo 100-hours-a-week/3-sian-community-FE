@@ -1,6 +1,6 @@
-import Component from "../core/Component.js";
-import Input from "../components/Input.js";
-import Button from "../components/Button.js";
+import Component from "../../core/Component.js";
+import Input from "../../components/Input/Input.js";
+import Button from "../../components/Button/Button.js";
 
 export default class PasswordEdit extends Component {
   template() {

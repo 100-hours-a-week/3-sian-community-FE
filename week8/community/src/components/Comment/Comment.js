@@ -1,5 +1,5 @@
-import Component from "../core/Component.js";
-import ConfirmModal from "../components/ConfirmModal.js";
+import Component from "../../core/Component.js";
+import ConfirmModal from "../Modal/ConfirmModal.js";
 
 export default class Comment extends Component {
   setup() {
