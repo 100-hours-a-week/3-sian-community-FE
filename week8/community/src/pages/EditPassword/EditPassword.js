@@ -1,15 +1,19 @@
 import Component from "../../core/Component.js";
 import Input from "../../components/Input/Input.js";
 import Button from "../../components/Button/Button.js";
+import { apiFetch } from "../../core/apiFetch.js";
 
 export default class PasswordEdit extends Component {
   template() {
     return `
       <div class="page password-edit-page">
         <h1 class="title">비밀번호 수정</h1>
+
         <div id="password-input"></div>
         <div id="password-confirm-input"></div>
+
         <div id="submit-button"></div>
+
         <div id="toast-message" class="toast-message"></div>
       </div>
     `;
@@ -32,6 +36,21 @@ export default class PasswordEdit extends Component {
       text: "수정하기",
       disabled: true,
       variant: "primary",
+    });
+
+    window.addEventListener("keydown", async (e) => {
+      if (e.key !== "Enter") return;
+
+      const active = document.activeElement;
+
+      if (
+        $passwordInput.contains(active) ||
+        $passwordConfirmInput.contains(active)
+      ) {
+        if (this.passwordValid && this.confirmValid) {
+          $submitButton.click();
+        }
+      }
     });
 
     const updateButtonState = () => {
@@ -59,7 +78,7 @@ export default class PasswordEdit extends Component {
       onInput: (value, comp) => {
         this.password = value.trim();
         const ok =
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$%^&*()_\-+=`{}[\]|\\:;"'<>,.?/]).{8,16}$/.test(
+          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,20}$/.test(
             this.password
           );
 
@@ -68,7 +87,7 @@ export default class PasswordEdit extends Component {
           this.passwordValid = false;
         } else if (!ok) {
           comp.setError(
-            "비밀번호는 8~16자, 대문자·소문자·숫자·특수문자를 모두 포함해야 합니다."
+            "비밀번호는 8~20자, 대문자·소문자·숫자·특수문자를 모두 포함해야 합니다."
           );
           this.passwordValid = false;
         } else {
@@ -94,17 +113,30 @@ export default class PasswordEdit extends Component {
       },
     });
 
-    $submitButton.addEventListener("click", () => {
+    $submitButton.addEventListener("click", async () => {
       if (this.passwordValid && this.confirmValid) {
-        this.showToast(
-          $toast,
-          "비밀번호가 성공적으로 변경되었습니다!",
-          "success"
-        );
-        setTimeout(() => {
-          window.history.pushState(null, null, "/mypage");
-          window.dispatchEvent(new CustomEvent("navigate"));
-        }, 2000);
+        try {
+          const res = await apiFetch(`/users/me/password`, {
+            method: "PATCH",
+            body: JSON.stringify({
+              newPassword: this.password,
+              newPasswordConfirm: this.confirm,
+            }),
+          });
+
+          this.showToast(
+            $toast,
+            "비밀번호가 성공적으로 변경되었습니다!",
+            "success"
+          );
+
+          setTimeout(() => {
+            window.history.pushState(null, null, "/posts");
+            window.dispatchEvent(new CustomEvent("navigate"));
+          }, 2000);
+        } catch (err) {
+          alert(err.message || "비밀번호 변경에 실패했습니다.");
+        }
       }
     });
   }

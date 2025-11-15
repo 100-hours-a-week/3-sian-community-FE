@@ -98,7 +98,7 @@ export default class Signup extends Component {
       onInput: (value, comp) => {
         password = value ?? "";
         const ok =
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$%^&*()_\-+=`{}[\]|\\:;"'<>,.?/]).{8,16}$/.test(
+          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,20}$/.test(
             password
           );
         if (!password.trim()) {
@@ -106,7 +106,7 @@ export default class Signup extends Component {
           passwordValid = false;
         } else if (!ok) {
           comp.setError(
-            "비밀번호는 8자 이상, 16자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다."
+            "비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다."
           );
           passwordValid = false;
         } else {
