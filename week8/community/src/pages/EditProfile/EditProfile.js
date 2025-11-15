@@ -3,6 +3,7 @@ import Input from "../../components/Input/Input.js";
 import Button from "../../components/Button/Button.js";
 import ConfirmModal from "../../components/Modal/ConfirmModal.js";
 import { apiFetch } from "../../core/apiFetch.js";
+import Toast from "../../components/Toast/Toast.js";
 
 export default class EditProfile extends Component {
   template() {
@@ -33,7 +34,7 @@ export default class EditProfile extends Component {
         <div id="update-btn"></div>
         <div class="link" id="withdraw-link">회원 탈퇴</div>
 
-        <div id="toast-message" class="toast-message"></div>
+        <div id="toast-root"></div>
         <div id="modal-root"></div>
       </div>
     `;
@@ -47,7 +48,9 @@ export default class EditProfile extends Component {
     const $profilePreview = this.$target.querySelector("#profile-preview");
     const $emailField = this.$target.querySelector(".readonly-email");
     const $updateBtn = this.$target.querySelector("#update-btn");
-    const $toast = this.$target.querySelector("#toast-message");
+    const $toastRoot = this.$target.querySelector("#toast-root");
+
+    const toast = new Toast($toastRoot);
 
     let nicknameValid = true;
     let nicknameValue = user.nickname;
@@ -128,17 +131,12 @@ export default class EditProfile extends Component {
         localStorage.setItem("user", JSON.stringify(updatedUser));
 
         window.dispatchEvent(new CustomEvent("user-updated"));
-        this.showToast($toast, "수정 완료되었습니다!");
+
+        toast.show("수정 완료되었습니다!");
       } catch (err) {
         console.error(err);
-        this.showToast($toast, "수정 실패");
+        toast.show("수정 실패", "error");
       }
     });
-  }
-
-  showToast($toast, message, type = "success") {
-    $toast.textContent = message;
-    $toast.className = `toast-message show ${type}`;
-    setTimeout(() => $toast.classList.remove("show"), 2500);
   }
 }
