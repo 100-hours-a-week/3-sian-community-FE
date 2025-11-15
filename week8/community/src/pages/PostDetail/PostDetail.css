@@ -136,3 +136,8 @@
   font-weight: 700;
   margin-bottom: 4px;
 }
+
+.stat.like-active {
+  background-color: #aca0eb;
+  transition: 0.2s;
+}
