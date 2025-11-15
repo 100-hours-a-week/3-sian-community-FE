@@ -1,4 +1,6 @@
 import Component from "../../core/Component.js";
+import { apiFetch } from "../../core/apiFetch.js";
+import Toast from "../Toast/Toast.js";
 
 export default class Header extends Component {
   template() {
@@ -18,6 +20,7 @@ export default class Header extends Component {
               </ul>
             </div>
         </div>
+        <div class="toast-root"></div>
       </header>
     `;
   }
@@ -25,6 +28,10 @@ export default class Header extends Component {
   mounted() {
     // 이전 페이지로 이동
     const $backButton = this.$target.querySelector("#back-button");
+    const $toastRoot = this.$target.querySelector(".toast-root");
+
+    const toast = new Toast($toastRoot);
+
     if (!$backButton) return;
 
     $backButton.addEventListener("click", () => {
@@ -104,7 +111,7 @@ export default class Header extends Component {
       }
     });
 
-    $dropdown.addEventListener("click", (e) => {
+    $dropdown.addEventListener("click", async (e) => {
       const action = e.target.dataset.action;
       if (!action) return;
 
@@ -118,9 +125,24 @@ export default class Header extends Component {
           window.dispatchEvent(new CustomEvent("navigate"));
           break;
         case "logout":
-          alert("로그아웃 되었습니다!");
-          window.history.pushState(null, null, "/login");
-          window.dispatchEvent(new CustomEvent("navigate"));
+          try {
+            await apiFetch("/auth/logout", {
+              method: "POST",
+            });
+
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("user");
+
+            toast.show("로그아웃 성공");
+
+            setTimeout(() => {
+              window.history.pushState(null, null, "/login");
+              window.dispatchEvent(new CustomEvent("navigate"));
+            }, 1000);
+          } catch (err) {
+            console.error(err);
+            toast.show("로그아웃 실패", "error");
+          }
           break;
       }
     });
