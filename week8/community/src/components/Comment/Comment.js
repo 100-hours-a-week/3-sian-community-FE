@@ -1,5 +1,6 @@
 import Component from "../../core/Component.js";
 import ConfirmModal from "../Modal/ConfirmModal.js";
+import ProfileImage from "../ProfileImage/ProfileImage.js";
 
 export default class Comment extends Component {
   setup() {
@@ -17,7 +18,7 @@ export default class Comment extends Component {
       <div class="comment-item">
         <div class="comment-left">
           <div class="comment-author-info">
-            <div class="comment-author-image"></div>
+            <div class="author-image"></div>
             <div class="comment-author-meta">
               <span class="comment-author">${author}</span>
               <span class="comment-date">${date}</span>
@@ -58,9 +59,14 @@ export default class Comment extends Component {
   mounted() {
     const { onEdit, onDelete } = this.$props;
     const $modalRoot = this.$target.querySelector("#modal-root");
+    const $authorImage = this.$target.querySelector(".author-image");
 
     const $editBtn = this.$target.querySelector(".comment-btn.edit");
     const $deleteBtn = this.$target.querySelector(".comment-btn.delete");
+
+    new ProfileImage($authorImage, {
+      imageUrl: this.$props.authorImage,
+    });
 
     if ($editBtn) {
       $editBtn.addEventListener("click", () => {

@@ -1,6 +1,7 @@
 import Component from "../../core/Component.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import Toast from "../Toast/Toast.js";
+import ProfileImage from "../ProfileImage/ProfileImage.js";
 
 export default class Header extends Component {
   template() {
@@ -11,7 +12,7 @@ export default class Header extends Component {
             <img src="/src/assets/free-icon-arrow-left-6423874.png" alt="뒤로가기" />
           </div>
           <div class="header-title">아무 말 대잔치</div>
-          <div class="header__profile-image" id="profile-image"></div>
+          <div class="header-author-image"></div>
           <div class="header__dropdown" id="dropdown-menu">
               <ul>
                 <li data-action="edit-profile">회원정보수정</li>
@@ -71,12 +72,12 @@ export default class Header extends Component {
     });
 
     // 프로필
-    const $profile = this.$target.querySelector("#profile-image");
+    const $profileArea = this.$target.querySelector(".header-author-image");
     const user = JSON.parse(localStorage.getItem("user"));
 
-    if (user && user.profileImageUrl) {
-      $profile.style.backgroundImage = `url(${user.profileImageUrl})`;
-    }
+    new ProfileImage($profileArea, {
+      imageUrl: user?.profileImageUrl,
+    });
 
     const toggleProfileImage = () => {
       const currentPath = window.location.pathname;
@@ -87,9 +88,9 @@ export default class Header extends Component {
         currentPath === "/index.html" ||
         currentPath === "/signup"
       ) {
-        $profile.style.display = "none";
+        $profileArea.style.display = "none";
       } else {
-        $profile.style.display = "flex";
+        $profileArea.style.display = "flex";
       }
     };
 
@@ -100,13 +101,13 @@ export default class Header extends Component {
     // 드롭다운
     const $dropdown = this.$target.querySelector("#dropdown-menu");
 
-    $profile.addEventListener("click", (e) => {
+    $profileArea.addEventListener("click", (e) => {
       e.stopPropagation();
       $dropdown.classList.toggle("show");
     });
 
     document.addEventListener("click", (e) => {
-      if (!$dropdown.contains(e.target) && e.target !== $profile) {
+      if (!$dropdown.contains(e.target) && e.target !== $profileArea) {
         $dropdown.classList.remove("show");
       }
     });

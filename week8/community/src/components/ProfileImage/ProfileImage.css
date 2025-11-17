@@ -1,0 +1,7 @@
+.profile-image-component {
+  font-weight: 100;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: rgb(157, 157, 157);
+}

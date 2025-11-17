@@ -3,6 +3,7 @@ import CommentForm from "../../components/Comment/CommentForm.js";
 import CommentItem from "../../components/Comment/Comment.js";
 import ConfirmModal from "../../components/Modal/ConfirmModal.js";
 import { apiFetch } from "../../core/apiFetch.js";
+import ProfileImage from "../../components/ProfileImage/ProfileImage.js";
 
 export default class PostDetail extends Component {
   template() {
@@ -80,6 +81,10 @@ export default class PostDetail extends Component {
     $title.textContent = post.title;
     $authorName.textContent = post.authorNickname;
     $date.textContent = post.createdAt;
+
+    new ProfileImage($authorImage, {
+      imageUrl: post.authorProfileImage,
+    });
 
     if (post.authorProfileImage) {
       $authorImage.style.backgroundImage = `url(${post.authorProfileImage})`;
@@ -181,10 +186,12 @@ export default class PostDetail extends Component {
     };
 
     const renderCommentItem = (comment) => {
+      console.log("comment item: ", comment);
       const $div = document.createElement("div");
       new CommentItem($div, {
         id: comment.id,
         author: comment.authorNickname,
+        authorImage: comment.authorProfileImage,
         date: comment.createdAt,
         content: comment.content,
         onDelete: async () => {

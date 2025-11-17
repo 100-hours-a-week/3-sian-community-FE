@@ -1,4 +1,5 @@
 import Component from "../../core/Component.js";
+import ProfileImage from "../ProfileImage/ProfileImage.js";
 
 export default class PostCard extends Component {
   template() {
@@ -21,9 +22,7 @@ export default class PostCard extends Component {
       <hr class="postcard-divider" />
 
       <div class="postcard-author">
-        <div class="author-image" style="background-image: url('${
-          authorImage || ""
-        }')"></div>
+        <div class="author-image"></div>
         <div class="author-name">${author}</div>
       </div>
     </div>
@@ -33,6 +32,12 @@ export default class PostCard extends Component {
   mounted() {
     const postId = this.$props.id;
     const $postItem = this.$target.querySelector(".postcard-item");
+
+    const $profileArea = this.$target.querySelector(".author-image");
+
+    new ProfileImage($profileArea, {
+      imageUrl: this.$props.authorImage,
+    });
 
     $postItem.addEventListener("click", () => {
       window.history.pushState(null, null, `/post/${postId}`);

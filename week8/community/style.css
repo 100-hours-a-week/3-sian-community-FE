@@ -14,6 +14,7 @@
 @import "./src/pages/PostDetail/PostDetail.css";
 @import "./src/pages/EditProfile/EditProfile.css";
 @import "./src/pages/EditPassword/EditPassword.css";
+@import "./src/components/ProfileImage/ProfileImage.css";
 
 body {
   margin: 0;
