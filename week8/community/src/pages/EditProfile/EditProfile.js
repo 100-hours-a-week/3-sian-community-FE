@@ -4,6 +4,7 @@ import Button from "../../components/Button/Button.js";
 import ConfirmModal from "../../components/Modal/ConfirmModal.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import Toast from "../../components/Toast/Toast.js";
+import { validateNickname } from "../../utils/validators.js";
 
 export default class EditProfile extends Component {
   template() {
@@ -71,14 +72,11 @@ export default class EditProfile extends Component {
       value: user.nickname,
       placeholder: user.nickname,
       onInput: (value, comp) => {
-        const v = value.trim();
-        nicknameValue = v;
+        nicknameValue = value.trim();
+        const result = validateNickname(nicknameValue);
 
-        if (!v) {
-          comp.setError("닉네임을 입력해주세요");
-          nicknameValid = false;
-        } else if (v.length < 2 || v.length > 10) {
-          comp.setError("닉네임은 2~10자 이내여야 합니다.");
+        if (!result.ok) {
+          comp.setError(result.message);
           nicknameValid = false;
         } else {
           comp.clearError();

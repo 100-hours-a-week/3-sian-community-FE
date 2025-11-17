@@ -9,7 +9,7 @@ import PostDetail from "./pages/PostDetail/PostDetail.js";
 import EditPost from "./pages/EditPost/EditPost.js";
 import EditPassword from "./pages/EditPassword/EditPassword.js";
 
-import { initRouter } from "./router/Router.js";
+import { initRouter } from "./core/Router.js";
 
 export default class App extends Component {
   setup() {

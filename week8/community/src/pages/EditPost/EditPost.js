@@ -56,7 +56,6 @@ export default class EditPost extends Component {
         existingImageUrl = post.postImageUrl;
 
         const fileName = existingImageUrl.split("/").pop();
-
         $fileName.textContent = `현재 이미지: ${fileName}`;
       }
     } catch (err) {
@@ -65,6 +64,37 @@ export default class EditPost extends Component {
       return;
     }
 
+    const validate = () => {
+      const title = $title.value.trim();
+      const content = $content.value.trim();
+
+      const v1 = validateTitle(title);
+      const v2 = validateContent(content);
+
+      if (!v1.ok) {
+        $error.textContent = v1.message;
+        $error.classList.add("show");
+        submitButton.setDisabled(true);
+        return false;
+      }
+
+      if (!v2.ok) {
+        $error.textContent = v2.message;
+        $error.classList.add("show");
+        submitButton.setDisabled(true);
+        return false;
+      }
+
+      $error.textContent = "";
+      $error.classList.remove("show");
+      submitButton.setDisabled(false);
+      return true;
+    };
+
+    $title.addEventListener("input", validate);
+    $content.addEventListener("input", validate);
+
+    // 파일명
     $imageInput.addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (!file) return;
@@ -72,14 +102,6 @@ export default class EditPost extends Component {
       selectedFile = file;
 
       $fileName.textContent = `선택된 파일: ${file.name}`;
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        $preview.style.backgroundImage = `url(${reader.result})`;
-        $preview.style.backgroundSize = "cover";
-        $preview.style.backgroundPosition = "center";
-      };
-      reader.readAsDataURL(file);
     });
 
     const submitButton = new Button($submit, {

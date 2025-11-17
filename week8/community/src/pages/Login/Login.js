@@ -2,6 +2,7 @@ import Component from "../../core/Component.js";
 import Input from "../../components/Input/Input.js";
 import Button from "../../components/Button/Button.js";
 import { apiFetch } from "../../core/apiFetch.js";
+import { validateEmail, validatePassword } from "../../utils/validators.js";
 
 export default class Login extends Component {
   template() {
@@ -34,18 +35,6 @@ export default class Login extends Component {
       variant: "primary",
     });
 
-    window.addEventListener("keydown", async (e) => {
-      if (e.key !== "Enter") return;
-
-      const active = document.activeElement;
-
-      if ($emailInput.contains(active) || $passwordInput.contains(active)) {
-        if (emailValid && passwordValid) {
-          $submitButton.click();
-        }
-      }
-    });
-
     const updateButtonState = () => {
       submitButton.setDisabled(!(emailValid && passwordValid));
     };
@@ -57,18 +46,16 @@ export default class Login extends Component {
       placeholder: "이메일을 입력해주세요",
       onInput: (value, comp) => {
         email = value.trim();
-        const ok =
-          /^[A-Za-z0-9._%+-]{2,}@[A-Za-z0-9.-]{2,}\.[A-Za-z]{2,}$/.test(email);
-        if (!email) {
-          comp.setError("이메일을 입력해주세요");
-          emailValid = false;
-        } else if (!ok) {
+
+        const result = validateEmail(email);
+
+        if (!result.ok) {
           comp.setError("올바른 이메일 주소 형식을 입력해주세요.");
-          emailValid = false;
         } else {
           comp.clearError();
           emailValid = true;
         }
+
         updateButtonState();
       },
     });
@@ -80,17 +67,9 @@ export default class Login extends Component {
       placeholder: "비밀번호를 입력해주세요",
       onInput: (value, comp) => {
         password = value ?? "";
-        const ok =
-          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,20}$/.test(
-            password
-          );
+
         if (!password.trim()) {
           comp.setError("비밀번호를 입력해주세요");
-          passwordValid = false;
-        } else if (!ok) {
-          comp.setError(
-            "비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다."
-          );
           passwordValid = false;
         } else {
           comp.clearError();
@@ -98,6 +77,19 @@ export default class Login extends Component {
         }
         updateButtonState();
       },
+    });
+
+    // 엔터 입력
+    window.addEventListener("keydown", async (e) => {
+      if (e.key !== "Enter") return;
+
+      const active = document.activeElement;
+
+      if ($emailInput.contains(active) || $passwordInput.contains(active)) {
+        if (emailValid && passwordValid) {
+          $submitButton.click();
+        }
+      }
     });
 
     // 로그인 요청

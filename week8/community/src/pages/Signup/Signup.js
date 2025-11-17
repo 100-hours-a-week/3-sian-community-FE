@@ -2,6 +2,12 @@ import Component from "../../core/Component.js";
 import Input from "../../components/Input/Input.js";
 import Button from "../../components/Button/Button.js";
 import { apiFetch } from "../../core/apiFetch.js";
+import {
+  validateEmail,
+  validatePassword,
+  validatePasswordConfirm,
+  validateNickname,
+} from "../../utils/validators.js";
 
 export default class Signup extends Component {
   template() {
@@ -74,18 +80,16 @@ export default class Signup extends Component {
       placeholder: "이메일을 입력해주세요",
       onInput: (value, comp) => {
         email = value.trim();
-        const ok =
-          /^[A-Za-z0-9._%+-]{2,}@[A-Za-z0-9.-]{2,}\.[A-Za-z]{2,}$/.test(email);
-        if (!email) {
-          comp.setError("이메일을 입력해주세요");
-          emailValid = false;
-        } else if (!ok) {
-          comp.setError("올바른 이메일 주소 형식을 입력해주세요.");
+        const result = validateEmail(email);
+
+        if (!result.ok) {
+          comp.setError(result.message);
           emailValid = false;
         } else {
           comp.clearError();
           emailValid = true;
         }
+
         updateButtonState();
       },
     });
@@ -97,22 +101,31 @@ export default class Signup extends Component {
       placeholder: "비밀번호를 입력해주세요",
       onInput: (value, comp) => {
         password = value ?? "";
-        const ok =
-          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,20}$/.test(
-            password
-          );
-        if (!password.trim()) {
-          comp.setError("비밀번호를 입력해주세요");
-          passwordValid = false;
-        } else if (!ok) {
-          comp.setError(
-            "비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다."
-          );
+        const result = validatePassword(password);
+
+        if (!result.ok) {
+          comp.setError(result.message);
           passwordValid = false;
         } else {
           comp.clearError();
           passwordValid = true;
         }
+
+        // 비밀번호 바뀌면 비밀번호 확인 재검사
+        if (this.confirmInputComp) {
+          const confirmResult = validatePasswordConfirm(
+            this.password,
+            this.confirm
+          );
+          if (!confirmResult.ok) {
+            this.confirmInputComp.setError(confirmResult.message);
+            this.confirmValid = false;
+          } else {
+            this.confirmInputComp.clearError();
+            this.confirmValid = true;
+          }
+        }
+
         updateButtonState();
       },
     });
@@ -123,17 +136,18 @@ export default class Signup extends Component {
       type: "password",
       placeholder: "비밀번호를 한 번 더 입력해주세요",
       onInput: (value, comp) => {
-        const password = $passwordInput.querySelector("input").value;
-        if (!value.trim()) {
-          comp.setError("비밀번호를 다시 입력해주세요");
-          passwordConfirmValid = false;
-        } else if (value !== password) {
-          comp.setError("비밀번호가 일치하지 않습니다.");
+        passwordConfirm = value.trim();
+
+        const result = validatePasswordConfirm(password, passwordConfirm);
+
+        if (!result.ok) {
+          comp.setError(result.message);
           passwordConfirmValid = false;
         } else {
           comp.clearError();
           passwordConfirmValid = true;
         }
+
         updateButtonState();
       },
     });
@@ -145,16 +159,16 @@ export default class Signup extends Component {
       placeholder: "닉네임을 입력해주세요",
       onInput: (value, comp) => {
         nickname = value.trim();
-        if (!nickname) {
-          comp.setError("닉네임을 입력해주세요");
-          nicknameValid = false;
-        } else if (nickname.length < 2 || nickname.length > 10) {
-          comp.setError("닉네임은 2~10자 이내여야 합니다.");
+        const result = validateNickname(nickname);
+
+        if (!result.ok) {
+          comp.setError(result.message);
           nicknameValid = false;
         } else {
           comp.clearError();
           nicknameValid = true;
         }
+
         updateButtonState();
       },
     });

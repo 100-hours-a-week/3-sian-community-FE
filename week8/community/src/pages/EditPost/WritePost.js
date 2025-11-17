@@ -1,6 +1,7 @@
 import Component from "../../core/Component.js";
 import Button from "../../components/Button/Button.js";
 import { apiFetch } from "../../core/apiFetch.js";
+import { validateTitle, validateContent } from "../../utils/validators.js";
 
 export default class WritePost extends Component {
   template() {
@@ -66,23 +67,28 @@ export default class WritePost extends Component {
       const title = $title.value.trim();
       const content = $content.value.trim();
 
-      const isValid =
-        title.length > 0 && title.length <= 26 && content.length > 0;
+      const titleResult = validateTitle(title);
+      const contentResult = validateContent(content);
 
-      submitButton.setDisabled(!isValid);
-
-      if (!title || !content) {
-        $error.innerHTML = "* 제목과 내용을 모두 입력해주세요.";
+      if (!titleResult.ok) {
+        $error.innerHTML = titleResult.message;
         $error.classList.add("show");
-      } else if (title.length > 26) {
-        $error.innerHTML = "* 제목은 최대 26자까지 입력 가능합니다.";
-        $error.classList.add("show");
-      } else {
-        $error.innerHTML = "";
-        $error.classList.remove("show");
+        submitButton.setDisabled(true);
+        return false;
       }
 
-      return isValid;
+      if (!contentResult.ok) {
+        $error.innerHTML = contentResult.message;
+        $error.classList.add("show");
+        submitButton.setDisabled(true);
+        return false;
+      }
+
+      $error.innerHTML = "";
+      $error.classList.remove("show");
+      submitButton.setDisabled(false);
+
+      return true;
     };
 
     $title.addEventListener("input", validate);

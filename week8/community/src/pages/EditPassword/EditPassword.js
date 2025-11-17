@@ -2,6 +2,10 @@ import Component from "../../core/Component.js";
 import Input from "../../components/Input/Input.js";
 import Button from "../../components/Button/Button.js";
 import { apiFetch } from "../../core/apiFetch.js";
+import {
+  validatePassword,
+  validatePasswordConfirm,
+} from "../../utils/validators.js";
 
 export default class PasswordEdit extends Component {
   template() {
@@ -38,6 +42,7 @@ export default class PasswordEdit extends Component {
       variant: "primary",
     });
 
+    // 엔터 입력
     window.addEventListener("keydown", async (e) => {
       if (e.key !== "Enter") return;
 
@@ -57,19 +62,6 @@ export default class PasswordEdit extends Component {
       submitButton.setDisabled(!(this.passwordValid && this.confirmValid));
     };
 
-    const validateConfirm = (comp) => {
-      if (!this.confirm.trim()) {
-        comp.setError("비밀번호를 다시 입력해주세요");
-        this.confirmValid = false;
-      } else if (this.password !== this.confirm) {
-        comp.setError("비밀번호가 일치하지 않습니다.");
-        this.confirmValid = false;
-      } else {
-        comp.clearError();
-        this.confirmValid = true;
-      }
-    };
-
     const passwordInput = new Input($passwordInput, {
       label: "비밀번호",
       name: "password",
@@ -77,25 +69,31 @@ export default class PasswordEdit extends Component {
       placeholder: "비밀번호를 입력하세요",
       onInput: (value, comp) => {
         this.password = value.trim();
-        const ok =
-          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,20}$/.test(
-            this.password
-          );
+        const result = validatePassword(this.password);
 
-        if (!this.password) {
-          comp.setError("비밀번호를 입력해주세요");
-          this.passwordValid = false;
-        } else if (!ok) {
-          comp.setError(
-            "비밀번호는 8~20자, 대문자·소문자·숫자·특수문자를 모두 포함해야 합니다."
-          );
+        if (!result.ok) {
+          comp.setError(result.message);
           this.passwordValid = false;
         } else {
           comp.clearError();
           this.passwordValid = true;
         }
 
-        if (this.confirmInputComp) validateConfirm(this.confirmInputComp);
+        // 비밀번호 바뀌면 확인 재검사
+        if (this.confirmInputComp) {
+          const confirmResult = validatePasswordConfirm(
+            this.password,
+            this.confirm
+          );
+          if (!confirmResult.ok) {
+            this.confirmInputComp.setError(confirmResult.message);
+            this.confirmValid = false;
+          } else {
+            this.confirmInputComp.clearError();
+            this.confirmValid = true;
+          }
+        }
+
         updateButtonState();
       },
     });
@@ -108,11 +106,20 @@ export default class PasswordEdit extends Component {
       onInput: (value, comp) => {
         this.confirm = value.trim();
         this.confirmInputComp = comp;
-        validateConfirm(comp);
-        updateButtonState();
+
+        const result = validatePasswordConfirm(this.password, this.confirm);
+
+        if (!result.ok) {
+          comp.setError(result.message);
+          this.confirmValid = false;
+        } else {
+          comp.clearError();
+          this.confirmValid = true;
+        }
       },
     });
 
+    // 비밀번호 변경
     $submitButton.addEventListener("click", async () => {
       if (this.passwordValid && this.confirmValid) {
         try {

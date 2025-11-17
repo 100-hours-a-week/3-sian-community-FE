@@ -9,7 +9,7 @@ export default class Header extends Component {
       <header class="layout-header">
         <div class="header__items-container">
           <div class="back-button" id="back-button">
-            <img src="/src/assets/free-icon-arrow-left-6423874.png" alt="뒤로가기" />
+            <img src="/src/assets/back-icon.png" alt="뒤로가기" />
           </div>
           <div class="header-title">아무 말 대잔치</div>
           <div class="header-author-image"></div>
