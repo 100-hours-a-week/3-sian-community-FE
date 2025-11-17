@@ -91,8 +91,15 @@ export default class PostDetail extends Component {
       $authorImage.style.backgroundSize = "cover";
     }
 
+    // 게시글 이미지
     if (post.postImageUrl) {
-      $postImage.innerHTML = `<img src="${post.postImageUrl}" class="detail-post-image" />`;
+      $postImage.innerHTML = "";
+
+      const img = document.createElement("img");
+      img.src = post.postImageUrl;
+      img.className = "detail-post-image";
+
+      $postImage.appendChild(img);
     } else {
       $postImage.style.display = "none";
     }
