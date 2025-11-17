@@ -70,3 +70,13 @@
   justify-content: center;
   margin-top: 20px;
 }
+
+.write-post-form .form-group {
+  margin-bottom: 20px;
+}
+
+#current-file-name {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 6px;
+}

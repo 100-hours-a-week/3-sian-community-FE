@@ -21,9 +21,9 @@ export default class EditPost extends Component {
 
           <div class="form-group">
             <label class="form-label">이미지</label>
+            <div class="current-file-name" id="current-file-name"></div>
             <div class="file-input">
               <input type="file" id="image" accept="image/*" />
-              <div class="image-preview" id="image-preview"></div>
             </div>
           </div>
 
@@ -38,8 +38,8 @@ export default class EditPost extends Component {
     const $title = this.$target.querySelector("#title");
     const $content = this.$target.querySelector("#content");
     const $imageInput = this.$target.querySelector("#image");
-    const $preview = this.$target.querySelector("#image-preview");
     const $submit = this.$target.querySelector("#submit-button");
+    const $fileName = this.$target.querySelector("#current-file-name");
 
     const postId = window.location.pathname.split("/").pop();
     let selectedFile = null;
@@ -54,9 +54,10 @@ export default class EditPost extends Component {
 
       if (post.postImageUrl) {
         existingImageUrl = post.postImageUrl;
-        $preview.style.backgroundImage = `url(${existingImageUrl})`;
-        $preview.style.backgroundSize = "cover";
-        $preview.style.backgroundPosition = "center";
+
+        const fileName = existingImageUrl.split("/").pop();
+
+        $fileName.textContent = `현재 이미지: ${fileName}`;
       }
     } catch (err) {
       console.error("게시글 불러오기 실패:", err);
@@ -69,6 +70,8 @@ export default class EditPost extends Component {
       if (!file) return;
 
       selectedFile = file;
+
+      $fileName.textContent = `선택된 파일: ${file.name}`;
 
       const reader = new FileReader();
       reader.onload = () => {
