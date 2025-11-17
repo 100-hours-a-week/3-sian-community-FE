@@ -8,7 +8,7 @@ export default class EditPost extends Component {
       <div class="page edit-post-page">
         <h1 class="edit-post-title">게시글 수정</h1>
 
-        <form class="edit-post-form" id="edit-form">
+        <form class="write-post-form" id="edit-form">
           <div class="form-group">
             <label for="title" class="form-label">제목</label>
             <input type="text" id="title" class="form-input" maxlength="26" />
@@ -27,7 +27,7 @@ export default class EditPost extends Component {
             </div>
           </div>
 
-          <div id="submit-button"></div>
+          <div class="form-submit" id="submit-button"></div>
         </form>
       </div>
     `;
