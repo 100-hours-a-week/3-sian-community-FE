@@ -1,6 +1,6 @@
 export function navigate(path) {
   window.history.pushState({}, "", path);
-  window.dispatchEvent(new CustomEvent("urlchange"));
+  window.dispatchEvent(new CustomEvent("navigate"));
 }
 
 export function initRouter(renderPage) {
