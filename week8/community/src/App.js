@@ -28,6 +28,7 @@ export default class App extends Component {
     const $page = document.querySelector("#page");
 
     new Header($header);
+    this.currentPage = null;
 
     const renderPage = () => {
       const currentPath = window.location.pathname;
@@ -36,42 +37,45 @@ export default class App extends Component {
         this.setState({ path: currentPath });
       }
 
+      // 이전 페이지 unmount
+      if (this.currentPage && this.currentPage.unmount) {
+        this.currentPage.unmount();
+      }
+
       switch (true) {
         case currentPath === "/":
-          new Login($page);
+          this.currentPage = new Login($page);
           break;
         case currentPath === "/posts":
-          new Posts($page);
+          this.currentPage = new Posts($page);
           break;
         case currentPath === "/signup":
-          new Signup($page);
+          this.currentPage = new Signup($page);
           break;
         case currentPath === "/edit-profile":
-          new EditProfile($page);
+          this.currentPage = new EditProfile($page);
           break;
         case currentPath === "/write-post":
-          new WritePost($page);
+          this.currentPage = new WritePost($page);
           break;
         case currentPath === "/login":
-          new Login($page);
+          this.currentPage = new Login($page);
           break;
         case currentPath === "/edit-password":
-          new EditPassword($page);
+          this.currentPage = new EditPassword($page);
           break;
         case /^\/post\/\d+$/.test(currentPath):
-          new PostDetail($page);
+          this.currentPage = new PostDetail($page);
           break;
         case /^\/editPost\/\d+$/.test(currentPath):
-          new EditPost($page);
+          this.currentPage = new EditPost($page);
           break;
         default:
-          new Login($page);
+          this.currentPage = new Login($page);
       }
     };
 
     // 초기 렌더링
-    const currentPath = window.location.pathname;
-    this.$state = { path: currentPath };
     renderPage();
 
     initRouter(renderPage);
