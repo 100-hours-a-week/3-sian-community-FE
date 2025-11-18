@@ -9,11 +9,9 @@ import PostDetail from "./pages/PostDetail/PostDetail.js";
 import EditPost from "./pages/EditPost/EditPost.js";
 import EditPassword from "./pages/EditPassword/EditPassword.js";
 
-import { initRouter } from "./core/Router.js";
-
 export default class App extends Component {
   setup() {
-    this.$state = { path: window.location.pathname };
+    this.$state = {};
   }
 
   template() {
@@ -32,10 +30,6 @@ export default class App extends Component {
 
     const renderPage = () => {
       const currentPath = window.location.pathname;
-
-      if (this.$state.path !== currentPath) {
-        this.setState({ path: currentPath });
-      }
 
       // 이전 페이지 unmount
       if (this.currentPage && this.currentPage.unmount) {
@@ -75,7 +69,6 @@ export default class App extends Component {
       }
     };
     this.renderPage = renderPage;
-
     renderPage();
   }
 }
