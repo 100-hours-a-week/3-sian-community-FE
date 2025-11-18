@@ -1,9 +1,9 @@
-export function navigate(path) {
-  window.history.pushState({}, "", path);
-  window.dispatchEvent(new CustomEvent("navigate"));
-}
+let callback = null;
 
-export function initRouter(renderPage) {
-  window.addEventListener("popstate", renderPage);
-  window.addEventListener("navigate", renderPage);
+export function initRouter(cb) {
+  if (callback) return;
+  callback = cb;
+
+  window.addEventListener("popstate", callback);
+  window.addEventListener("navigate", callback);
 }

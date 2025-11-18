@@ -74,10 +74,8 @@ export default class App extends Component {
           this.currentPage = new Login($page);
       }
     };
+    this.renderPage = renderPage;
 
-    // 초기 렌더링
     renderPage();
-
-    initRouter(renderPage);
   }
 }
