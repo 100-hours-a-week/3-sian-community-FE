@@ -8,13 +8,14 @@ import {
   validatePasswordConfirm,
   validateNickname,
 } from "../../utils/validators.js";
+import { html } from "../../core/html.js";
 
 export default class Signup extends Component {
   template() {
-    return `
+    return html`
       <div class="page signup-page">
         <div class="title">회원가입</div>
-        
+
         <!-- 프로필 -->
         <div class="profile-section">
           <label for="profile-image" class="profile-label">프로필 사진</label>
@@ -30,8 +31,8 @@ export default class Signup extends Component {
         <div id="password-input"></div>
         <div id="password-confirm-input"></div>
         <div id="nickname-input"></div>
-        
-        <!-- 버튼 --> 
+
+        <!-- 버튼 -->
         <div id="submit-button"></div>
         <div class="link" id="login-link">로그인하러 가기</div>
       </div>

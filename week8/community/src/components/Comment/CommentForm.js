@@ -1,9 +1,10 @@
 import Component from "../../core/Component.js";
+import { html } from "../../core/html.js";
 import Button from "../Button/Button.js";
 
 export default class CommentForm extends Component {
   template() {
-    return `
+    return html`
       <form class="comment-form">
         <div class="comment-input-wrapper">
           <textarea

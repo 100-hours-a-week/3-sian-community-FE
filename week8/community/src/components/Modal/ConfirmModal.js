@@ -1,10 +1,11 @@
 import Component from "../../core/Component.js";
+import { html } from "../../core/html.js";
 import Button from "../Button/Button.js";
 
 export default class ConfirmModal extends Component {
   template() {
     const { title, message } = this.$props;
-    return `
+    return html`
       <div class="modal-overlay">
         <div class="modal-content">
           <h2 class="modal-title">${title}</h2>

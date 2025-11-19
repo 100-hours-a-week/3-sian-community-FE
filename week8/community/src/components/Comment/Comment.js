@@ -1,4 +1,5 @@
 import Component from "../../core/Component.js";
+import { html } from "../../core/html.js";
 import ConfirmModal from "../Modal/ConfirmModal.js";
 import ProfileImage from "../ProfileImage/ProfileImage.js";
 
@@ -14,7 +15,7 @@ export default class Comment extends Component {
     const { author, date } = this.$props;
     const { isEditing, editedContent } = this.$state;
 
-    return `
+    return html`
       <div class="comment-item">
         <div class="comment-left">
           <div class="comment-author-info">
@@ -24,11 +25,10 @@ export default class Comment extends Component {
               <span class="comment-date">${date}</span>
             </div>
           </div>
-          ${
-            isEditing
-              ? `
+          ${isEditing
+            ? html`
                 <div class="comment-edit-wrapper">
-                  <textarea 
+                  <textarea
                     class="comment-edit-input"
                     placeholder="${editedContent}"
                   ></textarea>
@@ -38,20 +38,17 @@ export default class Comment extends Component {
                   </div>
                 </div>
               `
-              : `<div class="comment-content">${editedContent}</div>`
-          }
+            : html`<div class="comment-content">${editedContent}</div>`}
         </div>
         <div class="comment-right">
-          ${
-            !isEditing
-              ? `
+          ${!isEditing
+            ? html`
                 <button class="comment-btn edit">수정</button>
                 <button class="comment-btn delete">삭제</button>
               `
-              : ""
-          }
+            : html``}
         </div>
-        <div id="modal-root"></div> 
+        <div id="modal-root"></div>
       </div>
     `;
   }

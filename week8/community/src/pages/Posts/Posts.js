@@ -2,23 +2,28 @@ import Component from "../../core/Component.js";
 import Button from "../../components/Button/Button.js";
 import PostCard from "../../components/PostCard/PostCard.js";
 import { apiFetch } from "../../core/apiFetch.js";
+import { html } from "../../core/html.js";
 
 export default class Posts extends Component {
+  setup() {
+    this.$state = {
+      posts: [],
+    };
+  }
+
   template() {
-    return `
-      <div class="page posts-page">
-          <p class="posts-intro">
-            안녕하세요,<br />
-            <strong>아무 말 대잔치 게시판</strong> 입니다.
-          </p>
+    return html`<div class="page posts-page">
+      <p class="posts-intro">
+        안녕하세요,<br />
+        <strong>아무 말 대잔치 게시판</strong> 입니다.
+      </p>
 
-          <div class="button-row">
-            <div id="write-button"></div>
-          </div>
-
-        <div class="post-list"></div>
+      <div class="button-row">
+        <div id="write-button"></div>
       </div>
-    `;
+
+      <div class="post-list"></div>
+    </div>`;
   }
 
   async mounted() {

@@ -1,4 +1,5 @@
 import Component from "../../core/Component.js";
+import { html } from "../../core/html.js";
 
 export default class ProfileImage extends Component {
   setup() {
@@ -21,15 +22,6 @@ export default class ProfileImage extends Component {
       border-radius: ${rounded ? "50%" : "8px"};
     `;
 
-    return `
-      <div 
-        class="profile-image-component"
-        style="${style}"
-      ></div>
-    `;
-  }
-
-  updateImage(newUrl) {
-    this.setState({ imageUrl: newUrl });
+    return html` <div class="profile-image-component" style="${style}"></div> `;
   }
 }

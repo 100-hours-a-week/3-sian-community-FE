@@ -2,16 +2,19 @@ import Component from "../../core/Component.js";
 import Button from "../../components/Button/Button.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import { validateTitle, validateContent } from "../../utils/validators.js";
+import { html } from "../../core/html.js";
 
 export default class WritePost extends Component {
   template() {
-    return `
+    return html`
       <div class="page write-post-page">
         <h1 class="write-post-title">게시글 작성</h1>
 
         <form class="write-post-form" id="write-form">
           <div class="form-group">
-            <label for="title" class="form-label">제목<span class="required">*</span></label>
+            <label for="title" class="form-label"
+              >제목<span class="required">*</span></label
+            >
             <input
               type="text"
               id="title"
@@ -24,7 +27,9 @@ export default class WritePost extends Component {
           </div>
 
           <div class="form-group">
-            <label for="content" class="form-label">내용<span class="required">*</span></label>
+            <label for="content" class="form-label"
+              >내용<span class="required">*</span></label
+            >
             <textarea
               id="content"
               name="content"

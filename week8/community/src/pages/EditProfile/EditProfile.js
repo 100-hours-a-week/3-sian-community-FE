@@ -5,10 +5,11 @@ import ConfirmModal from "../../components/Modal/ConfirmModal.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import Toast from "../../components/Toast/Toast.js";
 import { validateNickname } from "../../utils/validators.js";
+import { html } from "../../core/html.js";
 
 export default class EditProfile extends Component {
   template() {
-    return `
+    return html`
       <div class="page edit-profile-page">
         <div class="title">회원정보수정</div>
 

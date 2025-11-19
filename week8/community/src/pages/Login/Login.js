@@ -2,19 +2,24 @@ import Component from "../../core/Component.js";
 import Input from "../../components/Input/Input.js";
 import Button from "../../components/Button/Button.js";
 import { apiFetch } from "../../core/apiFetch.js";
-import { validateEmail, validatePassword } from "../../utils/validators.js";
+import { validateEmail } from "../../utils/validators.js";
+import { html } from "../../core/html.js";
 
 export default class Login extends Component {
+  setup() {
+    this.$state = {
+      email: "",
+      password: "",
+    };
+  }
   template() {
-    return `
-          <div class="page login-page">
-              <div class="title">로그인</div>
-              <div id="email-input"></div>
-              <div id="password-input"></div>
-              <div id="submit-button"></div>
-              <div class="link" id="signup-link">회원가입</div>
-          </div>
-          `;
+    return html`<div class="page login-page">
+      <div class="title">로그인</div>
+      <div id="email-input"></div>
+      <div id="password-input"></div>
+      <div id="submit-button"></div>
+      <div class="link" id="signup-link">회원가입</div>
+    </div>`;
   }
 
   mounted() {

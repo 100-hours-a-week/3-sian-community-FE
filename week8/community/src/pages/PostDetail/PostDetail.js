@@ -4,26 +4,27 @@ import CommentItem from "../../components/Comment/Comment.js";
 import ConfirmModal from "../../components/Modal/ConfirmModal.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import ProfileImage from "../../components/ProfileImage/ProfileImage.js";
+import { html } from "../../core/html.js";
 
 export default class PostDetail extends Component {
   template() {
-    return `
-        <div class="post-page">
+    return html`
+      <div class="post-page">
         <div class="post-header">
-            <h1 class="post-title"></h1>
+          <h1 class="post-title"></h1>
 
-            <div class="post-meta">
-                <div class="post-author-info">
-                <div class="author-image"></div>
-                <span class="author-name"></span>
-                <span class="post-date"></span>
-                </div>
-
-                <div class="post-actions">
-                <button class="edit-btn">수정</button>
-                <button class="delete-btn">삭제</button>
-                </div>
+          <div class="post-meta">
+            <div class="post-author-info">
+              <div class="author-image"></div>
+              <span class="author-name"></span>
+              <span class="post-date"></span>
             </div>
+
+            <div class="post-actions">
+              <button class="edit-btn">수정</button>
+              <button class="delete-btn">삭제</button>
+            </div>
+          </div>
         </div>
 
         <hr class="post-divider" />
@@ -33,15 +34,21 @@ export default class PostDetail extends Component {
         <div class="post-content"></div>
 
         <div class="post-stats">
-          <div class="stat like-stat"><strong class="like-count">0</strong><span>좋아요수</span></div>
-          <div class="stat"><strong class="view-count">0</strong><span>조회수</span></div>
-          <div class="stat"><strong class="comment-count">0</strong><span>댓글</span></div>
+          <div class="stat like-stat">
+            <strong class="like-count">0</strong><span>좋아요수</span>
+          </div>
+          <div class="stat">
+            <strong class="view-count">0</strong><span>조회수</span>
+          </div>
+          <div class="stat">
+            <strong class="comment-count">0</strong><span>댓글</span>
+          </div>
         </div>
 
         <div id="comment-form"></div>
         <div id="comment-list"></div>
         <div id="modal-root"></div>
-        </div>
+      </div>
     `;
   }
 
@@ -193,7 +200,6 @@ export default class PostDetail extends Component {
     };
 
     const renderCommentItem = (comment) => {
-      console.log("comment item: ", comment);
       const $div = document.createElement("div");
       new CommentItem($div, {
         id: comment.id,

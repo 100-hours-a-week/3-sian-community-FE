@@ -8,6 +8,8 @@ import WritePost from "./pages/EditPost/WritePost.js";
 import PostDetail from "./pages/PostDetail/PostDetail.js";
 import EditPost from "./pages/EditPost/EditPost.js";
 import EditPassword from "./pages/EditPassword/EditPassword.js";
+import { html } from "./core/html.js";
+import { initRouter } from "./core/Router.js";
 
 export default class App extends Component {
   setup() {
@@ -15,15 +17,16 @@ export default class App extends Component {
   }
 
   template() {
-    return `
-      <div id="layout-header"></div>
-      <main id="page"></main>
+    return html`
+      <div class="app-root">
+        <div id="layout-header"></div>
+        <main id="page"></main>
+      </div>
     `;
   }
-
   mounted() {
-    const $header = document.querySelector("#layout-header");
-    const $page = document.querySelector("#page");
+    const $header = this.$target.querySelector("#layout-header");
+    const $page = this.$target.querySelector("#page");
 
     new Header($header);
     this.currentPage = null;
@@ -70,5 +73,7 @@ export default class App extends Component {
     };
     this.renderPage = renderPage;
     renderPage();
+
+    initRouter(() => this.renderPage());
   }
 }

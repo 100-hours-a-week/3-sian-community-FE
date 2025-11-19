@@ -1,5 +1,5 @@
 import Component from "../../core/Component.js";
-
+import { html } from "../../core/html.js";
 export default class Input extends Component {
   setup() {
     this.$state = {
@@ -9,18 +9,18 @@ export default class Input extends Component {
   template() {
     const { label, name, type = "text", placeholder } = this.$props;
 
-    return `
-            <div class="Input__wrapper">
-                <lable class="Input__label" for="${name}">${label}</lable>
-                <input 
-                    type="${type}" 
-                    class="Input__field"
-                    id="${name}"
-                    name="${name}"    
-                    placeholder="${placeholder}"
-                />
-                <p class="error"></p>
-            </div>
+    return html`
+      <div class="Input__wrapper">
+        <lable class="Input__label" for="${name}">${label}</lable>
+        <input
+          type="${type}"
+          class="Input__field"
+          id="${name}"
+          name="${name}"
+          placeholder="${placeholder}"
+        />
+        <p class="error"></p>
+      </div>
     `;
   }
 

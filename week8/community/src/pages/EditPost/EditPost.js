@@ -1,10 +1,11 @@
 import Component from "../../core/Component.js";
 import Button from "../../components/Button/Button.js";
 import { apiFetch } from "../../core/apiFetch.js";
+import { html } from "../../core/html.js";
 
 export default class EditPost extends Component {
   template() {
-    return `
+    return html`
       <div class="page edit-post-page">
         <h1 class="edit-post-title">게시글 수정</h1>
 

@@ -1,10 +1,9 @@
 import Component from "../../core/Component.js";
+import { html } from "../../core/html.js";
 
 export default class Toast extends Component {
   template() {
-    return `
-      <div class="toast-message" id="toast-message"></div>
-    `;
+    return html` <div class="toast-message" id="toast-message"></div> `;
   }
 
   show(message, type = "success") {

@@ -2,10 +2,11 @@ import Component from "../../core/Component.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import Toast from "../Toast/Toast.js";
 import ProfileImage from "../ProfileImage/ProfileImage.js";
+import { html } from "../../core/html.js";
 
 export default class Header extends Component {
   template() {
-    return `
+    return html`
       <header class="layout-header">
         <div class="header__items-container">
           <div class="back-button" id="back-button">
@@ -14,12 +15,12 @@ export default class Header extends Component {
           <div class="header-title">아무 말 대잔치</div>
           <div class="header-author-image"></div>
           <div class="header__dropdown" id="dropdown-menu">
-              <ul>
-                <li data-action="edit-profile">회원정보수정</li>
-                <li data-action="edit-password">비밀번호수정</li>
-                <li data-action="logout">로그아웃</li>
-              </ul>
-            </div>
+            <ul>
+              <li data-action="edit-profile">회원정보수정</li>
+              <li data-action="edit-password">비밀번호수정</li>
+              <li data-action="logout">로그아웃</li>
+            </ul>
+          </div>
         </div>
         <div class="toast-root"></div>
       </header>

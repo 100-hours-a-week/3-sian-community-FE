@@ -1,31 +1,32 @@
 import Component from "../../core/Component.js";
+import { html } from "../../core/html.js";
 import ProfileImage from "../ProfileImage/ProfileImage.js";
 
 export default class PostCard extends Component {
   template() {
     const { id, title, likes, comments, views, date, author, authorImage } =
       this.$props;
-    return `
-    <div class="postcard-item" data-id="${id}">
-      <div class="postcard-top">
-        <div class="postcard-title">${title}</div>
-        <div class="postcard-info-section">
-          <div class="postcard-info">
-            <span>좋아요 ${likes}</span>
-            <span>댓글 ${comments}</span>
-            <span>조회수 ${views}</span>
+    return html`
+      <div class="postcard-item" data-id="${id}">
+        <div class="postcard-top">
+          <div class="postcard-title">${title}</div>
+          <div class="postcard-info-section">
+            <div class="postcard-info">
+              <span>좋아요 ${likes}</span>
+              <span>댓글 ${comments}</span>
+              <span>조회수 ${views}</span>
+            </div>
+            <div class="postcard-date">${date}</div>
           </div>
-          <div class="postcard-date">${date}</div>
+        </div>
+
+        <hr class="postcard-divider" />
+
+        <div class="postcard-author">
+          <div class="author-image"></div>
+          <div class="author-name">${author}</div>
         </div>
       </div>
-
-      <hr class="postcard-divider" />
-
-      <div class="postcard-author">
-        <div class="author-image"></div>
-        <div class="author-name">${author}</div>
-      </div>
-    </div>
     `;
   }
 

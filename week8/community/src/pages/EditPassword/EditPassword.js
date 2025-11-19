@@ -6,10 +6,11 @@ import {
   validatePassword,
   validatePasswordConfirm,
 } from "../../utils/validators.js";
+import { html } from "../../core/html.js";
 
 export default class PasswordEdit extends Component {
   template() {
-    return `
+    return html`
       <div class="page password-edit-page">
         <h1 class="title">비밀번호 수정</h1>
 
