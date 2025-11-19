@@ -11,7 +11,7 @@ export default class Input extends Component {
 
     return html`
       <div class="Input__wrapper">
-        <lable class="Input__label" for="${name}">${label}</lable>
+        <label class="Input__label" for="${name}">${label}</label>
         <input
           type="${type}"
           class="Input__field"

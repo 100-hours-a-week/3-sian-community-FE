@@ -54,6 +54,7 @@ export default class Signup extends Component {
 
     let email = "";
     let password = "";
+    let passwordConfirm = "";
     let nickname = "";
     let profileImage = "";
 
@@ -115,15 +116,15 @@ export default class Signup extends Component {
         // 비밀번호 바뀌면 비밀번호 확인 재검사
         if (this.confirmInputComp) {
           const confirmResult = validatePasswordConfirm(
-            this.password,
-            this.confirm
+            password,
+            passwordConfirm
           );
           if (!confirmResult.ok) {
             this.confirmInputComp.setError(confirmResult.message);
-            this.confirmValid = false;
+            passwordConfirmValid = false;
           } else {
             this.confirmInputComp.clearError();
-            this.confirmValid = true;
+            passwordConfirmValid = true;
           }
         }
 

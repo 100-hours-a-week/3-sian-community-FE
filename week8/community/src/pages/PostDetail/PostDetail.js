@@ -77,6 +77,7 @@ export default class PostDetail extends Component {
 
     // 게시글 조회
     let post;
+
     try {
       const res = await apiFetch(`/posts/${postId}`, { method: "GET" });
       post = res.data;
@@ -154,6 +155,12 @@ export default class PostDetail extends Component {
         console.error("좋아요 토글 실패:", err);
       }
     });
+
+    // 게시글 수정/삭제 버튼 작성자에게만 보이기
+    if (!post.isAuthor) {
+      $editBtn.style.display = "none";
+      $deleteBtn.style.display = "none";
+    }
 
     // 게시글 수정
     $editBtn.addEventListener("click", () => {
