@@ -117,6 +117,8 @@ export default class PasswordEdit extends Component {
           comp.clearError();
           this.confirmValid = true;
         }
+
+        updateButtonState();
       },
     });
 
