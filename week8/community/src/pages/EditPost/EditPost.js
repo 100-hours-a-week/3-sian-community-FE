@@ -2,6 +2,7 @@ import Component from "../../core/Component.js";
 import Button from "../../components/Button/Button.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import { html } from "../../core/html.js";
+import { validateContent, validateTitle } from "../../utils/validators.js";
 
 export default class EditPost extends Component {
   template() {
@@ -13,11 +14,13 @@ export default class EditPost extends Component {
           <div class="form-group">
             <label for="title" class="form-label">제목</label>
             <input type="text" id="title" class="form-input" maxlength="26" />
+            <p class="error"></p>
           </div>
 
           <div class="form-group">
             <label for="content" class="form-label">내용</label>
             <textarea id="content" rows="8" class="form-textarea"></textarea>
+            <p class="error"></p>
           </div>
 
           <div class="form-group">
@@ -41,6 +44,7 @@ export default class EditPost extends Component {
     const $imageInput = this.$target.querySelector("#image");
     const $submit = this.$target.querySelector("#submit-button");
     const $fileName = this.$target.querySelector("#current-file-name");
+    const $error = this.$target.querySelector(".error");
 
     const postId = window.location.pathname.split("/").pop();
     let selectedFile = null;
