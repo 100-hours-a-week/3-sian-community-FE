@@ -22,6 +22,10 @@ export default class ProfileImage extends Component {
       border-radius: ${rounded ? "50%" : "8px"};
     `;
 
-    return html` <div class="profile-image-component" style="${style}"></div> `;
+    return html`<div class="profile-image-component" style="${style}"></div>`;
+  }
+
+  updateImage(newUrl) {
+    this.setState({ imageUrl: newUrl });
   }
 }

@@ -76,6 +76,17 @@ export default class Header extends Component {
     const $profileArea = this.$target.querySelector(".header-author-image");
     const user = JSON.parse(localStorage.getItem("user"));
 
+    // 프로필 인스턴스 저장
+    this.profileImageComp = new ProfileImage($profileArea, {
+      imageUrl: user?.profileImageUrl,
+    });
+
+    // user-updated 이벤트 발생 -> 이미지 갱신
+    window.addEventListener("user-updated", () => {
+      const latest = JSON.parse(localStorage.getItem("user"));
+      this.profileImageComp.updateImage(latest?.profileImageUrl || null);
+    });
+
     new ProfileImage($profileArea, {
       imageUrl: user?.profileImageUrl,
     });

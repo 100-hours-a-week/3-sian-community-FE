@@ -17,19 +17,10 @@ export default class App extends Component {
   }
 
   template() {
-    return html`
-      <div class="app-root">
-        <div id="layout-header"></div>
-        <main id="page"></main>
-      </div>
-    `;
+    return html` <main id="page"></main> `;
   }
   mounted() {
-    const $header = this.$target.querySelector("#layout-header");
     const $page = this.$target.querySelector("#page");
-
-    new Header($header);
-    this.currentPage = null;
 
     const renderPage = () => {
       const currentPath = window.location.pathname;
