@@ -22,7 +22,7 @@ export default class EditProfile extends Component {
             <div class="profile-preview" id="profile-preview"></div>
             <div class="profile-options" id="profile-options">
               <div class="option change">프로필 변경</div>
-              <div class="option delete">프로필 삭제</div>
+              <div class="option option-delete">프로필 삭제</div>
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@ export default class EditProfile extends Component {
 
     // 프로필 이미지
     const profileImageComponent = new ProfileImage($profilePreview, {
-      imageUrl: user.profileImage || "",
+      imageUrl: user.profileImageUrl ?? null,
       size: 149,
       rounded: true,
     });
@@ -119,11 +119,13 @@ export default class EditProfile extends Component {
     });
 
     // 옵션 2 : 프로필 삭제
-    $profileOptions.querySelector(".delete").addEventListener("click", () => {
-      profileImageComponent.resetImage();
-      selectedFile = null;
-      profileDeleted = true;
-    });
+    $profileOptions
+      .querySelector(".option-delete")
+      .addEventListener("click", () => {
+        profileImageComponent.resetImage();
+        selectedFile = null;
+        profileDeleted = true;
+      });
 
     // 옵션 닫기
     document.addEventListener("click", (e) => {
