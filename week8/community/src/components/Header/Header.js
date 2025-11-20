@@ -87,10 +87,6 @@ export default class Header extends Component {
       this.profileImageComp.updateImage(latest?.profileImageUrl || null);
     });
 
-    new ProfileImage($profileArea, {
-      imageUrl: user?.profileImageUrl,
-    });
-
     const toggleProfileImage = () => {
       const currentPath = window.location.pathname;
 
