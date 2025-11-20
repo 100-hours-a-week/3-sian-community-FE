@@ -6,6 +6,7 @@ import { apiFetch } from "../../core/apiFetch.js";
 import Toast from "../../components/Toast/Toast.js";
 import { validateNickname } from "../../utils/validators.js";
 import { html } from "../../core/html.js";
+import ProfileImage from "../../components/ProfileImage/ProfileImage.js";
 
 export default class EditProfile extends Component {
   template() {
@@ -15,12 +16,14 @@ export default class EditProfile extends Component {
 
         <!-- 프로필 -->
         <div class="profile-section">
-          <label for="profile-image" class="profile-label">프로필 사진</label>
-          <p class="helper-text"></p>
-
+          <p class="error"></p>
           <div class="profile-upload">
             <input type="file" id="profile-image" accept="image/*" hidden />
             <div class="profile-preview" id="profile-preview"></div>
+            <div class="profile-options" id="profile-options">
+              <div class="option change">프로필 변경</div>
+              <div class="option delete">프로필 삭제</div>
+            </div>
           </div>
         </div>
 
@@ -46,23 +49,19 @@ export default class EditProfile extends Component {
     const user = JSON.parse(localStorage.getItem("user"));
 
     const $nicknameInput = this.$target.querySelector("#nickname-input");
-    const $profileInput = this.$target.querySelector("#profile-image");
-    const $profilePreview = this.$target.querySelector("#profile-preview");
     const $emailField = this.$target.querySelector(".readonly-email");
     const $updateBtn = this.$target.querySelector("#update-btn");
     const $toastRoot = this.$target.querySelector("#toast-root");
+    const $profilePreview = this.$target.querySelector("#profile-preview");
+    const $profileInput = this.$target.querySelector("#profile-image");
+    const $profileOptions = this.$target.querySelector("#profile-options");
 
     const toast = new Toast($toastRoot);
 
     let nicknameValid = true;
     let nicknameValue = user.nickname;
     let selectedFile = null;
-
-    if (user.profileImageUrl) {
-      $profilePreview.style.backgroundImage = `url(${user.profileImageUrl})`;
-      $profilePreview.style.backgroundSize = "cover";
-      $profilePreview.style.backgroundPosition = "center";
-    }
+    let profileDeleted = false;
 
     $emailField.textContent = user.email;
 
@@ -86,7 +85,25 @@ export default class EditProfile extends Component {
       },
     });
 
-    $profilePreview.addEventListener("click", () => $profileInput.click());
+    // 프로필 이미지
+    const profileImageComponent = new ProfileImage($profilePreview, {
+      imageUrl: user.profileImage || "",
+      size: 149,
+      rounded: true,
+    });
+
+    // 드롭다운 옵션 : 프로필 변경/삭제
+    $profilePreview.addEventListener("click", (e) => {
+      e.stopPropagation();
+      $profileOptions.style.display =
+        $profileOptions.style.display === "block" ? "none" : "block";
+    });
+
+    // 옵션 1 : 프로필 변경
+    $profileOptions.querySelector(".change").addEventListener("click", () => {
+      $profileInput.click();
+      $profileOptions.style.display = "none";
+    });
 
     $profileInput.addEventListener("change", (e) => {
       const file = e.target.files[0];
@@ -96,13 +113,29 @@ export default class EditProfile extends Component {
 
       const reader = new FileReader();
       reader.onload = () => {
-        $profilePreview.style.backgroundImage = `url(${reader.result})`;
-        $profilePreview.style.backgroundSize = "cover";
-        $profilePreview.style.backgroundPosition = "center";
+        profileImageComponent.updateImage(reader.result);
       };
       reader.readAsDataURL(file);
     });
 
+    // 옵션 2 : 프로필 삭제
+    $profileOptions.querySelector(".delete").addEventListener("click", () => {
+      profileImageComponent.resetImage();
+      selectedFile = null;
+      profileDeleted = true;
+    });
+
+    // 옵션 닫기
+    document.addEventListener("click", (e) => {
+      if (
+        !$profilePreview.contains(e.target) &&
+        !$profileOptions.contains(e.target)
+      ) {
+        $profileOptions.style.display = "none";
+      }
+    });
+
+    // DB에 반영
     const updateButton = new Button($updateBtn, {
       text: "수정하기",
       disabled: false,
@@ -118,6 +151,8 @@ export default class EditProfile extends Component {
       if (selectedFile) {
         formData.append("image", selectedFile);
       }
+
+      formData.append("profileDeleted", profileDeleted);
 
       try {
         const res = await apiFetch(`/users/me`, {

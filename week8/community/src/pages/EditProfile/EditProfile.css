@@ -55,6 +55,32 @@
   background-color: #cfcfcf;
 }
 
+.profile-options {
+  position: absolute;
+  top: 160px; /* 프로필 이미지 아래에 맞게 조정 */
+  width: 140px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: none;
+  z-index: 10;
+}
+
+.profile-options .option {
+  padding: 10px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.profile-options .option:hover {
+  background: #f4f4f4;
+}
+
+.profile-options .delete {
+  color: #d9534f;
+}
+
 .form-group {
   margin-bottom: 20px;
 }
