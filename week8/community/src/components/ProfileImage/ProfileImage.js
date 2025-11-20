@@ -1,6 +1,8 @@
 import Component from "../../core/Component.js";
 import { html } from "../../core/html.js";
 export default class ProfileImage extends Component {
+  defaultProfile = "/src/assets/profile-image.png";
+
   setup() {
     this.$state = {
       imageUrl: this.$props.imageUrl || null,
@@ -11,13 +13,10 @@ export default class ProfileImage extends Component {
 
   template() {
     const { imageUrl, size, rounded } = this.$state;
-
-    const defaultProfile = "/src/assets/profile-image.png";
-
     const style = `
       width: ${size}px;
       height: ${size}px;
-      background-image: url('${imageUrl || defaultProfile}');
+      background-image: url('${imageUrl || this.defaultProfile}');
       background-size: cover;
       background-position: center;
       border-radius: ${rounded ? "50%" : "8px"};
@@ -31,6 +30,6 @@ export default class ProfileImage extends Component {
   }
 
   resetImage() {
-    this.setState({ imageUrl: defaultProfile });
+    this.setState({ imageUrl: this.defaultProfile });
   }
 }
