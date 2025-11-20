@@ -7,11 +7,10 @@ export default class Input extends Component {
     };
   }
   template() {
-    const { label, name, type = "text", placeholder } = this.$props;
+    const { name, type = "text", placeholder } = this.$props;
 
     return html`
       <div class="Input__wrapper">
-        <label class="Input__label" for="${name}">${label}</label>
         <input
           type="${type}"
           class="Input__field"
