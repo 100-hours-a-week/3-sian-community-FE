@@ -1,4 +1,5 @@
-@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+@import url("https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css");
+@import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
 @import "./reset.css";
 @import "./src/components/Button/Button.css";
 @import "./src/components/Input/Input.css";
@@ -16,9 +17,31 @@
 @import "./src/pages/EditPassword/EditPassword.css";
 @import "./src/components/ProfileImage/ProfileImage.css";
 
+@font-face {
+  font-family: "Cafe24ProUp";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2507-1@1.0/Cafe24PROUP.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Galmuri11";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2506-1@1.0/Galmuri11-Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --color-bg: #fdfdfd;
+  --color-text: #111;
+  --color-accent: #ff4040;
+}
+
 body {
   margin: 0;
-  background-color: #f4f5f7;
+  background-color: var(--color-bg);
 }
 
 main {
@@ -35,9 +58,7 @@ main {
 }
 
 .title {
-  font-family: "Pretendard", sans-serif;
-  font-weight: 700;
-  font-style: bold;
+  font-family: "Galmuri11";
   font-size: 32px;
   margin-bottom: 50px;
 }
