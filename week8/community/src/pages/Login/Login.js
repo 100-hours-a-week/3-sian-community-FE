@@ -18,7 +18,7 @@ export default class Login extends Component {
       <div id="email-input"></div>
       <div id="password-input"></div>
       <div id="submit-button"></div>
-      <div class="link" id="signup-link">회원가입</div>
+      <div class="link" id="signup-link">브레멘 회원가입</div>
     </div>`;
   }
 
@@ -45,7 +45,6 @@ export default class Login extends Component {
     };
 
     new Input($emailInput, {
-      label: "이메일",
       name: "email",
       type: "email",
       placeholder: "이메일을 입력해주세요",
@@ -66,7 +65,6 @@ export default class Login extends Component {
     });
 
     new Input($passwordInput, {
-      label: "비밀번호",
       name: "password",
       type: "password",
       placeholder: "비밀번호를 입력해주세요",
