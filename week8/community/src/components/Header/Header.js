@@ -12,7 +12,7 @@ export default class Header extends Component {
           <div class="back-button" id="back-button">
             <img src="/src/assets/back-icon.png" alt="뒤로가기" />
           </div>
-          <div class="header-title">아무 말 대잔치</div>
+          <div class="header-title">Bremen</div>
           <div class="header-author-image"></div>
           <div class="header__dropdown" id="dropdown-menu">
             <ul>
