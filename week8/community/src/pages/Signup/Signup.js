@@ -58,6 +58,8 @@ export default class Signup extends Component {
     let nickname = "";
     let profileImage = "";
 
+    let selectedFile = null;
+
     let emailValid = false;
     let passwordValid = false;
     let passwordConfirmValid = false;
@@ -185,15 +187,14 @@ export default class Signup extends Component {
     $profilePreview.addEventListener("click", () => $profileInput.click());
 
     $profileInput.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
+      selectedFile = e.target.files[0];
+      if (!selectedFile) return;
 
       const reader = new FileReader();
       reader.onload = () => {
         profileImageComponent.updateImage(reader.result);
-        profileImage = reader.result;
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(selectedFile);
     });
 
     // 엔터 입력
@@ -221,10 +222,20 @@ export default class Signup extends Component {
 
     // 회원가입 요청
     $submitButton.addEventListener("click", async () => {
+      // form data로 변경
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("nickname", nickname);
+
+      if (selectedFile) {
+        formData.append("image", selectedFile);
+      }
+
       try {
         const res = await apiFetch("/users", {
           method: "POST",
-          body: JSON.stringify({ email, password, nickname, profileImage }),
+          body: formData,
         });
 
         window.history.pushState(null, null, "/login");
