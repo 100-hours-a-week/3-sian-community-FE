@@ -155,5 +155,34 @@ export default class Header extends Component {
           break;
       }
     });
+
+    window.addEventListener("navigate", () => this.updateHeaderState());
+    window.addEventListener("popstate", () => this.updateHeaderState());
+  }
+
+  updateHeaderState() {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    // 프로필 이미지 갱신
+    this.profileImageComp.updateImage(user?.profileImageUrl || null);
+
+    // back 버튼 업데이트
+    const currentPath = window.location.pathname;
+    const $backButton = this.$target.querySelector("#back-button");
+
+    if (["/", "/login", "/signup", "/posts"].includes(currentPath)) {
+      $backButton.style.display = "none";
+    } else {
+      $backButton.style.display = "flex";
+    }
+
+    // 프로필 표시 여부
+    const $profileArea = this.$target.querySelector(".header-author-image");
+
+    if (["/", "/login", "/signup"].includes(currentPath)) {
+      $profileArea.style.display = "none";
+    } else {
+      $profileArea.style.display = "flex";
+    }
   }
 }
