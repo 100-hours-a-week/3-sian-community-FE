@@ -44,7 +44,7 @@ export default class Comment extends Component {
           ${!isEditing
             ? html`
                 <button class="comment-btn edit">수정</button>
-                <button class="comment-btn delete">삭제</button>
+                <button class="comment-btn comment-delete">삭제</button>
               `
             : html``}
         </div>
@@ -59,7 +59,9 @@ export default class Comment extends Component {
     const $authorImage = this.$target.querySelector(".author-image");
 
     const $editBtn = this.$target.querySelector(".comment-btn.edit");
-    const $deleteBtn = this.$target.querySelector(".comment-btn.delete");
+    const $deleteBtn = this.$target.querySelector(
+      ".comment-btn.comment-delete"
+    );
 
     new ProfileImage($authorImage, {
       imageUrl: this.$props.authorImage,

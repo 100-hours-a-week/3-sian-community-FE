@@ -154,7 +154,7 @@ export default class EditProfile extends Component {
         formData.append("image", selectedFile);
       }
 
-      formData.append("profileDeleted", profileDeleted);
+      formData.append("profileDeleted", String(profileDeleted));
 
       try {
         const res = await apiFetch(`/users/me`, {
