@@ -1,21 +1,50 @@
 .postcard-item {
   width: 592px;
-  background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   cursor: pointer;
+  border-bottom: solid 1px #e0e0e0;
+  border-top: solid 1px #e0e0e0;
   transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .postcard-title {
-  font-size: 24px;
-  font-weight: 700;
+  font-family: "Galmuri11";
+  font-size: 16px;
+  font-weight: 500;
   color: #000;
   margin-bottom: 8px;
+}
+
+.postcard-filter-section {
+  display: flex;
+  gap: 5px;
+}
+
+.postcard-filter {
+  font-family: "Galmuri11";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  width: 50px;
+  height: 20px;
+  font-size: 11px;
+  color: #fff;
+}
+
+.postcard-filter.bass {
+  background-color: #734fd0;
+}
+
+.postcard-filter.vocal {
+  background-color: #eab30f;
+}
+
+.postcard-filter.region {
+  background-color: #5d5d5d;
 }
 
 .postcard-info-section {
@@ -24,32 +53,35 @@
   align-items: center;
 }
 
-.postcard-info {
+.postcard-info.left {
   display: flex;
+  gap: 7px;
+  font-size: 13px;
+  color: #4f4f4f;
+}
+
+.postcard-info.right {
+  display: flex;
+  align-items: center;
   gap: 14px;
-  font-size: 14px;
+  font-size: 13px;
   color: #000;
 }
 
 .postcard-date {
-  font-size: 14px;
-  color: #000;
-}
-
-.postcard-divider {
-  border: none;
-  border-top: 1px solid #e0e0e0;
-  margin: 0;
+  font-size: 13px;
+  color: #4f4f4f;
 }
 
 .postcard-author {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 10px;
 }
 
 .author-name {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 700;
-  color: #333;
+  color: #4f4f4f;
 }

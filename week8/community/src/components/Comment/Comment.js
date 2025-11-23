@@ -28,10 +28,10 @@ export default class Comment extends Component {
           ${isEditing
             ? html`
                 <div class="comment-edit-wrapper">
-                  <textarea
-                    class="comment-edit-input"
-                    placeholder="${editedContent}"
-                  ></textarea>
+                  <textarea class="comment-edit-input">
+                    ${editedContent}
+                  </textarea
+                  >
                   <div class="comment-edit-actions">
                     <button class="comment-save-btn">저장</button>
                     <button class="comment-cancel-btn">취소</button>
@@ -43,8 +43,10 @@ export default class Comment extends Component {
         <div class="comment-right">
           ${!isEditing
             ? html`
-                <button class="comment-btn edit">수정</button>
-                <button class="comment-btn comment-delete">삭제</button>
+                <div class="comment-btn-container">
+                  <button class="comment-btn edit">수정</button>
+                  <button class="comment-btn comment-delete">삭제</button>
+                </div>
               `
             : html``}
         </div>

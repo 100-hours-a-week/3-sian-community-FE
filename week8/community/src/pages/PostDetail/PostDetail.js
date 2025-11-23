@@ -10,39 +10,46 @@ export default class PostDetail extends Component {
   template() {
     return html`
       <div class="post-page">
-        <div class="post-header">
-          <h1 class="post-title"></h1>
+        <div class="post-container">
+          <div class="post-header">
+            <h1 class="post-title"></h1>
 
-          <div class="post-meta">
-            <div class="post-author-info">
-              <div class="author-image"></div>
-              <span class="author-name"></span>
-              <span class="post-date"></span>
+            <div class="post-meta">
+              <div class="post-author-info">
+                <div class="author-image"></div>
+                <span class="author-name"></span>
+              </div>
+
+              <!-- 드롭다운 메뉴 -->
+              <div class="post-actions">
+                <div class="post-menu-icon">⋮</div>
+                <div class="post-menu-dropdown">
+                  <div class="post-menu-item edit">수정하기</div>
+                  <div class="post-menu-item delete">삭제하기</div>
+                </div>
+              </div>
             </div>
+          </div>
 
-            <div class="post-actions">
-              <button class="edit-btn">수정</button>
-              <button class="delete-btn">삭제</button>
+          <hr class="post-divider" />
+          <div class="post-info">
+            <span class="post-date"></span>
+            <div class="post-stats">
+              <div class="stat like-stat">
+                <span>좋아요</span><strong class="like-count">0</strong>
+              </div>
+              <div class="stat">
+                <span>조회</span><strong class="view-count">0</strong>
+              </div>
+              <div class="stat">
+                <span>댓글</span><strong class="comment-count">0</strong>
+              </div>
             </div>
           </div>
-        </div>
 
-        <hr class="post-divider" />
+          <div class="post-image"></div>
 
-        <div class="post-image"></div>
-
-        <div class="post-content"></div>
-
-        <div class="post-stats">
-          <div class="stat like-stat">
-            <strong class="like-count">0</strong><span>좋아요수</span>
-          </div>
-          <div class="stat">
-            <strong class="view-count">0</strong><span>조회수</span>
-          </div>
-          <div class="stat">
-            <strong class="comment-count">0</strong><span>댓글</span>
-          </div>
+          <div class="post-content"></div>
         </div>
 
         <div id="comment-form"></div>
@@ -68,8 +75,10 @@ export default class PostDetail extends Component {
     const $viewCount = this.$target.querySelector(".view-count");
     const $commentCount = this.$target.querySelector(".comment-count");
 
-    const $editBtn = this.$target.querySelector(".edit-btn");
-    const $deleteBtn = this.$target.querySelector(".delete-btn");
+    const $menuIcon = this.$target.querySelector(".post-menu-icon");
+    const $dropdown = this.$target.querySelector(".post-menu-dropdown");
+    const $menuEdit = this.$target.querySelector(".post-menu-item.edit");
+    const $menuDelete = this.$target.querySelector(".post-menu-item.delete");
 
     const $modalRoot = this.$target.querySelector("#modal-root");
     const $commentList = this.$target.querySelector("#comment-list");
@@ -156,34 +165,43 @@ export default class PostDetail extends Component {
       }
     });
 
-    // 게시글 수정/삭제 버튼 작성자에게만 보이기
+    // 게시글 메뉴
     if (!post.isAuthor) {
-      $editBtn.style.display = "none";
-      $deleteBtn.style.display = "none";
+      $menuIcon.style.display = "none";
+    } else {
+      $menuIcon.style.display = "block";
     }
 
+    $menuIcon.addEventListener("click", (e) => {
+      e.stopPropagation();
+      $dropdown.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!$dropdown.contains(e.target) && e.target !== $menuIcon) {
+        $dropdown.classList.remove("show");
+      }
+    });
+
     // 게시글 수정
-    $editBtn.addEventListener("click", () => {
+    $menuEdit.addEventListener("click", () => {
       window.history.pushState(null, null, `/editPost/${postId}`);
       window.dispatchEvent(new CustomEvent("navigate"));
     });
 
     // 게시글 삭제
-    $deleteBtn.addEventListener("click", () => {
+    $menuDelete.addEventListener("click", () => {
       new ConfirmModal($modalRoot, {
-        title: "게시글을 삭제하시겠습니까?",
-        message: "삭제한 내용은 복구 할 수 없습니다.",
-        onCancel: () => {},
+        title: "게시글 삭제",
+        message: "삭제한 게시글은 복구되지 않아요!",
         onConfirm: async () => {
           try {
             await apiFetch(`/posts/${postId}`, { method: "DELETE" });
-
             alert("삭제되었습니다!");
             window.history.pushState(null, null, "/posts");
             window.dispatchEvent(new CustomEvent("navigate"));
           } catch (err) {
             console.error("삭제 실패:", err);
-            alert("게시글 삭제에 실패했습니다.");
           }
         },
       });

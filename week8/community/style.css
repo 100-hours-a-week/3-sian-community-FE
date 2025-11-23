@@ -16,19 +16,18 @@
 @import "./src/pages/EditProfile/EditProfile.css";
 @import "./src/pages/EditPassword/EditPassword.css";
 @import "./src/components/ProfileImage/ProfileImage.css";
+@import "./src/components/Filter/postFilter.css";
 
 @font-face {
   font-family: "Cafe24ProUp";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2507-1@1.0/Cafe24PROUP.woff2")
-    format("woff2");
+  src: url("/src/assets/fonts/Cafe24PROUP.woff2") format("woff2");
   font-weight: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: "Galmuri11";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2506-1@1.0/Galmuri11-Bold.woff2")
-    format("woff2");
+  src: url("/src/assets/fonts/Galmuri11.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }
@@ -54,7 +53,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 80px 0;
+  margin: 30px 0;
 }
 
 .title {

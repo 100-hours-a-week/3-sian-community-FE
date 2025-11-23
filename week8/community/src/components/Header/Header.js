@@ -14,6 +14,8 @@ export default class Header extends Component {
           </div>
           <div class="header-title">Bremen</div>
           <div class="header-author-image"></div>
+
+          <!-- 드롭다운 메뉴 -->
           <div class="header__dropdown" id="dropdown-menu">
             <ul>
               <li data-action="edit-profile">회원정보수정</li>

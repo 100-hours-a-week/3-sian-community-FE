@@ -4,13 +4,11 @@ import Button from "../Button/Button.js";
 
 export default class CommentForm extends Component {
   template() {
+    const initialValue = this.$props.initialValue || "";
     return html`
       <form class="comment-form">
         <div class="comment-input-wrapper">
-          <textarea
-            class="comment-input"
-            placeholder="댓글을 남겨주세요!"
-          ></textarea>
+          <textarea class="comment-input">${initialValue}</textarea>
           <div class="comment-divider"></div>
           <div class="comment-button" id="comment-button"></div>
         </div>

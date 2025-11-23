@@ -1,0 +1,134 @@
+.post-filter {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.filter-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* 지역 드롭다운 */
+.region-dropdown {
+  position: relative;
+}
+
+.region-toggle-btn {
+  border: none;
+  background: #fafafa;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.region-menu {
+  position: absolute;
+  top: 42px;
+  left: 0;
+  width: 100px;
+  max-height: 0;
+  overflow: hidden;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: max-height 0.2s ease;
+}
+
+.region-menu.open {
+  max-height: 220px; /*스크롤*/
+}
+
+.region-scroll {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.region-option {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.region-option:hover {
+  background: #ffecec;
+  color: #ff4040;
+}
+
+/* ===== 포지션 필터 ===== */
+.position-options {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pos-item {
+  width: 85px;
+  height: 85px;
+  border: none;
+  border-top: 2px solid #e3e3e3;
+  border-bottom: 2px solid #e3e3e3;
+  font-family: "Cafe24ProUp";
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.pos-item::after {
+  width: 85px;
+  height: 85px;
+  content: "";
+  position: absolute;
+  opacity: 0;
+  transition: all 0.2s ease;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.pos-item:hover::after {
+  opacity: 1;
+  transform: ease 0.1;
+}
+
+.pos-item:hover {
+  background-color: #fff4f4;
+  color: transparent;
+}
+
+.pos-item[data-pos="guitar"]::after {
+  background-image: url("/src/assets/pos-guitar.png");
+  width: 87px;
+  height: 87px;
+}
+
+.pos-item[data-pos="bass"]::after {
+  background-image: url("/src/assets/pos-bass.png");
+}
+
+.pos-item[data-pos="keyboard"]::after {
+  background-image: url("/src/assets/pos-keyboard.png");
+}
+
+.pos-item[data-pos="drum"]::after {
+  background-image: url("/src/assets/pos-drum.png");
+}
+
+.pos-item[data-pos="vocal"]::after {
+  background-image: url("/src/assets/pos-vocal.png");
+}
