@@ -51,7 +51,7 @@
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: #7b6ef6;
+  border-color: #ff4040;
 }
 
 .file-input {

@@ -6,6 +6,12 @@
   padding: 0;
 }
 
+.post-container {
+  background-color: #ffffff;
+
+  border-bottom: solid 1px #cecece;
+}
+
 .post-header {
   display: flex;
   flex-direction: column;
@@ -54,25 +60,43 @@
 }
 
 .post-actions {
-  display: flex;
-  gap: 10px;
+  position: relative;
 }
 
-.post-actions button {
-  background-color: transparent;
-  border: 1px solid #7b6ef6;
-  color: #000;
-  font-size: 15px;
-  font-weight: 400;
-  border-radius: 8px;
-  padding: 5px 12px;
+.post-menu-icon {
+  font-size: 24px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  padding: 8px;
 }
 
-.post-actions button:hover {
-  background-color: #7b6ef6;
-  color: #fff;
+.post-menu-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 32px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  width: 120px;
+  z-index: 20;
+}
+
+.post-menu-dropdown.show {
+  display: block;
+}
+
+.post-menu-item {
+  padding: 12px;
+  cursor: pointer;
+}
+
+.post-menu-item:hover {
+  background: #f4f4f4;
+}
+
+.post-menu-item.delete:hover {
+  background-color: #eba0a0;
+  border-radius: 0 0 8px 8px;
 }
 
 .post-divider {
@@ -82,6 +106,13 @@
   background-color: #ccc;
   border: none;
   margin: 10px auto;
+}
+
+.post-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
 }
 
 .detail-post-image {
@@ -106,38 +137,44 @@
   line-height: 1.6;
   color: #333;
   white-space: pre-wrap;
-  margin: -10px auto;
+  margin: 30px auto;
   padding: 0;
 }
 
 .post-stats {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
+  align-items: center;
+  gap: 5px;
 }
 
 .stat {
-  width: 116px;
-  height: 77px;
+  width: 100px;
+  height: 20px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #d9d9d9;
-  border-radius: 16px;
-  font-size: 16px;
-  font-weight: 700;
-  gap: 2px;
+  font-family: "Galmuri11";
+  font-size: 13px;
+  font-weight: 600;
+  border-right: solid 1px #777;
+  gap: 3px;
+}
+
+.stat span {
+  color: #777;
 }
 
 .stat strong {
-  font-size: 20px;
+  font-size: 12px;
   font-weight: 700;
-  margin-bottom: 4px;
+}
+
+.stat.like-stat {
+  cursor: pointer;
 }
 
 .stat.like-active {
-  background-color: #aca0eb;
+  color: #eba0a0;
   transition: 0.2s;
 }

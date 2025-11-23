@@ -2,6 +2,7 @@ import Component from "../../core/Component.js";
 import Input from "../../components/Input/Input.js";
 import Button from "../../components/Button/Button.js";
 import { apiFetch } from "../../core/apiFetch.js";
+import ProfileImage from "../../components/ProfileImage/ProfileImage.js";
 import {
   validateEmail,
   validatePassword,
@@ -18,11 +19,10 @@ export default class Signup extends Component {
 
         <!-- 프로필 -->
         <div class="profile-section">
-          <label for="profile-image" class="profile-label">프로필 사진</label>
           <p class="error"></p>
           <div class="profile-upload">
             <input type="file" id="profile-image" accept="image/*" hidden />
-            <div class="profile-preview" id="profile-preview">+</div>
+            <div class="profile-preview" id="profile-preview"></div>
           </div>
         </div>
 
@@ -57,6 +57,8 @@ export default class Signup extends Component {
     let passwordConfirm = "";
     let nickname = "";
     let profileImage = "";
+
+    let selectedFile = null;
 
     let emailValid = false;
     let passwordValid = false;
@@ -175,27 +177,65 @@ export default class Signup extends Component {
       },
     });
 
+    // 프로필 이미지
+    const profileImageComponent = new ProfileImage($profilePreview, {
+      imageUrl: "",
+      size: 149,
+      rounded: true,
+    });
+
     $profilePreview.addEventListener("click", () => $profileInput.click());
+
     $profileInput.addEventListener("change", (e) => {
-      profileImage = e.target.files[0];
-      if (!profileImage) return;
+      selectedFile = e.target.files[0];
+      if (!selectedFile) return;
+
       const reader = new FileReader();
       reader.onload = () => {
-        $profilePreview.style.backgroundImage = `url(${reader.result})`;
-        $profilePreview.style.backgroundSize = "cover";
-        $profilePreview.style.backgroundPosition = "center";
-        $profilePreview.textContent = "";
-        profileImage = reader.result;
+        profileImageComponent.updateImage(reader.result);
       };
-      reader.readAsDataURL(profileImage);
+      reader.readAsDataURL(selectedFile);
+    });
+
+    // 엔터 입력
+    window.addEventListener("keydown", async (e) => {
+      if (e.key !== "Enter") return;
+
+      const active = document.activeElement;
+
+      if (
+        $emailInput.contains(active) ||
+        $passwordInput.contains(active) ||
+        $passwordConfirmInput.contains(active) ||
+        $nicknameInput.contains(active)
+      ) {
+        if (
+          emailValid &&
+          passwordValid &&
+          nicknameValid &&
+          passwordConfirmValid
+        ) {
+          $submitButton.click();
+        }
+      }
     });
 
     // 회원가입 요청
     $submitButton.addEventListener("click", async () => {
+      // form data로 변경
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("nickname", nickname);
+
+      if (selectedFile) {
+        formData.append("image", selectedFile);
+      }
+
       try {
         const res = await apiFetch("/users", {
           method: "POST",
-          body: JSON.stringify({ email, password, nickname, profileImage }),
+          body: formData,
         });
 
         window.history.pushState(null, null, "/login");

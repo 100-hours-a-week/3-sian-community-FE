@@ -8,7 +8,7 @@ export default class EditPost extends Component {
   template() {
     return html`
       <div class="page edit-post-page">
-        <h1 class="edit-post-title">게시글 수정</h1>
+        <h1 class="edit-post-title">모집글 수정</h1>
 
         <form class="write-post-form" id="edit-form">
           <div class="form-group">

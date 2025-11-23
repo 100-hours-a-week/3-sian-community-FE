@@ -1,11 +1,17 @@
+:root {
+  --color-bg: #fdfdfd;
+  --color-text: #111;
+  --color-accent: #ff4040;
+}
+
 .layout-header {
   position: relative;
   top: 0;
   left: 0;
   width: 100%;
   height: 104px;
-  background: #f4f5f7;
-  border-bottom: 1px solid #000;
+  background: var(--color-bg);
+  border-bottom: 1px solid #e2e2e2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,7 +27,22 @@
 }
 
 .header-title {
+  position: relative;
+  font-family: "Cafe24ProUp";
   font-size: 32px;
+  z-index: 10;
+  display: inline-block;
+}
+
+.header-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  width: 100%;
+  height: 6px;
+  background: var(--color-accent);
+  z-index: -1;
 }
 
 .back-button {

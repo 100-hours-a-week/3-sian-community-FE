@@ -20,6 +20,11 @@
   gap: 8px;
 }
 
+.comment-author-meta {
+  display: flex;
+  gap: 8px;
+}
+
 .comment-author {
   font-weight: 700;
   color: #000;
@@ -47,7 +52,7 @@
 
 .comment-btn {
   background: none;
-  border: 1px solid #7b6ef6;
+  border: 1px solid #cecece;
   font-size: 14px;
   border-radius: 6px;
   padding: 4px 10px;
@@ -55,8 +60,14 @@
   transition: 0.2s;
 }
 
+.comment-btn-container {
+  display: flex;
+  gap: 8px;
+}
+
 .comment-btn:hover {
-  background: #7b6ef6;
+  border-color: #111;
+  background: #111;
   color: #fff;
 }
 
@@ -82,9 +93,6 @@
 
 .comment-save-btn,
 .comment-cancel-btn {
-  background: #7b6ef6;
-  color: white;
-  border: none;
   border-radius: 8px;
   padding: 4px 10px;
   cursor: pointer;
@@ -92,5 +100,13 @@
 }
 
 .comment-cancel-btn {
-  background: #999;
+  color: #111;
+  border: solid 1px #cecece;
+  background-color: #fff;
+}
+
+.comment-save-btn {
+  color: #fff;
+  border: none;
+  background-color: #111;
 }

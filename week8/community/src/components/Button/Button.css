@@ -1,8 +1,8 @@
 .btn {
   width: 355px;
-  height: 33px;
+  height: 38px;
   border-radius: 4px;
-  background: #7f6aee;
+  background: #ee6a6a;
   border: none;
   color: #fff;
   font-weight: 700;
@@ -11,23 +11,23 @@
 }
 
 .btn:disabled {
-  background: #aca0eb;
+  background: #dadada;
   cursor: default;
 }
 
 .btn.mini {
   width: 138px;
-  height: 39px;
+  height: 30px;
   padding: 0 14px;
   font-size: 16px;
   font-weight: 700;
-  border-radius: 16px;
-  background: #aca0eb;
+  border-radius: 14px;
+  background: #eba0a0;
   color: #fff;
   border: none;
   transition: all 0.2s;
 }
 
 .btn.mini:hover {
-  background-color: #7f6aee;
+  background-color: #ee6a6a;
 }

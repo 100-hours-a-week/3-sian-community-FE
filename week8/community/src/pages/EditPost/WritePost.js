@@ -8,7 +8,7 @@ export default class WritePost extends Component {
   template() {
     return html`
       <div class="page write-post-page">
-        <h1 class="write-post-title">게시글 작성</h1>
+        <h1 class="write-post-title">모집글 작성</h1>
 
         <form class="write-post-form" id="write-form">
           <div class="form-group">

@@ -12,8 +12,10 @@ export default class Header extends Component {
           <div class="back-button" id="back-button">
             <img src="/src/assets/back-icon.png" alt="뒤로가기" />
           </div>
-          <div class="header-title">아무 말 대잔치</div>
+          <div class="header-title">Bremen</div>
           <div class="header-author-image"></div>
+
+          <!-- 드롭다운 메뉴 -->
           <div class="header__dropdown" id="dropdown-menu">
             <ul>
               <li data-action="edit-profile">회원정보수정</li>
@@ -87,10 +89,6 @@ export default class Header extends Component {
       this.profileImageComp.updateImage(latest?.profileImageUrl || null);
     });
 
-    new ProfileImage($profileArea, {
-      imageUrl: user?.profileImageUrl,
-    });
-
     const toggleProfileImage = () => {
       const currentPath = window.location.pathname;
 
@@ -159,5 +157,34 @@ export default class Header extends Component {
           break;
       }
     });
+
+    window.addEventListener("navigate", () => this.updateHeaderState());
+    window.addEventListener("popstate", () => this.updateHeaderState());
+  }
+
+  updateHeaderState() {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    // 프로필 이미지 갱신
+    this.profileImageComp.updateImage(user?.profileImageUrl || null);
+
+    // back 버튼 업데이트
+    const currentPath = window.location.pathname;
+    const $backButton = this.$target.querySelector("#back-button");
+
+    if (["/", "/login", "/signup", "/posts"].includes(currentPath)) {
+      $backButton.style.display = "none";
+    } else {
+      $backButton.style.display = "flex";
+    }
+
+    // 프로필 표시 여부
+    const $profileArea = this.$target.querySelector(".header-author-image");
+
+    if (["/", "/login", "/signup"].includes(currentPath)) {
+      $profileArea.style.display = "none";
+    } else {
+      $profileArea.style.display = "flex";
+    }
   }
 }

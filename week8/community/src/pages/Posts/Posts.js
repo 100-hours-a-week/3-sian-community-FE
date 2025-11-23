@@ -3,6 +3,7 @@ import Button from "../../components/Button/Button.js";
 import PostCard from "../../components/PostCard/PostCard.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import { html } from "../../core/html.js";
+import PostFilter from "../../components/Filter/postFilter.js";
 
 export default class Posts extends Component {
   setup() {
@@ -13,10 +14,11 @@ export default class Posts extends Component {
 
   template() {
     return html`<div class="page posts-page">
-      <p class="posts-intro">
-        안녕하세요,<br />
-        <strong>아무 말 대잔치 게시판</strong> 입니다.
-      </p>
+      <div class="posts-intro">
+        <p>음악은 혼자보다, 함께일 때 더 즐겁다</p>
+        <p>밴드 모집 커뮤니티, <strong>브레멘</strong></p>
+      </div>
+      <div id="post-filter"></div>
 
       <div class="button-row">
         <div id="write-button"></div>
@@ -27,11 +29,15 @@ export default class Posts extends Component {
   }
 
   async mounted() {
+    // 게시물 필터
+    const $filter = this.$target.querySelector("#post-filter");
+    new PostFilter($filter);
+
     // 게시글 작성 버튼
     const $writeButton = this.$target.querySelector("#write-button");
 
     new Button($writeButton, {
-      text: "게시글 작성",
+      text: "모집글 작성",
       disabled: false,
       variant: "mini",
     });
