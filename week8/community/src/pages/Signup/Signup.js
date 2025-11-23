@@ -245,11 +245,6 @@ export default class Signup extends Component {
       }
     });
 
-    $LoginLink.addEventListener("click", () => {
-      window.history.pushState(null, null, "/login");
-      window.dispatchEvent(new CustomEvent("navigate"));
-    });
-
     updateButtonState();
   }
 }
