@@ -5,11 +5,7 @@ export default class Button extends Component {
   template() {
     const { text, disabled, variant = "primary" } = this.$props;
     return html`
-      <button
-        type="button"
-        class="btn ${variant}"
-        ${disabled ? "disabled" : ""}
-      >
+      <button class="btn ${variant}" ${disabled ? "disabled" : ""}>
         ${text}
       </button>
     `;

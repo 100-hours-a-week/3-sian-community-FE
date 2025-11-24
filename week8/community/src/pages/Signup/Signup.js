@@ -197,29 +197,6 @@ export default class Signup extends Component {
       reader.readAsDataURL(selectedFile);
     });
 
-    // 엔터 입력
-    window.addEventListener("keydown", async (e) => {
-      if (e.key !== "Enter") return;
-
-      const active = document.activeElement;
-
-      if (
-        $emailInput.contains(active) ||
-        $passwordInput.contains(active) ||
-        $passwordConfirmInput.contains(active) ||
-        $nicknameInput.contains(active)
-      ) {
-        if (
-          emailValid &&
-          passwordValid &&
-          nicknameValid &&
-          passwordConfirmValid
-        ) {
-          $submitButton.click();
-        }
-      }
-    });
-
     // 회원가입 요청
     $submitButton.addEventListener("click", async () => {
       // form data로 변경
