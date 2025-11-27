@@ -117,6 +117,7 @@ export default class WritePost extends Component {
 
         await apiFetch("/posts", {
           method: "POST",
+          credentials: "include",
           body: formData,
         });
 

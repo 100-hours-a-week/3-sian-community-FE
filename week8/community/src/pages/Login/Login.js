@@ -12,14 +12,17 @@ export default class Login extends Component {
       password: "",
     };
   }
+
   template() {
-    return html`<div class="page login-page">
-      <div class="title">로그인</div>
-      <div id="email-input"></div>
-      <div id="password-input"></div>
-      <div id="submit-button"></div>
-      <div class="link" id="signup-link">브레멘 회원가입</div>
-    </div>`;
+    return html`
+      <div class="page login-page">
+        <div class="title">로그인</div>
+        <div id="email-input"></div>
+        <div id="password-input"></div>
+        <div id="submit-button"></div>
+        <div class="link" id="signup-link">브레멘 회원가입</div>
+      </div>
+    `;
   }
 
   mounted() {
@@ -28,22 +31,24 @@ export default class Login extends Component {
     const $submitButton = this.$target.querySelector("#submit-button");
     const $signupLink = this.$target.querySelector("#signup-link");
 
+    // 내부 상태
     let email = "";
     let password = "";
 
     let emailValid = false;
     let passwordValid = false;
 
-    const submitButton = new Button($submitButton, {
+    const submitBtn = new Button($submitButton, {
       text: "로그인",
       disabled: true,
       variant: "primary",
     });
 
     const updateButtonState = () => {
-      submitButton.setDisabled(!(emailValid && passwordValid));
+      submitBtn.setDisabled(!(emailValid && passwordValid));
     };
 
+    // 이메일 입력
     new Input($emailInput, {
       name: "email",
       type: "email",
@@ -52,9 +57,9 @@ export default class Login extends Component {
         email = value.trim();
 
         const result = validateEmail(email);
-
         if (!result.ok) {
           comp.setError("올바른 이메일 주소 형식을 입력해주세요.");
+          emailValid = false;
         } else {
           comp.clearError();
           emailValid = true;
@@ -64,13 +69,13 @@ export default class Login extends Component {
       },
     });
 
+    // 비밀번호 입력
     new Input($passwordInput, {
       name: "password",
       type: "password",
       placeholder: "비밀번호를 입력해주세요",
       onInput: (value, comp) => {
         password = value ?? "";
-
         if (!password.trim()) {
           comp.setError("비밀번호를 입력해주세요");
           passwordValid = false;
@@ -83,14 +88,16 @@ export default class Login extends Component {
     });
 
     // 엔터 입력
-    window.addEventListener("keydown", async (e) => {
+    window.addEventListener("keydown", (e) => {
       if (e.key !== "Enter") return;
 
       const active = document.activeElement;
+      const inEmail = $emailInput.contains(active);
+      const inPassword = $passwordInput.contains(active);
 
-      if ($emailInput.contains(active) || $passwordInput.contains(active)) {
+      if (inEmail || inPassword) {
         if (emailValid && passwordValid) {
-          $submitButton.click();
+          submitBtn.$target.querySelector("button").click();
         }
       }
     });
@@ -103,17 +110,23 @@ export default class Login extends Component {
           body: JSON.stringify({ email, password }),
         });
 
-        localStorage.setItem("accessToken", res.data.accessToken);
+        const user = res.data;
+
+        // AccessToken 저장
+        localStorage.setItem("accessToken", user.accessToken);
+
+        // 사용자 정보 저장
         localStorage.setItem(
           "user",
           JSON.stringify({
-            id: res.data.id,
-            email: res.data.email,
-            nickname: res.data.nickname,
-            profileImageUrl: res.data.profileImageUrl,
+            id: user.id,
+            email: user.email,
+            nickname: user.nickname,
+            profileImageUrl: user.profileImageUrl,
           })
         );
 
+        // 라우팅 이동
         window.history.pushState(null, null, "/posts");
         window.dispatchEvent(new CustomEvent("navigate"));
       } catch (err) {

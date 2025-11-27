@@ -137,23 +137,34 @@ export default class Header extends Component {
           break;
         case "logout":
           try {
-            await apiFetch("/auth/logout", {
-              method: "POST",
-            });
-
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("user");
-
-            toast.show("로그아웃 성공");
-
-            setTimeout(() => {
-              window.history.pushState(null, null, "/login");
-              window.dispatchEvent(new CustomEvent("navigate"));
-            }, 1000);
+            await apiFetch("/auth/logout", { method: "POST" });
           } catch (err) {
-            console.error(err);
-            toast.show("로그아웃 실패", "error");
+            // ❗ AccessToken/RefreshToken 만료 등으로 로그아웃 API 실패해도
+            //    클라이언트 내부에서는 강제 로그아웃 진행
+            console.warn(
+              "로그아웃 API 실패 — 클라이언트에서 강제 로그아웃 진행"
+            );
           }
+
+          // === 클라이언트 토큰 삭제 ===
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("user");
+
+          // === 헤더 UI 즉시 갱신 ===
+          this.profileImageComp.updateImage(null);
+
+          // === 다른 컴포넌트들도 유저 정보 갱신 필요할 수 있음 ===
+          window.dispatchEvent(new CustomEvent("user-updated"));
+
+          // === 안내 메시지 ===
+          toast.show("로그아웃되었습니다.");
+
+          // === 로그인 페이지로 이동 ===
+          setTimeout(() => {
+            window.history.pushState(null, null, "/login");
+            window.dispatchEvent(new CustomEvent("navigate"));
+          }, 500);
+
           break;
       }
     });
