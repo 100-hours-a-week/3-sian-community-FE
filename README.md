@@ -60,6 +60,21 @@
 
 ---
 
+# 영상
+### 회원가입 및 로그인
+https://github.com/user-attachments/assets/972caae0-ac55-48fc-90aa-5ef90d94fdbe
+
+### 게시글 작성 및 수정
+https://github.com/user-attachments/assets/b85aa95a-eea2-4257-89f7-15a051a07170
+
+### 댓글 작성,수정,삭제 및 게시글 삭제
+https://github.com/user-attachments/assets/8342e31f-1b0b-4af9-b2f1-152dbe32e47c
+
+### 사용자 정보 수정 및 로그아웃
+https://github.com/user-attachments/assets/ed7cf05c-234b-4515-bb2d-cc26f17d8144
+
+---
+
 # 🏗 아키텍처
 
 ## 📁 디렉토리 구조
