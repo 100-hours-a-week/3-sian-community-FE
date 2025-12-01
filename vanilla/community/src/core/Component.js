@@ -23,15 +23,11 @@ export default class Component {
   setEvent() {}
 
   render() {
-    // template() → 실제 DOM 생성
-    const dom = this.template();
-
-    // 실제 DOM → Virtual DOM 변환
-    const newVNode = domToVNode(dom);
+    const newVNode = this.template(); // template이 h()로 만든 VNode 반환
 
     if (!this.oldVNode) {
       this.$target.innerHTML = "";
-      this.$target.appendChild(createElement(newVNode));
+      this.$target.appendChild(createElement(newVNode)); // 바로 DOM 생성
     } else {
       updateElement(this.$target, newVNode, this.oldVNode);
     }

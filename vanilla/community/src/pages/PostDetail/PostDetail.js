@@ -4,59 +4,87 @@ import CommentItem from "../../components/Comment/Comment.js";
 import ConfirmModal from "../../components/Modal/ConfirmModal.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import ProfileImage from "../../components/ProfileImage/ProfileImage.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 
 export default class PostDetail extends Component {
   template() {
-    return html`
-      <div class="post-page">
-        <div class="post-container">
-          <div class="post-header">
-            <h1 class="post-title"></h1>
+    return h(
+      "div",
+      { class: "post-page" },
 
-            <div class="post-meta">
-              <div class="post-author-info">
-                <div class="author-image"></div>
-                <span class="author-name"></span>
-              </div>
+      h(
+        "div",
+        { class: "post-container" },
 
-              <!-- 드롭다운 메뉴 -->
-              <div class="post-actions">
-                <div class="post-menu-icon">⋮</div>
-                <div class="post-menu-dropdown">
-                  <div class="post-menu-item edit">수정하기</div>
-                  <div class="post-menu-item delete">삭제하기</div>
-                </div>
-              </div>
-            </div>
-          </div>
+        h(
+          "div",
+          { class: "post-header" },
 
-          <hr class="post-divider" />
-          <div class="post-info">
-            <span class="post-date"></span>
-            <div class="post-stats">
-              <div class="stat like-stat">
-                <span>좋아요</span><strong class="like-count">0</strong>
-              </div>
-              <div class="stat">
-                <span>조회</span><strong class="view-count">0</strong>
-              </div>
-              <div class="stat">
-                <span>댓글</span><strong class="comment-count">0</strong>
-              </div>
-            </div>
-          </div>
+          h("h1", { class: "post-title" }),
 
-          <div class="post-image"></div>
+          h(
+            "div",
+            { class: "post-meta" },
 
-          <div class="post-content"></div>
-        </div>
+            h(
+              "div",
+              { class: "post-author-info" },
+              h("div", { class: "author-image" }),
+              h("span", { class: "author-name" })
+            ),
 
-        <div id="comment-form"></div>
-        <div id="comment-list"></div>
-        <div id="modal-root"></div>
-      </div>
-    `;
+            h(
+              "div",
+              { class: "post-actions" },
+              h("div", { class: "post-menu-icon" }, "⋮"),
+              h(
+                "div",
+                { class: "post-menu-dropdown" },
+                h("div", { class: "post-menu-item edit" }, "수정하기"),
+                h("div", { class: "post-menu-item delete" }, "삭제하기")
+              )
+            )
+          )
+        ),
+
+        h("hr", { class: "post-divider" }),
+
+        h(
+          "div",
+          { class: "post-info" },
+          h("span", { class: "post-date" }),
+          h(
+            "div",
+            { class: "post-stats" },
+            h(
+              "div",
+              { class: "stat like-stat" },
+              h("span", null, "좋아요"),
+              h("strong", { class: "like-count" }, "0")
+            ),
+            h(
+              "div",
+              { class: "stat" },
+              h("span", null, "조회"),
+              h("strong", { class: "view-count" }, "0")
+            ),
+            h(
+              "div",
+              { class: "stat" },
+              h("span", null, "댓글"),
+              h("strong", { class: "comment-count" }, "0")
+            )
+          )
+        ),
+
+        h("div", { class: "post-image" }),
+        h("div", { class: "post-content" })
+      ),
+
+      h("div", { id: "comment-form" }),
+      h("div", { id: "comment-list" }),
+      h("div", { id: "modal-root" })
+    );
   }
 
   async mounted() {

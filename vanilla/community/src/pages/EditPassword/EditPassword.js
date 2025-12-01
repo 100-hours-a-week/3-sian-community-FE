@@ -6,22 +6,23 @@ import {
   validatePassword,
   validatePasswordConfirm,
 } from "../../utils/validators.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 
 export default class PasswordEdit extends Component {
   template() {
-    return html`
-      <div class="page password-edit-page">
-        <h1 class="title">비밀번호 수정</h1>
+    return h(
+      "div",
+      { class: "page password-edit-page" },
 
-        <div id="password-input"></div>
-        <div id="password-confirm-input"></div>
+      h("h1", { class: "title" }, "비밀번호 수정"),
 
-        <div id="submit-button"></div>
+      h("div", { id: "password-input" }),
+      h("div", { id: "password-confirm-input" }),
 
-        <div id="toast-message" class="toast-message"></div>
-      </div>
-    `;
+      h("div", { id: "submit-button" }),
+
+      h("div", { id: "toast-message", class: "toast-message" })
+    );
   }
 
   mounted() {

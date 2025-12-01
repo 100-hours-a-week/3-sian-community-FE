@@ -1,5 +1,5 @@
 import Component from "../../core/Component.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 export default class ProfileImage extends Component {
   setup() {
     this.$state = {
@@ -12,16 +12,18 @@ export default class ProfileImage extends Component {
   template() {
     const { imageUrl, size, rounded } = this.$state;
     const defaultProfile = "/src/assets/profile-image.png";
-    const style = `
-      width: ${size}px;
-      height: ${size}px;
-      background-image: url('${imageUrl || defaultProfile}');
-      background-size: cover;
-      background-position: center;
-      border-radius: ${rounded ? "50%" : "8px"};
-    `;
 
-    return html`<div class="profile-image-component" style="${style}"></div>`;
+    return h("div", {
+      class: "profile-image-component",
+      style: `
+        width: ${size}px;
+        height: ${size}px;
+        background-image: url('${imageUrl || defaultProfile}');
+        background-size: cover;
+        background-position: center;
+        border-radius: ${rounded ? "50%" : "8px"};
+      `,
+    });
   }
 
   updateImage(newUrl) {

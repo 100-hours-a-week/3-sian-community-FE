@@ -1,19 +1,21 @@
 import Component from "../../core/Component.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 import Button from "../Button/Button.js";
 
 export default class CommentForm extends Component {
   template() {
     const initialValue = this.$props.initialValue || "";
-    return html`
-      <form class="comment-form">
-        <div class="comment-input-wrapper">
-          <textarea class="comment-input">${initialValue}</textarea>
-          <div class="comment-divider"></div>
-          <div class="comment-button" id="comment-button"></div>
-        </div>
-      </form>
-    `;
+    return h(
+      "form",
+      { class: "comment-form" },
+      h(
+        "div",
+        { class: "comment-input-wrapper" },
+        h("textarea", { class: "comment-input" }, initialValue),
+        h("div", { class: "comment-divider" }),
+        h("div", { class: "comment-button", id: "comment-button" })
+      )
+    );
   }
 
   mounted() {

@@ -1,22 +1,27 @@
 import Component from "../../core/Component.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 import Button from "../Button/Button.js";
 
 export default class ConfirmModal extends Component {
   template() {
     const { title, message } = this.$props;
-    return html`
-      <div class="modal-overlay">
-        <div class="modal-content">
-          <h2 class="modal-title">${title}</h2>
-          <p class="modal-message">${message}</p>
-          <div class="modal-buttons">
-            <div id="cancel-btn"></div>
-            <div id="confirm-btn"></div>
-          </div>
-        </div>
-      </div>
-    `;
+    return h(
+      "div",
+      { class: "modal-overlay" },
+      h(
+        "div",
+        { class: "modal-content" },
+        h("h2", { class: "modal-title" }, title),
+        h("p", { class: "modal-message" }, message),
+
+        h(
+          "div",
+          { class: "modal-buttons" },
+          h("div", { id: "cancel-btn" }),
+          h("div", { id: "confirm-btn" })
+        )
+      )
+    );
   }
 
   mounted() {

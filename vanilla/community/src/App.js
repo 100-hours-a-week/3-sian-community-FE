@@ -3,12 +3,11 @@ import Posts from "./pages/Posts/Posts.js";
 import Login from "./pages/Login/Login.js";
 import Signup from "./pages/Signup/Signup.js";
 import EditProfile from "./pages/EditProfile/EditProfile.js";
-import Header from "./components/Header/Header.js";
 import WritePost from "./pages/EditPost/WritePost.js";
 import PostDetail from "./pages/PostDetail/PostDetail.js";
 import EditPost from "./pages/EditPost/EditPost.js";
 import EditPassword from "./pages/EditPassword/EditPassword.js";
-import { html } from "./core/html.js";
+import { h } from "./core/h.js";
 import { initRouter } from "./core/Router.js";
 
 export default class App extends Component {
@@ -17,7 +16,7 @@ export default class App extends Component {
   }
 
   template() {
-    return html` <main id="page"></main> `;
+    return h("main", { id: "page" });
   }
   mounted() {
     const $page = this.$target.querySelector("#page");

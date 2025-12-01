@@ -2,8 +2,8 @@ import Component from "../../core/Component.js";
 import Button from "../../components/Button/Button.js";
 import PostCard from "../../components/PostCard/PostCard.js";
 import { apiFetch } from "../../core/apiFetch.js";
-import { html } from "../../core/html.js";
 import PostFilter from "../../components/Filter/postFilter.js";
+import { h } from "../../core/h.js";
 
 export default class Posts extends Component {
   setup() {
@@ -13,19 +13,23 @@ export default class Posts extends Component {
   }
 
   template() {
-    return html`<div class="page posts-page">
-      <div class="posts-intro">
-        <p>음악은 혼자보다, 함께일 때 더 즐겁다</p>
-        <p>밴드 모집 커뮤니티, <strong>브레멘</strong></p>
-      </div>
-      <div id="post-filter"></div>
+    return h(
+      "div",
+      { class: "page posts-page" },
 
-      <div class="button-row">
-        <div id="write-button"></div>
-      </div>
+      h(
+        "div",
+        { class: "posts-intro" },
+        h("p", null, "음악은 혼자보다, 함께일 때 더 즐겁다"),
+        h("p", null, ["밴드 모집 커뮤니티, ", h("strong", null, "브레멘")])
+      ),
 
-      <div class="post-list"></div>
-    </div>`;
+      h("div", { id: "post-filter" }),
+
+      h("div", { class: "button-row" }, h("div", { id: "write-button" })),
+
+      h("div", { class: "post-list" })
+    );
   }
 
   async mounted() {

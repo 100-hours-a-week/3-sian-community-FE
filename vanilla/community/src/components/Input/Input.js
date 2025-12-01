@@ -1,5 +1,5 @@
 import Component from "../../core/Component.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 export default class Input extends Component {
   setup() {
     this.$state = {
@@ -8,19 +8,22 @@ export default class Input extends Component {
   }
   template() {
     const { name, type = "text", placeholder } = this.$props;
+    const { error } = this.$state;
 
-    return html`
-      <div class="Input__wrapper">
-        <input
-          type="${type}"
-          class="Input__field"
-          id="${name}"
-          name="${name}"
-          placeholder="${placeholder}"
-        />
-        <p class="error"></p>
-      </div>
-    `;
+    return h(
+      "div",
+      { class: "Input__wrapper" },
+
+      h("input", {
+        type,
+        class: "Input__field",
+        id: name,
+        name,
+        placeholder,
+      }),
+
+      h("p", { class: "error" }, error ? `* ${error}` : "")
+    );
   }
 
   mounted() {

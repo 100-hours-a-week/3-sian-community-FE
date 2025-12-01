@@ -2,56 +2,77 @@ import Component from "../../core/Component.js";
 import Button from "../../components/Button/Button.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import { validateTitle, validateContent } from "../../utils/validators.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 
 export default class WritePost extends Component {
   template() {
-    return html`
-      <div class="page write-post-page">
-        <h1 class="write-post-title">모집글 작성</h1>
+    return h(
+      "div",
+      { class: "page write-post-page" },
 
-        <form class="write-post-form" id="write-form">
-          <div class="form-group">
-            <label for="title" class="form-label"
-              >제목<span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="title"
-              name="title"
-              maxlength="26"
-              placeholder="제목을 입력해주세요. (최대 26글자)"
-              class="form-input"
-              required
-            />
-          </div>
+      h("h1", { class: "write-post-title" }, "모집글 작성"),
 
-          <div class="form-group">
-            <label for="content" class="form-label"
-              >내용<span class="required">*</span></label
-            >
-            <textarea
-              id="content"
-              name="content"
-              rows="8"
-              placeholder="내용을 입력해주세요."
-              class="form-textarea"
-              required
-            ></textarea>
-            <p class="error"></p>
-          </div>
+      h(
+        "form",
+        { class: "write-post-form", id: "write-form" },
 
-          <div class="form-group">
-            <label for="image" class="form-label">이미지</label>
-            <div class="file-input">
-              <input type="file" id="image" name="image" />
-            </div>
-          </div>
+        // 제목
+        h(
+          "div",
+          { class: "form-group" },
+          h(
+            "label",
+            { for: "title", class: "form-label" },
+            "제목",
+            h("span", { class: "required" }, "*")
+          ),
+          h("input", {
+            type: "text",
+            id: "title",
+            name: "title",
+            maxlength: "26",
+            placeholder: "제목을 입력해주세요. (최대 26글자)",
+            class: "form-input",
+            required: true,
+          })
+        ),
 
-          <div class="form-submit" id="submit-button"></div>
-        </form>
-      </div>
-    `;
+        // 내용
+        h(
+          "div",
+          { class: "form-group" },
+          h(
+            "label",
+            { for: "content", class: "form-label" },
+            "내용",
+            h("span", { class: "required" }, "*")
+          ),
+          h("textarea", {
+            id: "content",
+            name: "content",
+            rows: "8",
+            placeholder: "내용을 입력해주세요.",
+            class: "form-textarea",
+            required: true,
+          }),
+          h("p", { class: "error" })
+        ),
+
+        // 이미지
+        h(
+          "div",
+          { class: "form-group" },
+          h("label", { for: "image", class: "form-label" }, "이미지"),
+          h(
+            "div",
+            { class: "file-input" },
+            h("input", { type: "file", id: "image", name: "image" })
+          )
+        ),
+
+        h("div", { class: "form-submit", id: "submit-button" })
+      )
+    );
   }
 
   mounted() {

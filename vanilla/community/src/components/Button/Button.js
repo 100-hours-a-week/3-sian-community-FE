@@ -1,14 +1,17 @@
 import Component from "../../core/Component.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 
 export default class Button extends Component {
   template() {
     const { text, disabled, variant = "primary" } = this.$props;
-    return html`
-      <button class="btn ${variant}" ${disabled ? "disabled" : ""}>
-        ${text}
-      </button>
-    `;
+    return h(
+      "button",
+      {
+        class: `btn ${variant}`,
+        disabled: disabled ? true : null,
+      },
+      text
+    );
   }
 
   setDisabled(isDisabled) {

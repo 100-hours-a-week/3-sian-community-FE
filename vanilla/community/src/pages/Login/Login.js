@@ -3,7 +3,7 @@ import Input from "../../components/Input/Input.js";
 import Button from "../../components/Button/Button.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import { validateEmail } from "../../utils/validators.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 
 export default class Login extends Component {
   setup() {
@@ -14,15 +14,18 @@ export default class Login extends Component {
   }
 
   template() {
-    return html`
-      <div class="page login-page">
-        <div class="title">로그인</div>
-        <div id="email-input"></div>
-        <div id="password-input"></div>
-        <div id="submit-button"></div>
-        <div class="link" id="signup-link">브레멘 회원가입</div>
-      </div>
-    `;
+    return h(
+      "div",
+      { class: "page login-page" },
+
+      h("div", { class: "title" }, "로그인"),
+
+      h("div", { id: "email-input" }),
+      h("div", { id: "password-input" }),
+      h("div", { id: "submit-button" }),
+
+      h("div", { class: "link", id: "signup-link" }, "브레멘 회원가입")
+    );
   }
 
   mounted() {

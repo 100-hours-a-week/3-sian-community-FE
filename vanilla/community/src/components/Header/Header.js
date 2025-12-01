@@ -2,31 +2,46 @@ import Component from "../../core/Component.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import Toast from "../Toast/Toast.js";
 import ProfileImage from "../ProfileImage/ProfileImage.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 
 export default class Header extends Component {
   template() {
-    return html`
-      <header class="layout-header">
-        <div class="header__items-container">
-          <div class="back-button" id="back-button">
-            <img src="/src/assets/back-icon.png" alt="뒤로가기" />
-          </div>
-          <div class="header-title">Bremen</div>
-          <div class="header-author-image"></div>
+    return h(
+      "header",
+      { class: "layout-header" },
 
-          <!-- 드롭다운 메뉴 -->
-          <div class="header__dropdown" id="dropdown-menu">
-            <ul>
-              <li data-action="edit-profile">회원정보수정</li>
-              <li data-action="edit-password">비밀번호수정</li>
-              <li data-action="logout">로그아웃</li>
-            </ul>
-          </div>
-        </div>
-        <div class="toast-root"></div>
-      </header>
-    `;
+      h(
+        "div",
+        { class: "header__items-container" },
+
+        h(
+          "div",
+          { class: "back-button", id: "back-button" },
+          h("img", {
+            src: "/src/assets/back-icon.png",
+            alt: "뒤로가기",
+          })
+        ),
+
+        h("div", { class: "header-title" }, "Bremen"),
+
+        h("div", { class: "header-author-image" }),
+
+        h(
+          "div",
+          { class: "header__dropdown", id: "dropdown-menu" },
+          h(
+            "ul",
+            null,
+            h("li", { "data-action": "edit-profile" }, "회원정보수정"),
+            h("li", { "data-action": "edit-password" }, "비밀번호수정"),
+            h("li", { "data-action": "logout" }, "로그아웃")
+          )
+        )
+      ),
+
+      h("div", { class: "toast-root" })
+    );
   }
 
   mounted() {

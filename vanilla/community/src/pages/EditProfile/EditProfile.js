@@ -1,48 +1,70 @@
 import Component from "../../core/Component.js";
 import Input from "../../components/Input/Input.js";
 import Button from "../../components/Button/Button.js";
-import ConfirmModal from "../../components/Modal/ConfirmModal.js";
 import { apiFetch } from "../../core/apiFetch.js";
 import Toast from "../../components/Toast/Toast.js";
 import { validateNickname } from "../../utils/validators.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 import ProfileImage from "../../components/ProfileImage/ProfileImage.js";
 
 export default class EditProfile extends Component {
   template() {
-    return html`
-      <div class="page edit-profile-page">
-        <div class="title">회원정보수정</div>
+    return h(
+      "div",
+      { class: "page edit-profile-page" },
 
-        <!-- 프로필 -->
-        <div class="profile-section">
-          <p class="error"></p>
-          <div class="profile-upload">
-            <input type="file" id="profile-image" accept="image/*" hidden />
-            <div class="profile-preview" id="profile-preview"></div>
-            <div class="profile-options" id="profile-options">
-              <div class="option change">프로필 변경</div>
-              <div class="option option-delete">프로필 삭제</div>
-            </div>
-          </div>
-        </div>
+      h("div", { class: "title" }, "회원정보수정"),
 
-        <!-- 이메일 -->
-        <div class="form-group">
-          <label class="form-label">이메일</label>
-          <p class="readonly-email"></p>
-        </div>
+      // 프로필
+      h(
+        "div",
+        { class: "profile-section" },
 
-        <!-- 닉네임 -->
-        <div id="nickname-input"></div>
+        h("p", { class: "error" }),
 
-        <div id="update-btn"></div>
-        <div class="link" id="withdraw-link">회원 탈퇴</div>
+        h(
+          "div",
+          { class: "profile-upload" },
 
-        <div id="toast-root"></div>
-        <div id="modal-root"></div>
-      </div>
-    `;
+          h("input", {
+            type: "file",
+            id: "profile-image",
+            accept: "image/*",
+            hidden: true,
+          }),
+
+          h("div", { class: "profile-preview", id: "profile-preview" }),
+
+          h(
+            "div",
+            { class: "profile-options", id: "profile-options" },
+            h("div", { class: "option change" }, "프로필 변경"),
+            h("div", { class: "option option-delete" }, "프로필 삭제")
+          )
+        )
+      ),
+
+      // 이메일
+      h(
+        "div",
+        { class: "form-group" },
+        h("label", { class: "form-label" }, "이메일"),
+        h("p", { class: "readonly-email" })
+      ),
+
+      // 닉네임
+      h("div", { id: "nickname-input" }),
+
+      // 수정 버튼
+      h("div", { id: "update-btn" }),
+
+      // 링크
+      h("div", { class: "link", id: "withdraw-link" }, "회원 탈퇴"),
+
+      // toast, modal root
+      h("div", { id: "toast-root" }),
+      h("div", { id: "modal-root" })
+    );
   }
 
   mounted() {

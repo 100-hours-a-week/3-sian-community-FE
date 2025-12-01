@@ -9,34 +9,44 @@ import {
   validatePasswordConfirm,
   validateNickname,
 } from "../../utils/validators.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 
 export default class Signup extends Component {
   template() {
-    return html`
-      <div class="page signup-page">
-        <div class="title">회원가입</div>
+    return h(
+      "div",
+      { class: "page signup-page" },
 
-        <!-- 프로필 -->
-        <div class="profile-section">
-          <p class="error"></p>
-          <div class="profile-upload">
-            <input type="file" id="profile-image" accept="image/*" hidden />
-            <div class="profile-preview" id="profile-preview"></div>
-          </div>
-        </div>
+      h("div", { class: "title" }, "회원가입"),
 
-        <!-- 그외 입력 필드 -->
-        <div id="email-input"></div>
-        <div id="password-input"></div>
-        <div id="password-confirm-input"></div>
-        <div id="nickname-input"></div>
+      // 프로필
+      h(
+        "div",
+        { class: "profile-section" },
+        h("p", { class: "error" }),
+        h(
+          "div",
+          { class: "profile-upload" },
+          h("input", {
+            type: "file",
+            id: "profile-image",
+            accept: "image/*",
+            hidden: true,
+          }),
+          h("div", { class: "profile-preview", id: "profile-preview" })
+        )
+      ),
 
-        <!-- 버튼 -->
-        <div id="submit-button"></div>
-        <div class="link" id="login-link">로그인하러 가기</div>
-      </div>
-    `;
+      // 입력 필드
+      h("div", { id: "email-input" }),
+      h("div", { id: "password-input" }),
+      h("div", { id: "password-confirm-input" }),
+      h("div", { id: "nickname-input" }),
+
+      // 버튼
+      h("div", { id: "submit-button" }),
+      h("div", { class: "link", id: "login-link" }, "로그인하러 가기")
+    );
   }
 
   mounted() {

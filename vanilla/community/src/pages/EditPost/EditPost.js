@@ -1,40 +1,61 @@
 import Component from "../../core/Component.js";
 import Button from "../../components/Button/Button.js";
 import { apiFetch } from "../../core/apiFetch.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 import { validateContent, validateTitle } from "../../utils/validators.js";
 
 export default class EditPost extends Component {
   template() {
-    return html`
-      <div class="page edit-post-page">
-        <h1 class="edit-post-title">모집글 수정</h1>
+    return h(
+      "div",
+      { class: "page edit-post-page" },
 
-        <form class="write-post-form" id="edit-form">
-          <div class="form-group">
-            <label for="title" class="form-label">제목</label>
-            <input type="text" id="title" class="form-input" maxlength="26" />
-            <p class="error"></p>
-          </div>
+      h("h1", { class: "edit-post-title" }, "모집글 수정"),
 
-          <div class="form-group">
-            <label for="content" class="form-label">내용</label>
-            <textarea id="content" rows="8" class="form-textarea"></textarea>
-            <p class="error"></p>
-          </div>
+      h(
+        "form",
+        { class: "write-post-form", id: "edit-form" },
 
-          <div class="form-group">
-            <label class="form-label">이미지</label>
-            <div class="current-file-name" id="current-file-name"></div>
-            <div class="file-input">
-              <input type="file" id="image" accept="image/*" />
-            </div>
-          </div>
+        h(
+          "div",
+          { class: "form-group" },
+          h("label", { for: "title", class: "form-label" }, "제목"),
+          h("input", {
+            type: "text",
+            id: "title",
+            class: "form-input",
+            maxlength: "26",
+          }),
+          h("p", { class: "error" })
+        ),
 
-          <div class="form-submit" id="submit-button"></div>
-        </form>
-      </div>
-    `;
+        h(
+          "div",
+          { class: "form-group" },
+          h("label", { for: "content", class: "form-label" }, "내용"),
+          h("textarea", {
+            id: "content",
+            rows: "8",
+            class: "form-textarea",
+          }),
+          h("p", { class: "error" })
+        ),
+
+        h(
+          "div",
+          { class: "form-group" },
+          h("label", { class: "form-label" }, "이미지"),
+          h("div", { class: "current-file-name", id: "current-file-name" }),
+          h(
+            "div",
+            { class: "file-input" },
+            h("input", { type: "file", id: "image", accept: "image/*" })
+          )
+        ),
+
+        h("div", { class: "form-submit", id: "submit-button" })
+      )
+    );
   }
 
   async mounted() {

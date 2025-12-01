@@ -1,5 +1,5 @@
 import Component from "../../core/Component.js";
-import { html } from "../../core/html.js";
+import { h } from "../../core/h.js";
 import ConfirmModal from "../Modal/ConfirmModal.js";
 import ProfileImage from "../ProfileImage/ProfileImage.js";
 
@@ -15,44 +15,54 @@ export default class Comment extends Component {
     const { author, date } = this.$props;
     const { isEditing, editedContent } = this.$state;
 
-    return html`
-      <div class="comment-item">
-        <div class="comment-left">
-          <div class="comment-author-info">
-            <div class="author-image"></div>
-            <div class="comment-author-meta">
-              <span class="comment-author">${author}</span>
-              <span class="comment-date">${date}</span>
-            </div>
-          </div>
-          ${isEditing
-            ? html`
-                <div class="comment-edit-wrapper">
-                  <textarea class="comment-edit-input">
-                    ${editedContent}
-                  </textarea
-                  >
-                  <div class="comment-edit-actions">
-                    <button class="comment-save-btn">저장</button>
-                    <button class="comment-cancel-btn">취소</button>
-                  </div>
-                </div>
-              `
-            : html`<div class="comment-content">${editedContent}</div>`}
-        </div>
-        <div class="comment-right">
-          ${!isEditing
-            ? html`
-                <div class="comment-btn-container">
-                  <button class="comment-btn edit">수정</button>
-                  <button class="comment-btn comment-delete">삭제</button>
-                </div>
-              `
-            : html``}
-        </div>
-        <div id="modal-root"></div>
-      </div>
-    `;
+    return h(
+      "div",
+      { class: "comment-item" },
+      h(
+        "div",
+        { class: "comment-left" },
+
+        h(
+          "div",
+          { class: "comment-author-info" },
+          h("div", { class: "author-image" }),
+          h(
+            "div",
+            { class: "comment-author-meta" },
+            h("span", { class: "comment-author" }, author),
+            h("span", { class: "comment-date" }, date)
+          )
+        ),
+
+        isEditing
+          ? h(
+              "div",
+              { class: "comment-edit-wrapper" },
+              h("textarea", { class: "comment-edit-input" }, editedContent),
+              h(
+                "div",
+                { class: "comment-edit-actions" },
+                h("button", { class: "comment-save-btn" }, "저장"),
+                h("button", { class: "comment-cancel-btn" }, "취소")
+              )
+            )
+          : h("div", { class: "comment-content" }, editedContent)
+      ),
+
+      h(
+        "div",
+        { class: "comment-right" },
+        !isEditing &&
+          h(
+            "div",
+            { class: "comment-btn-container" },
+            h("button", { class: "comment-btn edit" }, "수정"),
+            h("button", { class: "comment-btn comment-delete" }, "삭제")
+          )
+      ),
+
+      h("div", { id: "modal-root" })
+    );
   }
 
   mounted() {
