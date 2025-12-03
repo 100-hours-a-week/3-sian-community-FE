@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import colors from "../../styles/color";
 
 export default function HeaderDropdown({ onNavigate, onLogout }) {
   // onNavigate: 페이지 이동
@@ -25,7 +26,7 @@ const menuStyle = css`
     transition: background 0.2s;
 
     &:hover {
-      background: #eaeaea;
+      background: ${colors.gray200};
     }
   }
 `;

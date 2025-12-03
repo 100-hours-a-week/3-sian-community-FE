@@ -6,6 +6,7 @@ import Dropdown from "../../shared/ui/Dropdown";
 import HeaderDropdown from "./HeaderDropdown";
 import ProfileImage from "../../shared/ui/ProfileImage";
 import backIcon from "../../shared/assets/images/back-icon.png";
+import colors from "../../styles/color";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -60,8 +61,8 @@ const HeaderWrapper = styled.header`
   position: relative;
   width: 100%;
   height: 104px;
-  background: #fdfdfd;
-  border-bottom: 1px solid #e2e2e2;
+  background: ${colors.white};
+  border-bottom: 1px solid ${colors.gray200};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,7 +91,7 @@ const Title = styled.div`
     bottom: 4px;
     width: 100%;
     height: 6px;
-    background: #ff4040;
+    background: ${colors.primary};
     z-index: -1;
   }
 `;

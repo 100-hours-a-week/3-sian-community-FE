@@ -1,10 +1,11 @@
-import styled from "@emotion/react";
+import styled from "@emotion/styled";
+import colors from "../../styles/color";
 
 export default function Button({
   children,
   variant = "primary",
   size = "default",
-  disabled = "false",
+  disabled = false,
   fullWidth = false,
   ...props
 }) {
@@ -27,9 +28,9 @@ const StyledButton = styled.button`
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: #fff;
+  color: ${colors.white};
 
-  ${({ fullWidth }) => fullWidth && `width: 100%;`}
+  ${({ fullWidth }) => fullWidth === true && `width: 100%;`}
 
   /* === SIZE === */
   ${({ size }) =>
@@ -54,23 +55,23 @@ const StyledButton = styled.button`
   ${({ variant }) =>
     variant === "primary" &&
     `
-      background: #ee6a6a;
+      background: ${colors.primary};
       &:hover {
-        background: #d65858;
+        background: ${colors.primary}33;
       }
     `}
 
   ${({ variant }) =>
     variant === "secondary" &&
     `
-      background: #eba0a0;
+      background: ${colors.primary}CC;
       &:hover {
-        background: #ee6a6a;
+        background: ${colors.primary}99;
       }
     `}
 
   &:disabled {
-    background: #dadada;
+    background: ${colors.gray200};
     cursor: not-allowed;
   }
 `;

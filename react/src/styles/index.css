@@ -14,12 +14,6 @@
   font-display: swap;
 }
 
-:root {
-  --color-bg: #fdfdfd;
-  --color-text: #111;
-  --color-accent: #ff4040;
-}
-
 body {
   margin: 0;
   background-color: var(--color-bg);

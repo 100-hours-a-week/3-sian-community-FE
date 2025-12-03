@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { useRef, useEffect } from "react";
+import colors from "../../styles/color";
 
 export default function Dropdown({ open, onClose, children, top, right = 0 }) {
   const ref = useRef(null);
@@ -31,7 +32,7 @@ const dropdownStyle = (top, right) => css`
   top: ${top}px;
   right: ${right}px;
   width: 140px;
-  background: #f7f7f7;
+  background: ${colors.white};
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   z-index: 20;

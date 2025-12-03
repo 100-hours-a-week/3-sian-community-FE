@@ -1,4 +1,5 @@
 import { styled } from "@emotion/styled";
+import colors from "../../styles/color";
 
 export default function InputField({
   label,
@@ -46,20 +47,22 @@ const Container = styled.div`
 const Label = styled.label`
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: ${colors.gray700};
 `;
 
 const StyledInput = styled.input`
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid ${({ hasError }) => (hasError ? "#ff6b6b" : "#ddd")};
+  border: 1px solid
+    ${({ hasError }) => (hasError ? colors.primary : colors.gray200)};
   border-radius: 6px;
   font-size: 14px;
   outline: none;
   transition: border 0.2s;
 
   &:focus {
-    border-color: ${({ hasError }) => (hasError ? "#ff4d4d" : "#888")};
+    border-color: ${({ hasError }) =>
+      hasError ? colors.primary : colors.gray300};
   }
 `;
 
@@ -67,7 +70,8 @@ const StyledTextarea = styled.textarea`
   width: 100%;
   height: 120px;
   padding: 12px 14px;
-  border: 1px solid ${({ hasError }) => (hasError ? "#ff6b6b" : "#ddd")};
+  border: 1px solid
+    ${({ hasError }) => (hasError ? colors.primary : colors.gray200)};
   border-radius: 6px;
   font-size: 14px;
   resize: none;
@@ -75,12 +79,13 @@ const StyledTextarea = styled.textarea`
   transition: border 0.2s;
 
   &:focus {
-    border-color: ${({ hasError }) => (hasError ? "#ff4d4d" : "#888")};
+    border-color: ${({ hasError }) =>
+      hasError ? colors.primary : colors.gray300};
   }
 `;
 
 const ErrorText = styled.p`
   margin: 0;
   font-size: 12px;
-  color: #ff4d4d;
+  color: ${colors.error};
 `;
