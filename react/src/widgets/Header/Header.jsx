@@ -1,37 +1,56 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ProfileImage from "../shared/ui/ProfileImage";
 import styled from "@emotion/styled";
+
+import Dropdown from "../../shared/ui/Dropdown";
+import HeaderDropdown from "./HeaderDropdown";
+import ProfileImage from "../../shared/ui/ProfileImage";
+import backIcon from "../../shared/assets/images/back-icon.png";
+
 export default function Header() {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); // 드롭다운 열림 여부
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
   return (
     <HeaderWrapper>
       <ItemsContainer>
         {/* 뒤로가기 버튼 */}
         <BackButton onClick={() => navigate(-1)}>
-          <img src="/src/assets/back-icon.png" alt="뒤로가기" />
+          <img src={backIcon} alt="뒤로가기" />
         </BackButton>
 
         {/* Title */}
         <Title onClick={() => navigate("/")}>Bremen</Title>
 
         {/* Profile */}
-        <ProfileArea onClick={() => setOpen((prev) => !prev)}>
-          <ProfileImage imageUrl={null} size={36} />
+        <ProfileArea
+          onClick={(e) => {
+            e.stopPropagation(); // 버블링 방지
+            setOpen((prev) => !prev);
+          }}
+        >
+          <ProfileImage />
         </ProfileArea>
 
         {/* 드롭다운 */}
-        {open && (
-          <Dropdown>
-            <ul>
-              <li onClick={() => navigate("/profile/edit")}>회원정보수정</li>
-              <li>비밀번호수정</li>
-              <li>로그아웃</li>
-            </ul>
-          </Dropdown>
-        )}
+        <Dropdown open={open} onClose={() => setOpen(false)} top={48} right={0}>
+          <HeaderDropdown
+            onNavigate={(path) => {
+              setOpen(false);
+              navigate(path);
+            }}
+            onLogout={() => {
+              setOpen(false);
+              handleLogout();
+            }}
+          ></HeaderDropdown>
+        </Dropdown>
       </ItemsContainer>
     </HeaderWrapper>
   );
@@ -49,7 +68,9 @@ const HeaderWrapper = styled.header`
 `;
 
 const ItemsContainer = styled.div`
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,33 +115,4 @@ const ProfileArea = styled.div`
   position: absolute;
   right: 0;
   cursor: pointer;
-`;
-
-const Dropdown = styled.div`
-  position: absolute;
-  top: 48px;
-  right: 0;
-  width: 140px;
-  background: #f7f7f7;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-
-  ul {
-    list-style: none;
-    padding: 8px 0;
-    margin: 0;
-  }
-
-  li {
-    padding: 10px 14px;
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;
-    transition: background 0.2s;
-
-    &:hover {
-      background: #eaeaea;
-    }
-  }
 `;

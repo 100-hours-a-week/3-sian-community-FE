@@ -1,0 +1,31 @@
+@import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
+
+@font-face {
+  font-family: "Cafe24ProUp";
+  src: url("../shared/assets/fonts/Cafe24PROUP.woff2") format("woff2");
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Galmuri11";
+  src: url("../shared/assets/fonts/Galmuri11.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --color-bg: #fdfdfd;
+  --color-text: #111;
+  --color-accent: #ff4040;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+}
+
+main {
+  max-width: 600px;
+  margin: auto;
+}
