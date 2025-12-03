@@ -31,7 +31,7 @@ export default function Header() {
         {/* Profile */}
         <ProfileArea
           onClick={(e) => {
-            e.stopPropagation(); // 버블링 방지
+            e.stopPropagation();
             setOpen((prev) => !prev);
           }}
         >
