@@ -59,11 +59,7 @@ export default function SignupForm() {
     }
   };
 
-  const isDisabled =
-    !isValid ||
-    errors.passwordConfirm ||
-    (passwordConfirm?.length > 0 &&
-      validatePasswordConfirm(password, passwordConfirm).ok === false);
+  const isDisabled = !isValid;
 
   return (
     <FormContainer onSubmit={handleSubmit(onValid)}>
@@ -114,7 +110,8 @@ export default function SignupForm() {
         {...register("passwordConfirm", {
           required: { message: "비밀번호 확인을 입력해주세요." },
           validate: (value) => {
-            const r = validatePasswordConfirm(password, value);
+            const currentPassword = watch?.("password") ?? "";
+            const r = validatePasswordConfirm(currentPassword, value);
             return r.ok ? true : r.message;
           },
         })}

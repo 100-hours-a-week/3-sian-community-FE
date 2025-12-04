@@ -123,9 +123,14 @@ export default function useForm({ defaultValues = {} } = {}) {
     [validateAll]
   );
 
+  const watch = useCallback((name) => {
+    return valuesRef.current[name];
+  }, []);
+
   return {
     register,
     handleSubmit,
+    watch,
     errors,
     isValid,
   };
