@@ -1,12 +1,7 @@
 import styled from "@emotion/styled";
 import { useRef } from "react";
 
-export default function ProfilePreview({
-  image,
-  size = 120,
-  rounded = true,
-  onChange,
-}) {
+export default function ProfilePreview({ image, size = 120, onChange }) {
   const fileInputRef = useRef(null);
 
   const handleClick = () => {
@@ -21,11 +16,7 @@ export default function ProfilePreview({
 
   return (
     <Wrapper onClick={handleClick}>
-      <Preview
-        size={size}
-        rounded={rounded}
-        style={{ backgroundImage: `url(${image})` }}
-      />
+      <Preview size={size} style={{ backgroundImage: `url(${image})` }} />
       <HiddenInput
         type="file"
         accept="image/*"
@@ -44,7 +35,7 @@ const Wrapper = styled.div`
 const Preview = styled.div`
   width: ${(p) => p.size}px;
   height: ${(p) => p.size}px;
-  border-radius: ${(p) => (p.rounded ? "50%" : "8px")};
+  border-radius: 50%;
   background-size: cover;
   background-position: center;
   background-color: #ddd;

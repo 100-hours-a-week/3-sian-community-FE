@@ -11,6 +11,7 @@ import { signupRequest } from "../api/signup";
 import {
   validateEmail,
   validatePassword,
+  validatePasswordConfirm,
   validateNickname,
 } from "../../../shared/lib/validators";
 
@@ -32,6 +33,13 @@ export default function SignupForm() {
   const password = watch?.("password");
   const passwordConfirm = watch?.("passwordConfirm");
 
+  // 프로필 업로드
+  const handleProfileImage = (uploaded) => {
+    setFile(uploaded);
+    setPreview(URL.createObjectURL(uploaded));
+  };
+
+  // 폼 제출 (회원가입)
   const onValid = async (values) => {
     const formData = new FormData();
 
@@ -52,7 +60,10 @@ export default function SignupForm() {
   };
 
   const isDisabled =
-    !isValid || errors.passwordConfirm || password !== passwordConfirm;
+    !isValid ||
+    errors.passwordConfirm ||
+    (passwordConfirm?.length > 0 &&
+      validatePasswordConfirm(password, passwordConfirm).ok === false);
 
   return (
     <FormContainer onSubmit={handleSubmit(onValid)}>
@@ -60,11 +71,7 @@ export default function SignupForm() {
         <ProfilePreview
           image={preview || defaultProfile}
           size={149}
-          rounded={true}
-          onChange={(uploaded) => {
-            setFile(uploaded);
-            setPreview(URL.createObjectURL(uploaded));
-          }}
+          onChange={handleProfileImage}
         />
       </UploadWrapper>
 
@@ -106,6 +113,10 @@ export default function SignupForm() {
         }
         {...register("passwordConfirm", {
           required: { message: "비밀번호 확인을 입력해주세요." },
+          validate: (value) => {
+            const r = validatePasswordConfirm(password, value);
+            return r.ok ? true : r.message;
+          },
         })}
       />
 
