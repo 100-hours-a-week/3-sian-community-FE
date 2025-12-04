@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
-import defaultProfile from "../assets/images/profile-image.png";
-import colors from "../../styles/color";
+import defaultProfile from "../assets/images/default-profile.png";
+import colors from "../../shared/styles/colors";
 
 export default function ProfileImage({ imageUrl, size = 36, rounded = true }) {
   const style = css`

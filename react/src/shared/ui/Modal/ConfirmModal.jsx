@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import colors from "../../styles/color";
+import colors from "../../shared/styles/colors";
 import ModalButton from "./ModalButton";
 
 export default function ConfirmModal(

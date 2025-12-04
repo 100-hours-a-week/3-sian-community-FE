@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import colors from "../../styles/color";
+import colors from "../../shared/styles/colors";
 
 export default function HeaderDropdown({ onNavigate, onLogout }) {
   // onNavigate: 페이지 이동

@@ -4,15 +4,18 @@ import PostDetailPage from "../pages/PostDetailPage";
 import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/SignupPage";
 import EditProfilePage from "../pages/EditProfilePage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 function Router() {
   return (
     <Routes>
-      <Route path="/" element={<PostsPage />} />
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/posts" element={<PostsPage />} />
       <Route path="/posts/:id" element={<PostDetailPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/profile/edit" element={<EditProfilePage />} />
+      <Route path="*" element={<NotFoundPage />}></Route>
     </Routes>
   );
 }

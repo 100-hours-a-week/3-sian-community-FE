@@ -1,16 +1,21 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 
 import Dropdown from "../../shared/ui/Dropdown";
 import HeaderDropdown from "./HeaderDropdown";
 import ProfileImage from "../../shared/ui/ProfileImage";
 import backIcon from "../../shared/assets/images/back-icon.png";
-import colors from "../../styles/color";
+import colors from "../../shared/styles/colors";
 
 export default function Header() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false); // 드롭다운 열림 여부
+  const location = useLocation();
+  const hideProfile =
+    location.pathname === "/" ||
+    location.pathname === "/login" ||
+    location.pathname === "/signup";
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -29,29 +34,37 @@ export default function Header() {
         {/* Title */}
         <Title onClick={() => navigate("/")}>Bremen</Title>
 
-        {/* Profile */}
-        <ProfileArea
-          onClick={(e) => {
-            e.stopPropagation();
-            setOpen((prev) => !prev);
-          }}
-        >
-          <ProfileImage />
-        </ProfileArea>
+        {/* 프로필 (특정 페이지에서는 숨김) */}
+        {!hideProfile && (
+          <>
+            <ProfileArea
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpen((prev) => !prev);
+              }}
+            >
+              <ProfileImage />
+            </ProfileArea>
 
-        {/* 드롭다운 */}
-        <Dropdown open={open} onClose={() => setOpen(false)} top={48} right={0}>
-          <HeaderDropdown
-            onNavigate={(path) => {
-              setOpen(false);
-              navigate(path);
-            }}
-            onLogout={() => {
-              setOpen(false);
-              handleLogout();
-            }}
-          ></HeaderDropdown>
-        </Dropdown>
+            <Dropdown
+              open={open}
+              onClose={() => setOpen(false)}
+              top={48}
+              right={0}
+            >
+              <HeaderDropdown
+                onNavigate={(path) => {
+                  setOpen(false);
+                  navigate(path);
+                }}
+                onLogout={() => {
+                  setOpen(false);
+                  handleLogout();
+                }}
+              />
+            </Dropdown>
+          </>
+        )}
       </ItemsContainer>
     </HeaderWrapper>
   );

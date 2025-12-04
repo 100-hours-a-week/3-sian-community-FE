@@ -1,5 +1,5 @@
 import styled from "@emotion/react";
-import colors from "../../styles/color";
+import colors from "../../shared/styles/colors";
 
 export default function Toast({ message, type = "success" }) {
   return <ToastBox type={type}>{message}</ToastBox>;

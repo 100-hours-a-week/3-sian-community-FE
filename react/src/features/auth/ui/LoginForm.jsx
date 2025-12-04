@@ -2,7 +2,10 @@ import { useNavigate } from "react-router-dom";
 import InputField from "../../../shared/ui/InputField";
 import Button from "../../../shared/ui/Button";
 import useForm from "../../../shared/hooks/useForm";
-import { validateEmail, validatePassword } from "../model/validators";
+import {
+  validateEmail,
+  validatePassword,
+} from "../../../shared/lib/validators";
 import { loginRequest } from "../api/login";
 import styled from "@emotion/styled";
 

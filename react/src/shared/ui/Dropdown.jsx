@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useRef, useEffect } from "react";
-import colors from "../../styles/color";
+import colors from "../../shared/styles/colors";
 
 export default function Dropdown({ open, onClose, children, top, right = 0 }) {
   const ref = useRef(null);
