@@ -1,4 +1,3 @@
-import { domToVNode } from "./domToVNode.js";
 import { createElement } from "./createElement.js";
 import { updateElement } from "./diff.js";
 
@@ -41,5 +40,18 @@ export default class Component {
   setState(newState) {
     this.$state = { ...this.$state, ...newState };
     this.render();
+  }
+
+  registeredEvents = [];
+
+  addWindowEvent(type, handler) {
+    window.addEventListener(type, handler);
+    this.registeredEvents.push([type, handler]);
+  }
+
+  unmount() {
+    this.registeredEvents.forEach(([type, handler]) => {
+      window.removeEventListener(type, handler);
+    });
   }
 }

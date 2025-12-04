@@ -27,7 +27,6 @@ const StyledButton = styled.button`
   border-radius: 4px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
   color: ${colors.white};
 
   ${({ fullWidth }) => fullWidth === true && `width: 100%;`}
@@ -56,22 +55,16 @@ const StyledButton = styled.button`
     variant === "primary" &&
     `
       background: ${colors.primary};
-      &:hover {
-        background: ${colors.primary}33;
-      }
     `}
 
   ${({ variant }) =>
     variant === "secondary" &&
     `
       background: ${colors.primary}CC;
-      &:hover {
-        background: ${colors.primary}99;
-      }
     `}
 
   &:disabled {
-    background: ${colors.gray200};
+    background: ${colors.gray200} !important;
     cursor: not-allowed;
   }
 `;

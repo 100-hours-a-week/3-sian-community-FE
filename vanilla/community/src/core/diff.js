@@ -15,6 +15,11 @@ export function updateElement(parent, newNode, oldNode, index = 0) {
     return;
   }
 
+  if (typeof newNode.type === "function") {
+    parent.replaceChild(createElement(newNode), child);
+    return;
+  }
+
   // 텍스트 노드
   if (newNode.type === "TEXT" && oldNode.type === "TEXT") {
     if (newNode.children[0] !== oldNode.children[0]) {

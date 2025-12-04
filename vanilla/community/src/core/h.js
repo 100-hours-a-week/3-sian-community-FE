@@ -1,9 +1,9 @@
 export function h(type, props = {}, ...children) {
-  children = children.length ? children : [];
+  const flatChildren = children.flat().filter((c) => c !== null && c !== false);
 
   return {
     type,
     props: props || {},
-    children: children.flat(),
+    children: flatChildren,
   };
 }

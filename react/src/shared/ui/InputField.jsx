@@ -1,4 +1,4 @@
-import { styled } from "@emotion/styled";
+import styled from "@emotion/styled";
 import colors from "../../styles/color";
 
 export default function InputField({
@@ -50,19 +50,20 @@ const Label = styled.label`
   color: ${colors.gray700};
 `;
 
-const StyledInput = styled.input`
+const StyledInputField = styled.input`
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid
     ${({ hasError }) => (hasError ? colors.primary : colors.gray200)};
-  border-radius: 6px;
   font-size: 14px;
   outline: none;
   transition: border 0.2s;
 
   &:focus {
     border-color: ${({ hasError }) =>
-      hasError ? colors.primary : colors.gray300};
+      hasError ? colors.primary : colors.black};
   }
 `;
 
@@ -70,6 +71,7 @@ const StyledTextarea = styled.textarea`
   width: 100%;
   height: 120px;
   padding: 12px 14px;
+  box-sizing: border-box;
   border: 1px solid
     ${({ hasError }) => (hasError ? colors.primary : colors.gray200)};
   border-radius: 6px;
