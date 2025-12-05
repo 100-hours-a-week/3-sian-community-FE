@@ -13,7 +13,7 @@ export default function EditProfilePage() {
 const PageWrapper = styled.div`
   padding: 32px;
   max-width: 360px;
-  margin: 70px auto;
+  margin: 0 auto;
 `;
 
 const Title = styled.h1`
