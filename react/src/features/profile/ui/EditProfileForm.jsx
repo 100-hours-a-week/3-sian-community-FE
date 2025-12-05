@@ -1,12 +1,13 @@
+import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
+
 import InputField from "../../../shared/ui/InputField";
 import Button from "../../../shared/ui/Button";
 import ProfilePreview from "../../../shared/ui/ProfilePreview";
 import Dropdown from "../../../shared/ui/Dropdown";
 import EditProfileDropdown from "./EditProfileDropdown";
 
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import useForm from "../../../shared/hooks/useForm";
 import updateProfileRequest from "../api/updateProfile";
 import { validateNickname } from "../../../shared/lib/validators";
@@ -14,6 +15,8 @@ import { validateNickname } from "../../../shared/lib/validators";
 export default function EditProfileForm() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const fileInputRef = useRef(null);
 
   const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null);
@@ -74,21 +77,35 @@ export default function EditProfileForm() {
 
   return (
     <FormContainer onSubmit={handleSubmit(onValid)}>
-      <UploadWrapper onClick={() => setOpen((prev) => !prev)}>
-        <ProfilePreview imageUrl={preview || user.profileImageUrl} />
-      </UploadWrapper>
-      <Dropdown open={open} onClose={() => setOpen(false)} top={70} right={0}>
-        <EditProfileDropdown
-          onChange={() => {
-            setOpen(false);
-            handleProfileImage;
-          }}
-          onDelete={() => {
-            setOpen(false);
-            handleDeleteProfileImage;
-          }}
+      <UploadWrapper
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen((prev) => !prev);
+        }}
+      >
+        <ProfilePreview
+          imageUrl={preview || user.profileImageUrl}
+          fileInputRef={fileInputRef}
+          onChange={handleProfileImage}
         />
-      </Dropdown>
+        <Dropdown
+          open={open}
+          onClose={() => setOpen(false)}
+          top={100}
+          right={-80}
+        >
+          <EditProfileDropdown
+            onChange={() => {
+              setOpen(false);
+              fileInputRef.current?.click();
+            }}
+            onDelete={() => {
+              setOpen(false);
+              handleDeleteProfileImage();
+            }}
+          />
+        </Dropdown>
+      </UploadWrapper>
 
       <InputField label="이메일" readOnly />
       <InputField
@@ -123,6 +140,7 @@ const FormContainer = styled.form`
 `;
 
 const UploadWrapper = styled.div`
+  position: relative;
   cursor: pointer;
   margin-bottom: 12px;
 `;
@@ -136,7 +154,7 @@ const DeleteAccountLink = styled.p`
   font-size: 14px;
   cursor: pointer;
   text-align: center;
-  color: #555;
+  color: var(--gray-700);
 
   &:hover {
     text-decoration: underline;

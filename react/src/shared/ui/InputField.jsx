@@ -30,6 +30,7 @@ export default function InputField({
           placeholder={placeholder}
           type={type}
           hasError={!!error}
+          {...props}
         ></StyledInputField>
       )}
       {error && <ErrorText>{error}</ErrorText>}
@@ -60,7 +61,8 @@ const StyledInputField = styled.input`
   font-size: 14px;
   outline: none;
   transition: border 0.2s;
-
+  user-select: ${({ readOnly }) => (readOnly ? "none" : "text")};
+  caret-color: ${({ readOnly }) => (readOnly ? "transparent" : "auto")};
   background-color: ${({ readOnly }) =>
     readOnly ? colors.gray100 : "transparent"};
   color: ${({ readOnly }) => (readOnly ? colors.gray300 : "ingerit")};
