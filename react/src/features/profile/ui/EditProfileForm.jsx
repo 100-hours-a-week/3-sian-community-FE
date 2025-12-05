@@ -1,20 +1,21 @@
+import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
+
 import InputField from "../../../shared/ui/InputField";
 import Button from "../../../shared/ui/Button";
 import ProfilePreview from "../../../shared/ui/ProfilePreview";
 import Dropdown from "../../../shared/ui/Dropdown";
 import EditProfileDropdown from "./EditProfileDropdown";
 
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import useForm from "../../../shared/hooks/useForm";
-import { useRef } from "react";
 import updateProfileRequest from "../api/updateProfile";
 import { validateNickname } from "../../../shared/lib/validators";
 
 export default function EditProfileForm() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+
   const fileInputRef = useRef(null);
 
   const [preview, setPreview] = useState(null);
@@ -153,7 +154,7 @@ const DeleteAccountLink = styled.p`
   font-size: 14px;
   cursor: pointer;
   text-align: center;
-  color: #555;
+  color: var(--gray-700);
 
   &:hover {
     text-decoration: underline;
