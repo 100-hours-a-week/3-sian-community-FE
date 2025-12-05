@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useRef } from "react";
 
-export default function ProfilePreview({ image, size = 120, onChange }) {
+export default function ProfilePreview({ image, size = 149, onChange }) {
   const fileInputRef = useRef(null);
 
   const handleClick = () => {

@@ -18,6 +18,20 @@
   user-select: none;
 }
 
+:root {
+  --color-primary: #ee6a6a;
+  --color-success: #4caf50;
+  --color-error: #f44336;
+
+  --gray-100: #f5f5f5;
+  --gray-200: #e0e0e0;
+  --gray-300: #9e9e9e;
+  --gray-700: #333;
+
+  --color-black: #111;
+  --color-white: #ffffff;
+}
+
 body {
   margin: 0;
   background-color: var(--color-bg);

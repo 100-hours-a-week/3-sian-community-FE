@@ -2,7 +2,12 @@ import { css } from "@emotion/react";
 import defaultProfile from "../assets/images/default-profile.png";
 import colors from "../../shared/styles/colors";
 
-export default function ProfileImage({ imageUrl, size = 36, rounded = true }) {
+export default function ProfileImage({
+  imageUrl,
+  size = 36,
+  rounded = true,
+  ...rest
+}) {
   const style = css`
     width: ${size}px;
     height: ${size}px;
@@ -16,5 +21,5 @@ export default function ProfileImage({ imageUrl, size = 36, rounded = true }) {
     background-color: ${colors.gray300};
   `;
 
-  return <div css={style} />;
+  return <div css={style} {...rest} />;
 }

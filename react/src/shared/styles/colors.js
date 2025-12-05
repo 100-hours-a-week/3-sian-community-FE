@@ -1,14 +1,16 @@
 const colors = {
-  primary: "#ee6a6a",
-  success: "#4caf50",
-  error: "#f44336",
-  warning: "#ff9800",
-  gray100: "#f5f5f5",
-  gray200: "#e0e0e0",
-  gray300: "#9e9e9e",
-  gray700: "#333",
-  white: "#ffffff",
-  black: "#111",
+  primary: "var(--color-primary)",
+  success: "var(--color-success)",
+  error: "var(--color-error)",
+  warning: "var(--color-warning)",
+
+  gray100: "var(--gray-100)",
+  gray200: "var(--gray-200)",
+  gray300: "var(--gray-300)",
+  gray700: "var(--gray-700)",
+
+  white: "var(--color-white)",
+  black: "var(--color-black)",
 };
 
 export default colors;

@@ -59,6 +59,7 @@ export default function SignupForm() {
     }
   };
 
+  // 버튼 활성화 조건
   const isDisabled = !isValid;
 
   return (
@@ -66,7 +67,6 @@ export default function SignupForm() {
       <UploadWrapper>
         <ProfilePreview
           image={preview || defaultProfile}
-          size={149}
           onChange={handleProfileImage}
         />
       </UploadWrapper>

@@ -61,9 +61,14 @@ const StyledInputField = styled.input`
   outline: none;
   transition: border 0.2s;
 
+  background-color: ${({ readOnly }) =>
+    readOnly ? colors.gray100 : "transparent"};
+  color: ${({ readOnly }) => (readOnly ? colors.gray300 : "ingerit")};
+  cursor: ${({ readOnly }) => (readOnly ? "default" : "text")};
+
   &:focus {
-    border-color: ${({ hasError }) =>
-      hasError ? colors.primary : colors.black};
+    border-color: ${({ hasError, readOnly }) =>
+      readOnly ? colors.gray200 : hasError ? colors.primary : colors.black};
   }
 `;
 
