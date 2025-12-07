@@ -11,7 +11,7 @@ export default class ProfileImage extends Component {
 
   template() {
     const { imageUrl, size, rounded } = this.$state;
-    const defaultProfile = "/src/assets/profile-image.png";
+    const defaultProfile = "src/assets/profile-image.png";
 
     return h("div", {
       class: "profile-image-component",

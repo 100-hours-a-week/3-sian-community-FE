@@ -20,14 +20,14 @@
 
 @font-face {
   font-family: "Cafe24ProUp";
-  src: url("/src/assets/fonts/Cafe24PROUP.woff2") format("woff2");
+  src: url("./src/assets/fonts/Cafe24PROUP.woff2") format("woff2");
   font-weight: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: "Galmuri11";
-  src: url("/src/assets/fonts/Galmuri11.woff2") format("woff2");
+  src: url("./src/assets/fonts/Galmuri11.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }
