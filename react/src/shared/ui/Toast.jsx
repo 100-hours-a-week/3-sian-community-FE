@@ -1,4 +1,4 @@
-import styled from "@emotion/react";
+import styled from "@emotion/styled";
 import colors from "../../shared/styles/colors";
 
 export default function Toast({ message, type = "success" }) {

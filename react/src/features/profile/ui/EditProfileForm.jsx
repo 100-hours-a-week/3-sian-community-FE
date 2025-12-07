@@ -7,6 +7,7 @@ import Button from "../../../shared/ui/Button";
 import ProfilePreview from "../../../shared/ui/ProfilePreview";
 import Dropdown from "../../../shared/ui/Dropdown";
 import EditProfileDropdown from "./EditProfileDropdown";
+import Toast from "../../../shared/ui/Toast";
 
 import useForm from "../../../shared/hooks/useForm";
 import updateProfileRequest from "../api/updateProfile";

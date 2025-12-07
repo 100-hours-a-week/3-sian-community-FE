@@ -5,6 +5,7 @@ import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/SignupPage";
 import EditProfilePage from "../pages/EditProfilePage";
 import NotFoundPage from "../pages/NotFoundPage";
+import UpdatePasswordPage from "../pages/UpdatePasswordPage";
 
 function Router() {
   return (
@@ -15,6 +16,7 @@ function Router() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/profile/edit" element={<EditProfilePage />} />
+      <Route path="/profile/password" element={<UpdatePasswordPage />} />
       <Route path="*" element={<NotFoundPage />}></Route>
     </Routes>
   );
