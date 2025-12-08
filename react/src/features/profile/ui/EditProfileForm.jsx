@@ -10,7 +10,7 @@ import EditProfileDropdown from "./EditProfileDropdown";
 import Toast from "../../../shared/ui/Toast";
 
 import useForm from "../../../shared/hooks/useForm";
-import updateProfileRequest from "../api/updateProfile";
+import updateProfile from "../api/updateProfile";
 import { validateNickname } from "../../../shared/lib/validators";
 
 export default function EditProfileForm() {
@@ -59,7 +59,7 @@ export default function EditProfileForm() {
     }
 
     try {
-      await updateProfileRequest(formData);
+      await updateProfile(formData);
       showToast("프로필이 수정되었습니다!", "success");
       navigate("/users/me");
     } catch (e) {
