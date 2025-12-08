@@ -7,7 +7,7 @@ import Button from "../../../shared/ui/Button";
 import Toast from "../../../shared/ui/Toast";
 
 import useForm from "../../../shared/hooks/useForm";
-import updatePasswordRequest from "../api/updatePasswordRequest";
+import updatePassword from "../api/updatePassword";
 import {
   validatePassword,
   validatePasswordConfirm,
@@ -38,7 +38,7 @@ export default function UpdatePasswordForm() {
 
   const onValid = async (values) => {
     try {
-      await updatePasswordRequest(values);
+      await updatePassword(values);
       showToast("비밀번호가 변경되었습니다!", "success");
       navigate("/posts");
     } catch (e) {

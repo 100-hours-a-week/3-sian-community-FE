@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import getPostsRequest from "../features/posts/api/getPostsRequest";
+import getPosts from "../features/posts/api/getPosts";
 
 import PostList from "../features/posts/ui/PostList";
 import Button from "../shared/ui/Button";
@@ -18,7 +18,7 @@ export default function PostsPage() {
       try {
         setLoading(true);
         setError(false);
-        const data = await getPostsRequest({ page: 0, size: 10 });
+        const data = await getPosts({ page: 0, size: 10 });
         setPosts(data);
       } catch (e) {
         console.error(e);

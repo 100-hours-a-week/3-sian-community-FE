@@ -6,7 +6,7 @@ import {
   validateEmail,
   validatePassword,
 } from "../../../shared/lib/validators";
-import { loginRequest } from "../api/login";
+import { login } from "../api/login";
 import styled from "@emotion/styled";
 
 export default function LoginForm() {
@@ -23,7 +23,7 @@ export default function LoginForm() {
 
   const onValid = async (values) => {
     try {
-      const user = await loginRequest(values);
+      const user = await login(values);
 
       localStorage.setItem("accessToken", user.accessToken);
       localStorage.setItem("user", JSON.stringify(user));

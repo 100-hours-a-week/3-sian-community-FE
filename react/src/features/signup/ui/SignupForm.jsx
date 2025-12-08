@@ -7,7 +7,7 @@ import defaultProfile from "../../../shared/assets/images/default-profile.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useForm from "../../../shared/hooks/useForm";
-import { signupRequest } from "../api/signup";
+import { signup } from "../api/signup";
 import {
   validateEmail,
   validatePassword,
@@ -52,7 +52,7 @@ export default function SignupForm() {
     }
 
     try {
-      await signupRequest(formData);
+      await signup(formData);
       navigate("/login");
     } catch (e) {
       alert(e.response?.data?.message || "회원가입 실패");
