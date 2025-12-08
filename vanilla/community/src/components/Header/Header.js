@@ -12,9 +12,9 @@ export default class Header extends Component {
         "div",
         { class: "header__items-container" },
         h(
-          "div", 
+          "div",
           { class: "back-button", id: "back-button" },
-          h("img", { src: "/src/assets/back-icon.png", alt: "뒤로가기" })
+          h("img", { src: "src/assets/back-icon.png", alt: "뒤로가기" })
         ),
         h("div", { class: "header-title" }, "Bremen"),
         h("div", { id: "profile-area" }),
