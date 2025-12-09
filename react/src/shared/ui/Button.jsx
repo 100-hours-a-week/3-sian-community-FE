@@ -79,4 +79,16 @@ const StyledButton = styled.button`
     background: ${colors.gray200} !important;
     cursor: not-allowed;
   }
+
+  ${({ variant }) =>
+    variant === "white" &&
+    `background: ${colors.white};
+      color: ${colors.black};
+      border: solid 1px ${colors.black};`}
+
+  ${({ variant }) =>
+    variant === "black" &&
+    `background: ${colors.black};
+      color: ${colors.white};
+      border: none`}
 `;

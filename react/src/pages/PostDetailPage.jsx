@@ -1,6 +1,6 @@
 import PostHeader from "../features/posts/ui/PostDetail/PostHeader";
 import PostContent from "../features/posts/ui/PostDetail/PostContent";
-// import CommentSection from "../features/posts/comments/ui/CommentSection";
+import CommentSection from "../features/posts/comments/ui/CommentSection";
 import ConfirmModal from "../shared/ui/Modal/ConfirmModal";
 import Toast from "../shared/ui/Toast";
 
@@ -78,7 +78,7 @@ export default function PostDetailPage() {
 
       <PostContent post={post} onLikeToggle={handleToggleLike} />
 
-      {/* <CommentSection postId={postId} /> */}
+      <CommentSection postId={post.id} />
 
       <ConfirmModal
         open={open}
