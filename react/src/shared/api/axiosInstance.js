@@ -1,25 +1,30 @@
 import axios from "axios";
 
-let isRefreshing = false;
-let failedQueue = [];
-
-const processQueue = (error, token = null) => {
-  failedQueue.forEach((prom) => {
-    if (error) prom.reject(error);
-    else prom.resolve(token);
-  });
-  failedQueue = [];
-};
+const refreshApi = axios.create({
+  baseURL: "http://localhost:8080",
+  withCredentials: true,
+});
 
 const api = axios.create({
   baseURL: "http://localhost:8080",
   withCredentials: true,
 });
 
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach(({ resolve, reject }) => {
+    if (error) reject(error);
+    else resolve(token);
+  });
+  failedQueue = [];
+};
+
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
 
-  if (token) {
+  if (token && token !== "undefined") {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
@@ -32,18 +37,18 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// refresh , 재요청
 api.interceptors.response.use(
   (res) => res,
 
   async (err) => {
-    const originalRequest = err.config;
+    const originalRequest = err.config || {};
 
     if (err.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         }).then((token) => {
+          originalRequest.headers = originalRequest.headers || {};
           originalRequest.headers.Authorization = `Bearer ${token}`;
           return api(originalRequest);
         });
@@ -53,19 +58,30 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const res = await api.post("/auth/refresh");
-        const newToken = res.data.accessToken;
+        const res = await refreshApi.post("/auth/refresh");
+
+        const newToken = res.data?.accessToken || res.data?.data?.accessToken;
+
+        if (!newToken) {
+          throw new Error("Refresh 응답에 accessToken이 없음");
+        }
 
         localStorage.setItem("accessToken", newToken);
         api.defaults.headers.Authorization = `Bearer ${newToken}`;
+
         processQueue(null, newToken);
 
+        originalRequest.headers = originalRequest.headers || {};
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
+
         return api(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError, null);
         localStorage.removeItem("accessToken");
-        window.location.href = "/login";
+        localStorage.removeItem("user");
+
+        window.location.replace("/login");
+
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

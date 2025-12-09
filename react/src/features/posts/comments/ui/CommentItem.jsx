@@ -84,7 +84,7 @@ const Item = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 14px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--gray-200);
 `;
 
 const Left = styled.div`
@@ -112,7 +112,7 @@ const Author = styled.span`
 
 const Date = styled.span`
   font-size: 12px;
-  color: #777;
+  color: var(--gray-300);
 `;
 
 const Content = styled.p`

@@ -54,7 +54,7 @@ export default function CommentSection({ postId }) {
   };
 
   const handleDeleteComment = async (commentId) => {
-    setComments((prev) => prev.filter((c) => c.id !== commentId)); // Optimistic UI
+    setComments((prev) => prev.filter((c) => c.id !== commentId));
 
     try {
       await deleteComment(postId, commentId);

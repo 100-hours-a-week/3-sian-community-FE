@@ -169,12 +169,12 @@ export const FormLabel = styled.label`
 `;
 
 export const Required = styled.span`
-  color: #ed4956;
+  color: var(--color-primary);
   margin-left: 4px;
 `;
 
 export const FormInput = styled.input`
-  border: 1px solid #ccc;
+  border: 1px solid var(--gray-200);
   border-left: none;
   border-right: none;
   background-color: transparent;
@@ -187,12 +187,12 @@ export const FormInput = styled.input`
 
   &:focus {
     outline: none;
-    border-color: #ff4040;
+    border-color: var(--color-primary);
   }
 `;
 
 export const FormTextarea = styled.textarea`
-  border: 1px solid #ccc;
+  border: 1px solid var(--gray-500);
   border-left: none;
   border-right: none;
   background-color: transparent;
@@ -201,11 +201,11 @@ export const FormTextarea = styled.textarea`
   font-family: "Pretendard", sans-serif;
   resize: none;
   box-sizing: border-box;
-  color: #838486;
+  color: var(--gray-500);
 
   &:focus {
     outline: none;
-    border-color: #ff4040;
+    border-color: var(--color-primary);
   }
 `;
 
@@ -216,7 +216,7 @@ export const FileInputRow = styled.div`
 `;
 
 export const FilePlaceholder = styled.p`
-  color: #777;
+  color: var(--gray-500);
   font-size: 14px;
 `;
 
@@ -228,6 +228,6 @@ export const FormSubmit = styled.div`
 
 export const CurrentFileName = styled.p`
   font-size: 13px;
-  color: #666;
+  color: var(--gray-500);
   margin-bottom: 6px;
 `;

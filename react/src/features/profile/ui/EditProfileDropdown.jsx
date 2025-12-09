@@ -18,7 +18,7 @@ const menuStyle = css`
   li {
     padding: 10px 14px;
     font-size: 14px;
-    color: #333;
+    color: var(--gray-700);
     cursor: pointer;
     transition: background 0.2s;
 

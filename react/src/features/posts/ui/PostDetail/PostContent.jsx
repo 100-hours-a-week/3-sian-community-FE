@@ -27,6 +27,7 @@ export default function PostContent({ post, onLikeToggle }) {
         <Stat>
           조회 <strong>{post.viewCount}</strong>
         </Stat>
+
         <Stat>
           댓글 <strong>{post.commentCount}</strong>
         </Stat>

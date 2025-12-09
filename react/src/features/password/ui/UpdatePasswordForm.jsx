@@ -24,7 +24,6 @@ export default function UpdatePasswordForm() {
 
   const password = watch?.("password");
   const passwordConfirm = watch?.("passwordConfirm");
-  const isDisabled = !isValid; // 버튼 비활성화
 
   const [toast, setToast] = useState(false);
 
@@ -79,7 +78,7 @@ export default function UpdatePasswordForm() {
           },
         })}
       />
-      <SubmitButton fullWidth disabled={isDisabled}>
+      <SubmitButton fullWidth disabled={!isValid}>
         변경하기
       </SubmitButton>
       {toast && <Toast message={toast.message} type={toast.type} />}
