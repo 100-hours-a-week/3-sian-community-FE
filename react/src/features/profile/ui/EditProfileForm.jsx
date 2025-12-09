@@ -1,12 +1,10 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import styled from "@emotion/styled";
 
 import InputField from "../../../shared/ui/InputField";
 import Button from "../../../shared/ui/Button";
-import ProfilePreview from "../../../shared/ui/ProfilePreview";
-import Dropdown from "../../../shared/ui/Dropdown";
-import EditProfileDropdown from "./EditProfileDropdown";
 import Toast from "../../../shared/ui/Toast";
+import ProfileUploader from "../../../shared/ui/ProfileUploader";
 
 import useForm from "../../../shared/hooks/useForm";
 import updateProfile from "../api/updateProfile";
@@ -16,11 +14,7 @@ export default function EditProfileForm() {
   const rawUser = localStorage.getItem("user");
   const user = rawUser ? JSON.parse(rawUser) : {};
 
-  const fileInputRef = useRef(null);
-
-  const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null);
-  const [open, setOpen] = useState(false); // 드롭다운 열림 여부
   const [isDeleted, setIsDeleted] = useState(false); // 프로필 이미지 삭제 여부
   const [toast, setToast] = useState(null);
 
@@ -29,20 +23,6 @@ export default function EditProfileForm() {
       nickname: user.nickname,
     },
   });
-
-  // 프로필 이미지 변경/등록
-  const handleProfileImage = (uploaded) => {
-    setFile(uploaded);
-    setPreview(URL.createObjectURL(uploaded));
-    setIsDeleted(false);
-  };
-
-  // 프로필 이미지 삭제
-  const handleDeleteProfileImage = () => {
-    setFile(null);
-    setPreview(null);
-    setIsDeleted(true);
-  };
 
   // 최종 저장
   const onValid = async (values) => {
@@ -85,35 +65,13 @@ export default function EditProfileForm() {
   return (
     // 프로필 이미지
     <FormContainer onSubmit={handleSubmit(onValid)}>
-      <UploadWrapper
-        onClick={(e) => {
-          e.stopPropagation();
-          setOpen((prev) => !prev);
+      <ProfileUploader
+        initialImageUrl={user.profileImageUrl}
+        onChange={({ file, isDeleted }) => {
+          setFile(file);
+          setIsDeleted(isDeleted);
         }}
-      >
-        <ProfilePreview
-          imageUrl={isDeleted ? null : preview || user.profileImageUrl}
-          fileInputRef={fileInputRef}
-          onChange={handleProfileImage}
-        />
-        <Dropdown
-          open={open}
-          onClose={() => setOpen(false)}
-          top={100}
-          right={-80}
-        >
-          <EditProfileDropdown
-            onChange={() => {
-              setOpen(false);
-              fileInputRef.current?.click();
-            }}
-            onDelete={() => {
-              setOpen(false);
-              handleDeleteProfileImage();
-            }}
-          />
-        </Dropdown>
-      </UploadWrapper>
+      />
 
       <InputField label="이메일" readOnly placeholder={user.email} />
 
@@ -144,12 +102,6 @@ const FormContainer = styled.form`
   flex-direction: column;
   align-items: center;
   gap: 16px;
-`;
-
-const UploadWrapper = styled.div`
-  position: relative;
-  cursor: pointer;
-  margin-bottom: 12px;
 `;
 
 const SubmitButton = styled(Button)`

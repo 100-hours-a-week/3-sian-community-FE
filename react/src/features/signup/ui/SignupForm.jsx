@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 import InputField from "../../../shared/ui/InputField";
 import Button from "../../../shared/ui/Button";
-import ProfilePreview from "../../../shared/ui/ProfilePreview";
-import defaultProfile from "../../../shared/assets/images/default-profile.png";
+import ProfileUploader from "../../../shared/ui/ProfileUploader";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +17,6 @@ import {
 export default function SignupForm() {
   const navigate = useNavigate();
 
-  const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null);
 
   const { register, handleSubmit, errors, isValid, watch } = useForm({
@@ -32,12 +30,6 @@ export default function SignupForm() {
 
   const password = watch?.("password");
   const passwordConfirm = watch?.("passwordConfirm");
-
-  // 프로필 업로드
-  const handleProfileImage = (uploaded) => {
-    setFile(uploaded);
-    setPreview(URL.createObjectURL(uploaded));
-  };
 
   // 폼 제출 (회원가입)
   const onValid = async (values) => {
@@ -59,17 +51,13 @@ export default function SignupForm() {
     }
   };
 
-  // 버튼 활성화 조건
-  const isDisabled = !isValid;
-
   return (
     <FormContainer onSubmit={handleSubmit(onValid)}>
-      <UploadWrapper>
-        <ProfilePreview
-          image={preview || defaultProfile}
-          onChange={handleProfileImage}
-        />
-      </UploadWrapper>
+      <ProfileUploader
+        onChange={({ file }) => {
+          setFile(file);
+        }}
+      />
 
       <InputField
         label="이메일"
@@ -130,7 +118,7 @@ export default function SignupForm() {
         })}
       />
 
-      <SubmitButton fullWidth disabled={isDisabled}>
+      <SubmitButton fullWidth disabled={!isValid}>
         회원가입
       </SubmitButton>
 
@@ -149,11 +137,6 @@ const FormContainer = styled.form`
   flex-direction: column;
   align-items: center;
   gap: 16px;
-`;
-
-const UploadWrapper = styled.div`
-  cursor: pointer;
-  margin-bottom: 12px;
 `;
 
 const SubmitButton = styled(Button)`
