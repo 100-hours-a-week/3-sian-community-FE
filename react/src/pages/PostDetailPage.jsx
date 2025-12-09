@@ -44,7 +44,7 @@ export default function PostDetailPage() {
   };
 
   const handleToggleLike = async () => {
-    // ✅ 1. UI 먼저 즉시 반영 (Optimistic Update)
+    // UI 먼저 변경
     setPost((prev) => ({
       ...prev,
       liked: !prev.liked,
