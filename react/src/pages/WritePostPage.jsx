@@ -24,9 +24,8 @@ export default function WritePostPage() {
       await createPost(formData);
       showToast("게시글 작성 완료!", "success");
       navigate("/posts");
-    } catch (err) {
+    } catch {
       showToast("게시글 작성 실패", "error");
-      console.error("게시글 작성 실패:", err);
     }
   };
 

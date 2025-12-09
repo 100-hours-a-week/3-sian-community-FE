@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import InputField from "../../../shared/ui/InputField";
 import Button from "../../../shared/ui/Button";
 import useForm from "../../../shared/hooks/useForm";
+import Toast from "../../../shared/ui/Toast";
 import {
   validateEmail,
   validatePassword,
@@ -11,6 +14,7 @@ import styled from "@emotion/styled";
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const [toast, setToast] = useState(null);
 
   const { register, handleSubmit, errors, isValid } = useForm({
     defaultValues: {
@@ -19,7 +23,13 @@ export default function LoginForm() {
     },
   });
 
-  const isDisabled = !isValid;
+  const showToast = (message, type) => {
+    setToast({ message, type });
+
+    setTimeout(() => {
+      setToast(null);
+    }, 1000);
+  };
 
   const onValid = async (values) => {
     try {
@@ -30,8 +40,8 @@ export default function LoginForm() {
       const { accessToken: _, ...userInfo } = user;
       localStorage.setItem("user", JSON.stringify(userInfo));
       navigate("/posts");
-    } catch (e) {
-      alert(e.response?.data?.message || "로그인에 실패");
+    } catch {
+      showToast("로그인 실패!", "error");
     }
   };
 
@@ -65,13 +75,14 @@ export default function LoginForm() {
         })}
       />
 
-      <SubmitButton type="submit" fullWidth disabled={isDisabled}>
+      <SubmitButton type="submit" fullWidth disabled={!isValid}>
         로그인
       </SubmitButton>
 
       <SignupLink onClick={() => navigate("/signup")}>
         브레멘 회원가입
       </SignupLink>
+      {toast && <Toast message={toast.message} type={toast.type} />}
     </FormContainer>
   );
 }

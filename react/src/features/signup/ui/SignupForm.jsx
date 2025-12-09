@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import InputField from "../../../shared/ui/InputField";
 import Button from "../../../shared/ui/Button";
 import ProfileUploader from "../../../shared/ui/ProfileUploader";
+import Toast from "../../../shared/ui/Toast";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +19,7 @@ export default function SignupForm() {
   const navigate = useNavigate();
 
   const [file, setFile] = useState(null);
+  const [toast, setToast] = useState(null);
 
   const { register, handleSubmit, errors, isValid, watch } = useForm({
     defaultValues: {
@@ -30,6 +32,14 @@ export default function SignupForm() {
 
   const password = watch?.("password");
   const passwordConfirm = watch?.("passwordConfirm");
+
+  const showToast = (message, type) => {
+    setToast({ message, type });
+
+    setTimeout(() => {
+      setToast(null);
+    }, 2500);
+  };
 
   // 폼 제출 (회원가입)
   const onValid = async (values) => {
@@ -46,8 +56,8 @@ export default function SignupForm() {
     try {
       await signup(formData);
       navigate("/login");
-    } catch (e) {
-      alert(e.response?.data?.message || "회원가입 실패");
+    } catch {
+      showToast("회원가입 실패!", "error");
     }
   };
 
@@ -123,6 +133,7 @@ export default function SignupForm() {
       </SubmitButton>
 
       <LoginLink onClick={() => navigate("/login")}>로그인하러 가기</LoginLink>
+      {toast && <Toast message={toast.message} type={toast.type} />}
     </FormContainer>
   );
 }

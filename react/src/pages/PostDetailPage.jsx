@@ -33,9 +33,8 @@ export default function PostDetailPage() {
       await deletePost(post.id);
       showToast("게시글이 삭제되었습니다!", "success");
       navigate("/posts");
-    } catch (e) {
+    } catch {
       showToast("삭제 실패! 다시 시도해주세요.", "error");
-      console.log(e.response?.data?.message || "삭제 실패");
     }
   };
 

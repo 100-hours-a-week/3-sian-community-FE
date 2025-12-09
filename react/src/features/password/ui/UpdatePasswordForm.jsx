@@ -41,9 +41,8 @@ export default function UpdatePasswordForm() {
       await updatePassword(values);
       showToast("비밀번호가 변경되었습니다!", "success");
       navigate("/posts");
-    } catch (e) {
+    } catch {
       showToast("변경 실패! 다시 시도해주세요.", "error");
-      alert(e.response?.data?.message || "변경 실패");
     }
   };
 

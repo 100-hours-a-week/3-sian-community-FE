@@ -46,9 +46,8 @@ export default function EditPostPage() {
       await updatePost(id, formData);
       showToast("게시글 수정 완료!", "success");
       navigate(`/posts/${id}`);
-    } catch (err) {
+    } catch {
       showToast("게시글 수정 실패", "error");
-      console.error("게시글 수정 실패:", err);
     }
   };
 
