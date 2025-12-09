@@ -44,11 +44,25 @@ export default function PostDetailPage() {
   };
 
   const handleToggleLike = async () => {
+    // ✅ 1. UI 먼저 즉시 반영 (Optimistic Update)
+    setPost((prev) => ({
+      ...prev,
+      liked: !prev.liked,
+      likeCount: prev.liked ? prev.likeCount - 1 : prev.likeCount + 1,
+    }));
+
     try {
-      const updatedPost = await toggleLike(post.id);
-      setPost(updatedPost);
+      // ✅ 2. 서버에는 조용히 요청만 보냄
+      await toggleLike(post.id, post.liked);
     } catch (e) {
-      console.error(e);
+      console.error("좋아요 토글 실패:", e);
+
+      // ❗ 3. 실패하면 UI 되돌리기 (Rollback)
+      setPost((prev) => ({
+        ...prev,
+        liked: !prev.liked,
+        likeCount: prev.liked ? prev.likeCount - 1 : prev.likeCount + 1,
+      }));
     }
   };
 

@@ -1,12 +1,7 @@
 import styled from "@emotion/styled";
-import Button from "../../../../shared/ui/Button";
 import colors from "../../../../shared/styles/colors";
 
 export default function PostContent({ post, onLikeToggle }) {
-  const handleLike = async () => {
-    await onLikeToggle(post.id, post.liked);
-  };
-
   return (
     <ContentWrapper>
       {post.postImageUrl && (
@@ -17,7 +12,13 @@ export default function PostContent({ post, onLikeToggle }) {
 
       <PostText>{post.content}</PostText>
       <StatsRow>
-        <StatButton onClick={handleLike} isLiked={post.liked}>
+        <StatButton
+          onClick={onLikeToggle}
+          style={{
+            cursor: "pointer",
+            color: post.liked ? colors.primary : colors.gray300,
+          }}
+        >
           <Stat>
             ❤️<strong>{post.likeCount}</strong>
           </Stat>
