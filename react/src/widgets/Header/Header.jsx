@@ -23,6 +23,16 @@ export default function Header() {
     navigate("/login");
   };
 
+  const handleTitleClick = () => {
+    const isLoggedIn = !!localStorage.getItem("accessToken");
+
+    if (isLoggedIn) {
+      navigate("/posts");
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <HeaderWrapper>
       <ItemsContainer>
@@ -32,7 +42,7 @@ export default function Header() {
         </BackButton>
 
         {/* Title */}
-        <Title onClick={() => navigate("/")}>Bremen</Title>
+        <Title onClick={handleTitleClick}>Bremen</Title>
 
         {/* 프로필 (특정 페이지에서는 숨김) */}
         {!hideProfile && (
