@@ -26,7 +26,9 @@ export default function LoginForm() {
       const user = await login(values);
 
       localStorage.setItem("accessToken", user.accessToken);
-      localStorage.setItem("user", JSON.stringify(user));
+
+      const { accessToken: _, ...userInfo } = user;
+      localStorage.setItem("user", JSON.stringify(userInfo));
       navigate("/posts");
     } catch (e) {
       alert(e.response?.data?.message || "로그인에 실패");

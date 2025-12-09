@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import getPosts from "../features/posts/api/getPosts";
 
-import PostList from "../features/posts/ui/PostList";
+import PostList from "../features/posts/ui/PostList/PostList";
 import Button from "../shared/ui/Button";
 
 export default function PostsPage() {
@@ -18,6 +18,7 @@ export default function PostsPage() {
       try {
         setLoading(true);
         setError(false);
+
         const data = await getPosts({ page: 0, size: 10 });
         setPosts(data);
       } catch (e) {

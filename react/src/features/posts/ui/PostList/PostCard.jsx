@@ -13,7 +13,7 @@ export default function PostCard({
   const navigate = useNavigate();
 
   return (
-    <Card onClick={() => navigate(`/post/${id}`)}>
+    <Card onClick={() => navigate(`/posts/${id}`)}>
       <TopSection>
         <Title>{title}</Title>
       </TopSection>
