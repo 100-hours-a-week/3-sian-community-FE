@@ -7,6 +7,7 @@ import EditProfilePage from "../pages/EditProfilePage";
 import NotFoundPage from "../pages/NotFoundPage";
 import UpdatePasswordPage from "../pages/UpdatePasswordPage";
 import WritePostPage from "../pages/WritePostPage";
+import EditPostPage from "../pages/EditPostPage";
 
 function Router() {
   return (
@@ -15,6 +16,7 @@ function Router() {
       <Route path="/posts" element={<PostsPage />} />
       <Route path="/posts/:id" element={<PostDetailPage />} />
       <Route path="/posts/new" element={<WritePostPage />} />
+      <Route path="/posts/edit" element={<EditPostPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/profile/edit" element={<EditProfilePage />} />
