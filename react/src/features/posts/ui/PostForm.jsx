@@ -6,11 +6,16 @@ import InputField from "../../../shared/ui/InputField";
 
 import { validateTitle, validateContent } from "../../../shared/lib/validators";
 
-export default function PostForm({ mode = "write", defaultValues, onSubmit }) {
-  const [title, setTitle] = useState(() => defaultValues?.title ?? "");
-  const [content, setContent] = useState(() => defaultValues?.content ?? "");
+export default function PostForm({
+  mode = "write",
+  defaultValues,
+  existingImageUrl,
+  onSubmit,
+}) {
+  const [title, setTitle] = useState(() => defaultValues.title);
+  const [content, setContent] = useState(() => defaultValues.content);
   const [file, setFile] = useState(null);
-
+  const [removeImage, setRemoveImage] = useState(false);
   const [errors, setErrors] = useState({
     title: "",
     content: "",
@@ -36,10 +41,16 @@ export default function PostForm({ mode = "write", defaultValues, onSubmit }) {
     const formData = new FormData();
     formData.append("title", title.trim());
     formData.append("content", content.trim());
+
     if (file) formData.append("image", file);
+
+    if (removeImage) {
+      formData.append("removeImage", "true");
+    }
 
     onSubmit(formData);
   };
+
   return (
     <WritePostPage>
       <WritePostTitle>
@@ -71,8 +82,36 @@ export default function PostForm({ mode = "write", defaultValues, onSubmit }) {
 
         <FormGroup>
           <FormLabel>이미지</FormLabel>
+          {/* 수정모드 & 이미지 파일 있는 경우 */}
+          {mode === "edit" && existingImageUrl && !file && !removeImage && (
+            <>
+              <CurrentFileName>
+                현재 이미지: {existingImageUrl.split("/").pop()}
+              </CurrentFileName>
+              <img
+                src={existingImageUrl}
+                alt="기존 이미지"
+                style={{ width: 120, borderRadius: 8 }}
+              />
+              <label style={{ marginTop: 6 }}>
+                <input
+                  type="checkbox"
+                  checked={removeImage}
+                  onChange={(e) => setRemoveImage(e.target.checked)}
+                />
+                기존 이미지 삭제
+              </label>
+            </>
+          )}
+
           <FileInputRow>
-            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+            <input
+              type="file"
+              onChange={(e) => {
+                setFile(e.target.files[0]);
+                setRemoveImage(false);
+              }}
+            />
           </FileInputRow>
         </FormGroup>
 
@@ -106,7 +145,6 @@ export const WritePostTitle = styled.h1`
   margin-bottom: 30px;
 `;
 
-/* 폼 */
 export const WritePostForm = styled.form`
   width: 570px;
   display: flex;
@@ -118,27 +156,23 @@ export const WritePostForm = styled.form`
   }
 `;
 
-/* 그룹 */
 export const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
 `;
 
-/* 라벨 */
 export const FormLabel = styled.label`
   font-size: 16px;
   font-weight: 700;
   color: #000;
 `;
 
-/* 필수 표시 */
 export const Required = styled.span`
   color: #ed4956;
   margin-left: 4px;
 `;
 
-/* input */
 export const FormInput = styled.input`
   border: 1px solid #ccc;
   border-left: none;
@@ -157,7 +191,6 @@ export const FormInput = styled.input`
   }
 `;
 
-/* textarea */
 export const FormTextarea = styled.textarea`
   border: 1px solid #ccc;
   border-left: none;
@@ -176,27 +209,23 @@ export const FormTextarea = styled.textarea`
   }
 `;
 
-/* 파일 input row */
 export const FileInputRow = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
 `;
 
-/* 파일 placeholder */
 export const FilePlaceholder = styled.p`
   color: #777;
   font-size: 14px;
 `;
 
-/* 제출 영역 */
 export const FormSubmit = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
 `;
 
-/* 파일명 */
 export const CurrentFileName = styled.p`
   font-size: 13px;
   color: #666;
