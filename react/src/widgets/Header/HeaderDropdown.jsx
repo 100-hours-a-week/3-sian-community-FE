@@ -2,13 +2,11 @@ import { css } from "@emotion/react";
 import colors from "../../shared/styles/colors";
 
 export default function HeaderDropdown({ onNavigate, onLogout }) {
-  // onNavigate: 페이지 이동
-  // onLogout : 로그아웃
   return (
     <ul css={menuStyle}>
       <li onClick={() => onNavigate("/profile/edit")}>회원정보 수정</li>
       <li onClick={() => onNavigate("/profile/password")}>비밀번호 수정</li>
-      <li onClick={() => onLogout}>로그아웃</li>
+      <li onClick={() => onLogout()}>로그아웃</li>
     </ul>
   );
 }
