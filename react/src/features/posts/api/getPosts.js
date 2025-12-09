@@ -5,5 +5,5 @@ export default async function getPosts({ page = 0, size = 10 } = {}) {
     params: { page, size },
   });
 
-  return res.data.content;
+  return res.data.data.content;
 }

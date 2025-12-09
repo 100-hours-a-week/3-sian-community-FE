@@ -13,7 +13,7 @@ export default function PostCard({
   const navigate = useNavigate();
 
   return (
-    <Card onClick={() => navigate(`/post/${id}`)}>
+    <Card onClick={() => navigate(`/posts/${id}`)}>
       <TopSection>
         <Title>{title}</Title>
       </TopSection>
@@ -41,7 +41,6 @@ const Card = styled.article`
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
   cursor: pointer;
   border-bottom: 1px solid #e0e0e0;
   border-top: 1px solid #e0e0e0;

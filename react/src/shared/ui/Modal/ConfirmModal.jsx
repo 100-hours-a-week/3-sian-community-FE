@@ -1,19 +1,19 @@
 import styled from "@emotion/styled";
-import colors from "../../shared/styles/colors";
+import colors from "../../styles/colors";
 import ModalButton from "./ModalButton";
 
-export default function ConfirmModal(
+export default function ConfirmModal({
   open,
   title = "",
   message = "",
   onConfirm,
-  onCancel
-) {
+  onCancel,
+}) {
   if (!open) return null;
 
   return (
-    <Overlay>
-      <ModalBox>
+    <Overlay onClick={onCancel}>
+      <ModalBox onClick={(e) => e.stopPropagation()}>
         <Title>{title}</Title>
         <Message>{message}</Message>
 

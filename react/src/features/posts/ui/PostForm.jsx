@@ -12,8 +12,8 @@ export default function PostForm({
   existingImageUrl,
   onSubmit,
 }) {
-  const [title, setTitle] = useState(() => defaultValues.title);
-  const [content, setContent] = useState(() => defaultValues.content);
+  const [title, setTitle] = useState(defaultValues?.title ?? "");
+  const [content, setContent] = useState(defaultValues?.content ?? "");
   const [file, setFile] = useState(null);
   const [removeImage, setRemoveImage] = useState(false);
   const [errors, setErrors] = useState({

@@ -33,7 +33,7 @@ export default function UpdatePasswordForm() {
 
     setTimeout(() => {
       setToast(null);
-    }, 2500);
+    }, 1000);
   };
 
   const onValid = async (values) => {
