@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 
@@ -10,8 +10,23 @@ import colors from "../../shared/styles/colors";
 
 export default function Header() {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false); // 드롭다운 열림 여부
   const location = useLocation();
+  const [open, setOpen] = useState(false); // 드롭다운 열림 여부
+  const [user, setUser] = useState(() => {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  });
+
+  useEffect(() => {
+    const handleUserUpdated = () => {
+      const raw = localStorage.getItem("user");
+      setUser(raw ? JSON.parse(raw) : null);
+    };
+
+    window.addEventListener("user-updated", handleUserUpdated);
+    return () => window.removeEventListener("user-updated", handleUserUpdated);
+  }, []);
+
   const hideProfile =
     location.pathname === "/" ||
     location.pathname === "/login" ||
@@ -53,7 +68,7 @@ export default function Header() {
                 setOpen((prev) => !prev);
               }}
             >
-              <ProfileImage />
+              <ProfileImage imageUrl={user?.profileImageUrl} />
             </ProfileArea>
 
             <Dropdown

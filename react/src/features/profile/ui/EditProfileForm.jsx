@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
 import InputField from "../../../shared/ui/InputField";
@@ -14,8 +13,8 @@ import updateProfile from "../api/updateProfile";
 import { validateNickname } from "../../../shared/lib/validators";
 
 export default function EditProfileForm() {
-  const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const rawUser = localStorage.getItem("user");
+  const user = rawUser ? JSON.parse(rawUser) : {};
 
   const fileInputRef = useRef(null);
 
@@ -27,7 +26,7 @@ export default function EditProfileForm() {
 
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
-      nickname: "",
+      nickname: user.nickname,
     },
   });
 
@@ -50,21 +49,28 @@ export default function EditProfileForm() {
     const formData = new FormData();
 
     formData.append("nickname", values.nickname);
+
     if (file) {
       formData.append("image", file);
     }
 
     if (isDeleted) {
-      formData.append("deleteImage", true);
+      formData.append("profileDeleted", "true");
     }
 
     try {
-      await updateProfile(formData);
+      const res = await updateProfile(formData);
+
+      const updatedUser = res?.data;
+      if (updatedUser) {
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        window.dispatchEvent(new Event("user-updated"));
+      }
+
       showToast("프로필이 수정되었습니다!", "success");
-      navigate("/users/me");
     } catch (e) {
+      console.error("프로필 수정 에러:", e);
       showToast("수정 실패! 다시 시도해주세요.", "error");
-      alert(e.response?.data?.message || "프로필 이미지 수정 실패");
     }
   };
 
@@ -77,6 +83,7 @@ export default function EditProfileForm() {
   };
 
   return (
+    // 프로필 이미지
     <FormContainer onSubmit={handleSubmit(onValid)}>
       <UploadWrapper
         onClick={(e) => {
@@ -85,7 +92,7 @@ export default function EditProfileForm() {
         }}
       >
         <ProfilePreview
-          imageUrl={preview || user.profileImageUrl}
+          imageUrl={isDeleted ? null : preview || user.profileImageUrl}
           fileInputRef={fileInputRef}
           onChange={handleProfileImage}
         />
@@ -108,13 +115,12 @@ export default function EditProfileForm() {
         </Dropdown>
       </UploadWrapper>
 
-      <InputField label="이메일" readOnly />
+      <InputField label="이메일" readOnly placeholder={user.email} />
+
       <InputField
         label="닉네임"
-        placeholder={user.nickname}
         error={errors.nickname}
         {...register("nickname", {
-          required: { message: "닉네임을 입력해주세요." },
           validate: (value) => {
             const r = validateNickname(value);
             return r.ok ? true : r.message;
