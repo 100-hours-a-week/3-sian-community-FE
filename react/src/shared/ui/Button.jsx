@@ -41,7 +41,7 @@ const StyledButton = styled.button`
     `}
 
   ${({ size }) =>
-    size === "mini" &&
+    size === "short" &&
     `
       width: 138px;
       height: 30px;
@@ -49,6 +49,18 @@ const StyledButton = styled.button`
       border-radius: 14px;
       padding: 0 14px;
     `}
+
+  ${({ size }) =>
+    size === "mini" &&
+    `
+    border: 1px solid ${colors.gray700};
+    color: ${colors.gray700};
+    width: 60px;
+    height: 25px;
+    font-size: 13px;
+    border-radius: 5px;
+    padding: 0 8px;
+  `}
 
   /* === VARIANT === */
   ${({ variant }) =>

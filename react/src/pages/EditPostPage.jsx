@@ -9,7 +9,7 @@ import getPostDetail from "../features/posts/api/getPostDetail";
 
 export default function EditPostPage() {
   const navigate = useNavigate();
-  const { postId } = useParams();
+  const { id } = useParams();
   const [toast, setToast] = useState(null);
   const [defaultValues, setDefaultValues] = useState(null);
   const [existingImageUrl, setExistingImageUrl] = useState(null);
@@ -17,7 +17,7 @@ export default function EditPostPage() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const post = await getPostDetail(postId);
+        const post = await getPostDetail(id);
 
         setDefaultValues({
           title: post.title,
@@ -31,7 +31,7 @@ export default function EditPostPage() {
       }
     };
     fetchPost();
-  }, [postId]);
+  }, [id]);
 
   const showToast = (message, type) => {
     setToast({ message, type });
@@ -43,7 +43,7 @@ export default function EditPostPage() {
 
   const handleSubmit = async (formData) => {
     try {
-      await updatePost(postId, formData);
+      await updatePost(id, formData);
       showToast("게시글 수정 완료!", "success");
       navigate("/posts");
     } catch (err) {

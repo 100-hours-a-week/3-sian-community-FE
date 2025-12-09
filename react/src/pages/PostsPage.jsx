@@ -44,7 +44,7 @@ export default function PostsPage() {
       <ButtonRow>
         <Button
           variant="primary"
-          size="mini"
+          size="short"
           onClick={() => {
             navigate("/posts/new");
           }}

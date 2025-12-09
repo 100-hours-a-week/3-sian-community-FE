@@ -53,6 +53,7 @@ export default function PostDetailPage() {
   };
 
   if (!post) return null;
+  console.log("post: ", post);
 
   return (
     <>
@@ -73,7 +74,6 @@ export default function PostDetailPage() {
         onConfirm={handleDeletePost}
         onCancel={() => setOpen(false)}
       />
-
       {toast && <Toast message={toast.message} type={toast.type} />}
     </>
   );

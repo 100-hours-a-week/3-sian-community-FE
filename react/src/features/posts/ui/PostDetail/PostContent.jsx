@@ -39,6 +39,7 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  margin-top: 20px;
 `;
 
 const ImageWrapper = styled.div`
@@ -58,7 +59,6 @@ const PostImage = styled.img`
 
 const PostText = styled.p`
   width: 600px;
-  min-height: 200px;
   font-size: 15px;
   line-height: 1.6;
   color: var(--gray-700);
